@@ -1,0 +1,164 @@
+
+<style th:fragment="style">
+    body {
+        background: linear-gradient(to right, #c9eaff, #e6f7ff);
+        font-family: 'Quicksand', sans-serif;
+        color: #333;
+    }
+
+    .sidebar {
+        background-color: #0f4c81;
+        color: white;
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .sidebar .nav-link {
+        color: #e3f2fd;
+        font-weight: 600;
+        margin: 0.4rem 0;
+        font-size: 1rem;
+    }
+
+    .sidebar .nav-link.active,
+    .sidebar .nav-link:hover {
+        background-color: #2196f3;
+        color: white;
+        border-radius: 10px;
+    }
+
+    .sidebar-header img {
+        margin: 1rem auto;
+        display: block;
+        background-color: #c1d9ff;
+        border-radius: 15%;
+        border: 5px solid #214a6b;
+    }
+
+    .main-content {
+        padding: 2rem;
+    }
+
+    h2,
+    h4 {
+        font-weight: 700;
+        color: #0a3d62;
+    }
+
+    .info-box {
+        background-color: #ffefc5;
+        border-left: 6px solid #ffc107;
+        padding: 1rem;
+        border-radius: 12px;
+        font-size: 1rem;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-feature {
+        border-radius: 20px;
+        transition: transform 0.2s ease;
+        font-size: 0.95rem;
+    }
+
+    .card-feature:hover {
+        transform: scale(1.07);
+    }
+
+    .feature-icon {
+        width: 55px;
+        height: 55px;
+    }
+
+    .bg-white.rounded.p-4.shadow {
+        background: linear-gradient(145deg, #fefefe, #f3f9ff);
+        border: 1px solid #d0e4ff;
+        border-radius: 20px;
+        box-shadow: 0 8px 15px rgba(0, 123, 255, 0.15);
+    }
+
+    .bg-white .col-md-4 div {
+        background-color: #f8fbff;
+        border: 2px dashed #c1d9ff;
+        border-radius: 15px;
+    }
+
+    .btn.btn-primary.btn-lg {
+        background-color: #0077cc;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+        border-radius: 12px;
+        transition: background 0.3s ease;
+    }
+
+    .btn.btn-primary.btn-lg:hover {
+        background-color: #005fa3;
+    }
+
+    .btn-reservar a {
+        color: white;
+        text-decoration: none;
+    }
+
+    @media (max-width: 768px) {
+        .main-content {
+            margin-left: 0 !important;
+        }
+
+        .sidebar {
+            display: none;
+        }
+
+        .sidebar.show {
+            display: block;
+        }
+    }
+</style>
+
+<div class="sidebar" th:fragment="sidebar">
+    <div class="sidebar-header text-center">
+      <a th:href="@{/}">
+        <img th:src="@{/img/logo.svg}" alt="Logo" width="180">
+      </a>
+      
+    </div>
+    <nav class="nav flex-column">
+      <a class="nav-link active" th:href="@{/padre}">
+        <i class="fas fa-home me-2"></i> Dashboard
+      </a>
+        <a class="nav-link" href="#" style="pointer-events: none;">
+            <img src="https://cdn-icons-png.flaticon.com/512/561/561127.png" alt="Mensajes" width="20" class="me-2 align-middle">
+            Mensajes
+        </a>
+
+      <a class="nav-link" th:href="@{/padre/psicologos}">
+        <img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" alt="Psicólogos" width="20" class="me-2 align-middle"> Psicólogos
+      </a>
+
+        <a class="nav-link" th:href="@{/padre/agenda}">
+            <img src="https://cdn-icons-png.flaticon.com/512/747/747310.png" alt="Agenda" width="20" class="me-2 align-middle">
+            Agenda
+        </a>
+      
+      <a class="nav-link" href="http://localhost:8080/generar-factura" target="_blank">
+        <i class="fas fa-file-invoice me-2"></i> Generar Reporte
+      </a>
+
+      <a class="nav-link" th:href="@{/padre/recompensas}">
+            <img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png" alt="Recompensas" width="20" class="me-2 align-middle">
+            Recompensas
+        </a>
+        <a class="nav-link" href="#" style="pointer-events: none;">
+            <img src="https://cdn-icons-png.flaticon.com/512/1077/1077012.png" alt="Perfil" width="20" class="me-2 align-middle">
+            Perfil
+        </a>
+        <a class="nav-link" href="#" style="pointer-events: none;">
+            <img src="https://cdn-icons-png.flaticon.com/512/2099/2099058.png" alt="Configuración" width="20" class="me-2 align-middle">
+            Configuración
+        </a>
+
+      <a class="nav-link text-danger" th:href="@{/auth/login}">
+        <i class="fas fa-sign-out-alt me-2"></i> Cerrar sesión
+      </a>
+    </nav>
+</div>

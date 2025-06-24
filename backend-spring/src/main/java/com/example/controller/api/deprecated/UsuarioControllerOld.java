@@ -1,4 +1,9 @@
-package com.example.controller;
+/**
+ * [OBSOLETO] Controlador REST para pruebas de usuarios.
+ * Usado solo en fase de desarrollo con Postman.
+ */
+
+package com.example.controller.api.deprecated;
 
 import com.example.model.Usuario;
 import com.example.service.UsuarioService;
@@ -11,7 +16,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/usuarios")
-public class UsuarioController {
+public class UsuarioControllerOld {
 
     @Autowired
     private UsuarioService usuarioService;

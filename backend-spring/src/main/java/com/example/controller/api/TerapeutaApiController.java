@@ -1,5 +1,4 @@
-
-package com.example.controller;
+package com.example.controller.api;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,7 @@ import com.example.repository.TerapeutaRepository;
 
 @RestController
 @RequestMapping("/api/terapeutas")
-public class TerapeutaController {
+public class TerapeutaApiController {
 
     @Autowired
     private TerapeutaRepository terapeutaRepository;
@@ -29,3 +28,4 @@ public class TerapeutaController {
         }
     }
 }
+

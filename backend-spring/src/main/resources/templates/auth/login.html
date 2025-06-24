@@ -15,7 +15,7 @@
         <div class="card-panel">
 
     <div class="volver-container text-center my-4">
-        <a th:href="@{index}" class="btn-volver">
+        <a th:href="@{../index}" class="btn-volver">
             <i class="fas fa-arrow-left me-2"></i> Volver a inicio
         </a>
     </div>
@@ -24,7 +24,7 @@
             <h1>La nueva aventura digital de aprendizaje</h1>
             <p class="subtitle">Divertida, dinámica y flexible</p>
 
-            <form class="login-form" th:action="@{/login}" method="post">
+            <form class="login-form" th:action="@{/auth/login}" method="post">
                 <label for="codigo">Código ASHA</label>
                 <input type="text" name="codigo" placeholder="Ejemplo: p12345" required />
                 <small>Usa el código ASHA proporcionado</small>

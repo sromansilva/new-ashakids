@@ -8,124 +8,23 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-  <style>
-    .chart-title {
-      text-align: center;
-      font-weight: bold;
-      margin-bottom: 10px;
-    }
+  <!--styles-->
+    <style th:replace="fragments/padreLayout :: styleAdmin"></style>
 
-    .chart-wrapper {
-      position: relative;
-      width: 100%;
-      height: 250px;
-      overflow: hidden;
-    }
-
-    canvas {
-      display: block;
-      max-width: 100%;
-      max-height: 100%;
-      height: auto;
-      margin: 0 auto;
-    }
-
-    @media (max-width: 768px) {
-      .sidebar {
-        position: fixed;
-        top: 0;
-        left: -250px;
-        height: 100%;
-        width: 250px;
-        background-color: #212529;
-        z-index: 1050;
-        transition: left 0.3s ease;
-      }
-      
-
-      .sidebar.show {
-        left: 0;
-      }
-
-      .sidebar-backdrop {
-        display: none;
-      }
-
-      .sidebar.show + .sidebar-backdrop {
-        display: block;
-        position: fixed;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        z-index: 1040;
-      }
-
-      .toggle-sidebar {
-        display: inline-block;
-      }
-    }
-
-    @media (min-width: 769px) {
-      .toggle-sidebar {
-        display: none;
-      }
-    }
-
-    #sidebar .nav-link {
-      color: #ffffff; /* blanco inicial */
-      border-radius: 5px;
-      padding: 10px;
-      transition: background-color 0.3s ease, color 0.3s ease;
-    }
-
-    #sidebar .nav-link:hover {
-      background-color: rgba(255, 255, 255, 0.1); /* fondo sutil al pasar */
-      color: #ffc107 !important; /* texto dorado */
-      text-decoration: none;
-    }
-
-    #sidebar .nav-link:hover i {
-      color: #ffc107 !important; /* iconos también dorados */
-    }
-
-  </style>
 </head>
 <body>
 
 <!-- Navbar para pantallas pequeñas -->
-<nav class="navbar bg-light d-md-none px-3">
-  <button class="btn btn-outline-dark toggle-sidebar" onclick="toggleSidebar()">
-    <i class="fas fa-bars"></i>
-  </button>
-  <span class="ms-2 fw-bold">Panel ASHAKids</span>
-</nav>
+
+  <nav th:replace="fragments/padreLayout :: navSmallAdmin"></nav>
 
 <div class="d-flex" style="min-height: 100vh;">
 
   <!-- Sidebar -->
-  <div class="bg-dark text-white p-3 sidebar" id="sidebar">
-    <div class="text-center mb-4">
-      <a th:href="@{/}">
-        <img th:src="@{/img/logo.svg}" alt="Logo" width="190"></a>
-      <h4 class="fw-bold" style="color: #c8c8c8;">Administrador</h4>
-    </div>
 
-    <ul class="nav flex-column">
-      <li class="nav-item mb-2"><a class="nav-link text-white" th:href="@{/administrador}"><i class="fas fa-home me-2"></i> Panel Principal</a></li>
-      <li class="nav-item mb-2"><a class="nav-link text-white" th:href="@{/administrador/usuarios}" style="pointer-events: none;"><i class="fas fa-user me-2"></i> Usuarios</a></li>
-      <li class="nav-item mb-2"><a class="nav-link text-white" th:href="@{/administrador/psicologos}" style="pointer-events: none;"><i class="fas fa-user-md me-2"></i> Psicólogos</a></li>
-      <li class="nav-item mb-2"><a class="nav-link text-white" th:href="@{/administrador/reportes}" style="pointer-events: none;"><i class="fas fa-chart-line me-2"></i> Reportes</a></li>
-      <li class="nav-item mb-2"><a class="nav-link text-white" th:href="@{/administrador/contenido}" style="pointer-events: none;"><i class="fas fa-book-open me-2"></i> Contenido</a></li>
-      <li class="nav-item mb-2"><a class="nav-link text-white" th:href="@{/administrador/terapias}" style="pointer-events: none;"><i class="fas fa-stethoscope me-2"></i> Terapias</a></li>
-      <li class="nav-item mb-2"><a class="nav-link text-white" th:href="@{/administrador/juegos}" style="pointer-events: none;"><i class="fas fa-gamepad me-2"></i> Juegos</a></li>
-      <li class="nav-item mb-2"><a class="nav-link text-white" th:href="@{/administrador/configuracion}" style="pointer-events: none;"><i class="fas fa-cogs me-2"></i> Configuración</a></li>
-      <li class="nav-item mt-4"><a class="nav-link text-danger" th:href="@{/login}"><i class="fas fa-sign-out-alt me-2"></i> Cerrar Sesión</a></li>
-    </ul>
-
-  </div>
+  <div th:replace="fragments/padreLayout :: sidebarAdmin"></div>
   
+
   <div class="sidebar-backdrop" onclick="toggleSidebar()"></div>
 
   <!-- Contenido principal -->

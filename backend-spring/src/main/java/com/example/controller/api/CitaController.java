@@ -1,4 +1,4 @@
-package com.example.controller;
+package com.example.controller.api;
 
 import com.example.model.Cita;
 import com.example.repository.CitaRepository;

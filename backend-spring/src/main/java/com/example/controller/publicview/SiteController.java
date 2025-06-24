@@ -1,49 +1,49 @@
-package com.example.controller;
+package com.example.controller.publicview;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class PaginasPublicasController {
+public class SiteController {
 
-    @GetMapping("/index")
+    @GetMapping("/public/index")
     public String index() {
-        return "index";
+        return "public/index";
     }
 
     @GetMapping("/actividades")
     public String actividades() {
-        return "actividades";
+        return "public/actividades";
     }
 
     @GetMapping("/faq")
     public String faq() {
-        return "faq";
+        return "public/faq";
     }
 
     @GetMapping("/guiapadres")
     public String guiaPadres() {
-        return "guiapadres";
+        return "public/guiapadres";
     }
 
     @GetMapping("/nosotros")
     public String nosotros() {
-        return "nosotros";
+        return "public/nosotros";
     }
 
     @GetMapping("/opiniones")
     public String opiniones() {
-        return "opiniones";
+        return "public/opiniones";
     }
 
     @GetMapping("/servicios")
     public String servicios() {
-        return "servicios";
+        return "public/servicios";
     }
     
     @GetMapping("/")
     public String redirigirInicio() {
-        return "index";
+        return "public/index";
     }
 
 }

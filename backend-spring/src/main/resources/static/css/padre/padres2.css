@@ -1,0 +1,119 @@
+    body {
+        background: linear-gradient(to right, #c9eaff, #e6f7ff);
+        font-family: 'Quicksand', sans-serif;
+        color: #333;
+    }
+
+    .sidebar {
+        background-color: #0f4c81;
+        color: white;
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .sidebar .nav-link {
+        color: #e3f2fd;
+        font-weight: 600;
+        margin: 0.4rem 0;
+        font-size: 1rem;
+    }
+
+    .sidebar .nav-link.active,
+    .sidebar .nav-link:hover {
+        background-color: #2196f3;
+        color: white;
+        border-radius: 10px;
+    }
+
+    .sidebar-header img {
+        margin: 1rem auto;
+        display: block;
+        background-color: #c1d9ff;
+        border-radius: 15%;
+        border: 5px solid #214a6b;
+    }
+
+    .main-content {
+        padding: 2rem;
+    }
+
+    h2,
+    h4 {
+        font-weight: 700;
+        color: #0a3d62;
+    }
+
+    .info-box {
+        background-color: #ffefc5;
+        border-left: 6px solid #ffc107;
+        padding: 1rem;
+        border-radius: 12px;
+        font-size: 1rem;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-feature {
+        border-radius: 20px;
+        transition: transform 0.2s ease;
+        font-size: 0.95rem;
+    }
+
+    .card-feature:hover {
+        transform: scale(1.07);
+    }
+
+    .feature-icon {
+        width: 55px;
+        height: 55px;
+    }
+
+    .bg-white.rounded.p-4.shadow {
+        background: linear-gradient(145deg, #fefefe, #f3f9ff);
+        border: 1px solid #d0e4ff;
+        border-radius: 20px;
+        box-shadow: 0 8px 15px rgba(0, 123, 255, 0.15);
+    }
+
+    .bg-white .col-md-4 div {
+        background-color: #f8fbff;
+        border: 2px dashed #c1d9ff;
+        border-radius: 15px;
+    }
+
+    .btn.btn-primary.btn-lg {
+        background-color: #0077cc;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+        border-radius: 12px;
+        transition: background 0.3s ease;
+    }
+
+    .btn.btn-primary.btn-lg:hover {
+        background-color: #005fa3;
+    }
+
+    .btn-reservar a {
+        color: white;
+        text-decoration: none;
+    }
+
+    .badge {
+        font-size: 0.9rem;
+    }
+
+    @media (max-width: 768px) {
+        .main-content {
+            margin-left: 0 !important;
+        }
+
+        .sidebar {
+            display: none;
+        }
+
+        .sidebar.show {
+            display: block;
+        }
+    }
+
+    

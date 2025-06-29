@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>Pacientes del Terapeuta</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" th:href="@{/css/terapeuta.css}" />
+    <link rel="stylesheet" th:href="@{/css/terapeuta/terapeuta.css}" />
   <style>
     body {
       background-color: #f5f7fa;
@@ -34,7 +34,7 @@
 </head>
 <body>
 
-  <nav th:replace="terapeuta :: sidebarTerapeuta"></nav>
+<nav th:replace="~{fragments/terapeutaLayout :: sidebarTerapeuta}"></nav>
 
   <main class="content-area">
     <h2 class="paciente-title mb-4">🧍 Lista de Pacientes</h2>

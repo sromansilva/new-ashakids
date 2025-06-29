@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/shared :: Head"></head>
+<head th:replace="~{fragments/shared :: Head"}></head>
 
 <body style="padding-top: 180px;background-color: #FFF8EC;">
 
 
     <!-- Navbar -->
-<nav th:replace="fragments/shared :: Navbar"></nav>
+<nav th:replace="~{fragments/shared :: Navbar}"></nav>
 
     <div class="container py-5">
         <div class="row">
@@ -93,7 +93,7 @@
     </div>
 
     <!-- Footer -->
-<footer th:replace="fragments/shared :: Footer"></footer>
+<footer th:replace="~{fragments/shared :: Footer}"></footer>
 
 
     <!-- Bootstrap JS y dependencias -->

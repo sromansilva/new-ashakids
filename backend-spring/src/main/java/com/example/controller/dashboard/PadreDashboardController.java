@@ -11,12 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.model.Cita;
 import com.example.model.Nino;
-import com.example.model.Padre;
 import com.example.model.Usuario;
-import com.example.model.Usuario.Rol;
 import com.example.repository.CitaRepository;
 import com.example.repository.NinoRepository;
-import com.example.repository.PadreRepository;
+import com.example.repository.UsuarioRepository;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -25,7 +23,7 @@ import jakarta.servlet.http.HttpSession;
 public class PadreDashboardController {
 
     @Autowired
-    private PadreRepository padreRepository;
+    private UsuarioRepository usuarioRepository;
 
     @Autowired
     private NinoRepository ninoRepository;
@@ -37,23 +35,23 @@ public class PadreDashboardController {
     public String mostrarVistaPadre(HttpSession session, Model model) {
         Usuario u = (Usuario) session.getAttribute("usuarioObj");
 
-        if (u == null || u.getRol() != Rol.padre) {
+        if (u == null || u.getRol() != Usuario.Rol.padre) {
             return "redirect:/auth/login";
         }
 
-        Padre padre = padreRepository.findById(u.getId_usuario()).orElse(null);
-        if (padre != null) {
-            List<Nino> ninos = ninoRepository.findByIdPadre(padre.getId_padre());
-            List<Cita> citas = new ArrayList<>();
-            for (Nino n : ninos) {
-                citas.addAll(citaRepository.findByIdNino(n.getId_nino()));
-            }
-            model.addAttribute("citas", citas);
+        // Cargar hijos y citas
+        List<Nino> ninos = ninoRepository.findByIdPadre(u.getId_usuario());
+        List<Cita> citas = new ArrayList<>();
+        for (Nino n : ninos) {
+            citas.addAll(citaRepository.findByIdNino(n.getId_nino()));
         }
 
+        model.addAttribute("citas", citas);
+        model.addAttribute("padre", u);
+
         return "padre/padreInicio";
-    
     }
+
 
     @GetMapping("/psicologos")
     public String vistaPsicologos(HttpSession session) {

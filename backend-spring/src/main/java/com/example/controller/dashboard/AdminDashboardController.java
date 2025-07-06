@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.model.Usuario;
-import com.example.model.Usuario.Rol;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -18,13 +17,14 @@ public class AdminDashboardController {
     public String vistaPrincipal(HttpSession session, Model model) {
         Usuario u = (Usuario) session.getAttribute("usuarioObj");
 
-        if (u == null || u.getRol() != Rol.admin) {
+        if (u == null || u.getRol() != Usuario.Rol.admin) {
             return "redirect:/auth/login";
         }
 
         model.addAttribute("admin", u);
         return "admin/adminInicio";
     }
+
 
     @GetMapping("/inicio") public String inicio() { return "admin/adminInicio"; }
     @GetMapping("/usuarios") public String usuarios() { return "admin/adminUsuarios"; }

@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.model.Usuario;
-import com.example.model.Usuario.Rol;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -18,13 +17,14 @@ public class TerapeutaDashboardController {
     public String mostrarVistaTerapeuta(HttpSession session, Model model) {
         Usuario u = (Usuario) session.getAttribute("usuarioObj");
 
-        if (u == null || u.getRol() != Rol.terapeuta) {
+        if (u == null || u.getRol() != Usuario.Rol.terapeuta) {
             return "redirect:/auth/login";
         }
 
         model.addAttribute("terapeuta", u);
         return "terapeuta/inicioTerapeuta";
     }
+
 
     @GetMapping("/inicio")
     public String inicio() { return "terapeuta/inicioTerapeuta"; }

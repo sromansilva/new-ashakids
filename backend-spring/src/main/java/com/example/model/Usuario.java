@@ -18,28 +18,34 @@ public class Usuario {
     private Integer id_usuario;
 
     @NotBlank(message = "El nombre es obligatorio.")
-    @Size(max = 100, message = "El nombre no puede tener más de 100 caracteres.")
+    @Size(max = 100)
     private String nombre;
 
     @NotBlank(message = "El correo es obligatorio.")
-    @Email(message = "El correo debe tener un formato válido.")
+    @Email(message = "Correo inválido.")
     @Size(max = 100)
     private String correo;
 
     @NotBlank(message = "La contraseña es obligatoria.")
-    @Size(min = 4, message = "La contraseña debe tener al menos 4 caracteres.")
+    @Size(min = 4)
     private String contraseña;
 
-    @Size(max = 20, message = "El teléfono no puede exceder 20 caracteres.")
+    @Size(max = 20)
     private String telefono;
 
     @NotBlank(message = "El código ASHA es obligatorio.")
-    @Size(max = 20, message = "El código ASHA no puede exceder 20 caracteres.")
+    @Size(max = 20)
     @Column(unique = true)
     private String codigo;
 
     @Enumerated(EnumType.STRING)
     private Rol rol;
+
+    // Campos específicos por rol
+    private String direccion;          // Solo para padres
+    private String especialidad;       // Solo para terapeutas
+    private Boolean disponible;        // Solo para terapeutas
+    private String nivel_acceso;       // Solo para admins
 
     public enum Rol {
         padre, terapeuta, admin

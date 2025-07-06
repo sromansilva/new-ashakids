@@ -21,7 +21,7 @@ public class Cita {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id_cita;
 
-    @NotNull(message = "Debe estar asociada a un niño.")
+    @NotNull
     @Column(name = "id_nino")
     private Integer idNino;
 
@@ -29,25 +29,25 @@ public class Cita {
     @JoinColumn(name = "id_nino", insertable = false, updatable = false)
     private Nino nino;
 
-    @NotNull(message = "Debe estar asociada a un terapeuta.")
+    @NotNull
     @Column(name = "id_terapeuta")
     private Integer idTerapeuta;
 
     @ManyToOne
     @JoinColumn(name = "id_terapeuta", insertable = false, updatable = false)
-    private Terapeuta terapeuta;
+    private Usuario terapeuta;
 
-    @NotNull(message = "La fecha es obligatoria.")
+    @NotNull
     private LocalDate fecha;
 
-    @NotNull(message = "La hora es obligatoria.")
+    @NotNull
     private LocalTime hora;
 
-    @NotBlank(message = "Debe indicar si es presencial o virtual.")
+    @NotBlank
     @Size(max = 20)
     private String modalidad;
 
-    @NotBlank(message = "Debe proporcionar un enlace o dirección.")
+    @NotBlank
     @Size(max = 255)
     private String enlace_o_direccion;
 

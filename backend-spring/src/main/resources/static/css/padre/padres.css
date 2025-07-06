@@ -24,6 +24,16 @@ body {
   padding: 25px 0;
   justify-content: space-between;
   box-shadow: 4px 0 8px rgba(0,0,0,0.05);
+
+  position: fixed;
+  top: 0;
+  left: -240px; /* Lo escondemos hacia la izquierda */
+  transition: left 0.3s ease;
+  z-index: 999;
+}
+
+.sidebar.active {
+  left: 0;
 }
 
 .logo-button img {
@@ -324,3 +334,11 @@ body {
 }
 
 
+.menu-toggle {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  font-size: 2rem;
+  z-index: 1000;
+  cursor: pointer;
+}

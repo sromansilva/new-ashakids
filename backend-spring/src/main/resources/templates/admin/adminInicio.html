@@ -1,156 +1,146 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Panel de Administración - ASHAKids</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-  <!--styles-->
-    <style th:replace="fragments/padreLayout :: styleAdmin"></style>
+<head th:replace="~{fragments/adminLayout :: Head}"></head>
 
-</head>
 <body>
+  <!-- Navbar para pantallas pequeñas -->
 
-<!-- Navbar para pantallas pequeñas -->
+  <nav th:replace="~{fragments/adminLayout :: navSmallAdmin}"></nav>
 
-  <nav th:replace="fragments/padreLayout :: navSmallAdmin"></nav>
+  <div class="d-flex" style="min-height: 100vh;">
 
-<div class="d-flex" style="min-height: 100vh;">
+    <!-- Sidebar -->
+    <div th:replace="~{fragments/adminLayout :: sidebarAdmin}"></div>
 
-  <!-- Sidebar -->
 
-  <div th:replace="fragments/padreLayout :: sidebarAdmin"></div>
-  
+    <div class="sidebar-backdrop" onclick="toggleSidebar()"></div>
 
-  <div class="sidebar-backdrop" onclick="toggleSidebar()"></div>
+    <!-- Contenido principal -->
+    <div class="flex-grow-1 p-4">
+      <h2>Hola, <span class="text-primary fw-bold" th:text="${admin.nombre}">Administrador</span> 👋</h2>
+      <p class="text-muted">Resumen general del sistema:</p>
 
-  <!-- Contenido principal -->
-  <div class="flex-grow-1 p-4">
-    <h2>Hola, <span class="text-primary fw-bold" th:text="${admin.nombre}">Administrador</span> 👋</h2>
-    <p class="text-muted">Resumen general del sistema:</p>
-
-    <!-- Estadísticas -->
-    <div class="row mb-4">
-      <div class="col-md-4 mb-3">
-        <div class="card border-start border-primary border-4 shadow-sm">
-          <div class="card-body d-flex align-items-center">
-            <i class="fas fa-users fa-2x text-primary me-3"></i>
-            <div>
-              <h6 class="mb-0">Usuarios Registrados</h6>
-              <p class="text-muted mb-0" th:text="${usuariosTotal}">120</p>
+      <!-- Estadísticas -->
+      <div class="row mb-4">
+        <div class="col-md-4 mb-3">
+          <div class="card border-start border-primary border-4 shadow-sm">
+            <div class="card-body d-flex align-items-center">
+              <i class="fas fa-users fa-2x text-primary me-3"></i>
+              <div>
+                <h6 class="mb-0">Usuarios Registrados</h6>
+                <p class="text-muted mb-0" th:text="${usuariosTotal}">120</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <div class="card border-start border-success border-4 shadow-sm">
+            <div class="card-body d-flex align-items-center">
+              <i class="fas fa-user-md fa-2x text-success me-3"></i>
+              <div>
+                <h6 class="mb-0">Psicólogos Activos</h6>
+                <p class="text-muted mb-0" th:text="${psicologosActivos}">15</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <div class="card border-start border-warning border-4 shadow-sm">
+            <div class="card-body d-flex align-items-center">
+              <i class="fas fa-comments fa-2x text-warning me-3"></i>
+              <div>
+                <h6 class="mb-0">Sesiones del Mes</h6>
+                <p class="text-muted mb-0" th:text="${sesionesMensuales}">42</p>
+              </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="col-md-4 mb-3">
-        <div class="card border-start border-success border-4 shadow-sm">
-          <div class="card-body d-flex align-items-center">
-            <i class="fas fa-user-md fa-2x text-success me-3"></i>
-            <div>
-              <h6 class="mb-0">Psicólogos Activos</h6>
-              <p class="text-muted mb-0" th:text="${psicologosActivos}">15</p>
+
+      <!-- Gráficos -->
+      <div class="container mt-4">
+        <div class="row">
+          <div class="col-md-6 mb-4">
+            <div class="card shadow-sm p-3">
+              <h6 class="chart-title">Sesiones por Semana</h6>
+              <div class="chart-wrapper">
+                <canvas id="barChart"></canvas>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 mb-4">
+            <div class="card shadow-sm p-3">
+              <h6 class="chart-title">Distribución de Usuarios</h6>
+              <div class="chart-wrapper">
+                <canvas id="pieChart"></canvas>
+              </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="col-md-4 mb-3">
-        <div class="card border-start border-warning border-4 shadow-sm">
-          <div class="card-body d-flex align-items-center">
-            <i class="fas fa-comments fa-2x text-warning me-3"></i>
-            <div>
-              <h6 class="mb-0">Sesiones del Mes</h6>
-              <p class="text-muted mb-0" th:text="${sesionesMensuales}">42</p>
-            </div>
-          </div>
-        </div>
-      </div>
+
     </div>
-
-    <!-- Gráficos -->
-    <div class="container mt-4">
-      <div class="row">
-        <div class="col-md-6 mb-4">
-          <div class="card shadow-sm p-3">
-            <h6 class="chart-title">Sesiones por Semana</h6>
-            <div class="chart-wrapper">
-              <canvas id="barChart"></canvas>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 mb-4">
-          <div class="card shadow-sm p-3">
-            <h6 class="chart-title">Distribución de Usuarios</h6>
-            <div class="chart-wrapper">
-              <canvas id="pieChart"></canvas>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
   </div>
-</div>
 
-<!-- Scripts -->
-<script>
-  function toggleSidebar() {
-    document.getElementById('sidebar').classList.toggle('show');
-    document.querySelector('.sidebar-backdrop').classList.toggle('show');
-  }
+  <!-- Scripts -->
+  <script>
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('show');
+      document.querySelector('.sidebar-backdrop').classList.toggle('show');
+    }
 
-  function createBarChart() {
-    return new Chart(document.getElementById("barChart").getContext("2d"), {
-      type: 'bar',
-      data: {
-        labels: ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"],
-        datasets: [{
-          label: "Sesiones",
-          backgroundColor: "#4e73df",
-          data: [5, 8, 6, 9, 4, 7, 3]
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: { legend: { display: false } },
-        scales: { y: { beginAtZero: true } }
-      }
+    function createBarChart() {
+      return new Chart(document.getElementById("barChart").getContext("2d"), {
+        type: 'bar',
+        data: {
+          labels: ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"],
+          datasets: [{
+            label: "Sesiones",
+            backgroundColor: "#4e73df",
+            data: [5, 8, 6, 9, 4, 7, 3]
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: { y: { beginAtZero: true } }
+        }
+      });
+    }
+
+    function createPieChart() {
+      return new Chart(document.getElementById("pieChart").getContext("2d"), {
+        type: 'pie',
+        data: {
+          labels: ["Niños", "Padres", "Terapeutas"],
+          datasets: [{
+            label: "Usuarios",
+            backgroundColor: ["#36b9cc", "#f6c23e", "#1cc88a"],
+            data: [40, 30, 30]
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { position: 'bottom' } }
+        }
+      });
+    }
+
+    let barChart = createBarChart();
+    let pieChart = createPieChart();
+
+    const observer = new ResizeObserver(() => {
+      barChart.resize();
+      pieChart.resize();
     });
-  }
 
-  function createPieChart() {
-    return new Chart(document.getElementById("pieChart").getContext("2d"), {
-      type: 'pie',
-      data: {
-        labels: ["Niños", "Padres", "Terapeutas"],
-        datasets: [{
-          label: "Usuarios",
-          backgroundColor: ["#36b9cc", "#f6c23e", "#1cc88a"],
-          data: [40, 30, 30]
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: { legend: { position: 'bottom' } }
-      }
-    });
-  }
-
-  let barChart = createBarChart();
-  let pieChart = createPieChart();
-
-  const observer = new ResizeObserver(() => {
-    barChart.resize();
-    pieChart.resize();
-  });
-
-  observer.observe(document.getElementById("barChart").parentElement);
-  observer.observe(document.getElementById("pieChart").parentElement);
-</script>
+    observer.observe(document.getElementById("barChart").parentElement);
+    observer.observe(document.getElementById("pieChart").parentElement);
+  </script>
 
 </body>
+
 </html>

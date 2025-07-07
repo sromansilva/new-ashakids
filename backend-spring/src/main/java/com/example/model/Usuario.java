@@ -28,7 +28,8 @@ public class Usuario {
 
     @NotBlank(message = "La contraseña es obligatoria.")
     @Size(min = 4)
-    private String contraseña;
+    @Column(name = "contraseña")
+    private String contrasena;
 
     @Size(max = 20)
     private String telefono;

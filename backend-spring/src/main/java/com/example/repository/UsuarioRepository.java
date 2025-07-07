@@ -9,7 +9,7 @@ import com.example.model.Usuario;
 
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
-    Optional<Usuario> findByCodigoAndContraseña(String codigo, String contraseña);
+    Optional<Usuario> findByCodigoAndContrasena(String codigo, String contrasena);
     Optional<Usuario> findByCodigo(String codigo);
     List<Usuario> findByRol(Usuario.Rol rol);
 }

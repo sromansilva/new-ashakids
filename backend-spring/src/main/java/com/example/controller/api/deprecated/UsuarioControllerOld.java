@@ -46,7 +46,7 @@ public class UsuarioControllerOld {
             // Solo actualizamos los campos permitidos
             existente.setNombre(usuarioActualizado.getNombre());
             existente.setCorreo(usuarioActualizado.getCorreo());
-            existente.setContraseña(usuarioActualizado.getContraseña());
+            existente.setContrasena(usuarioActualizado.getContrasena());
             existente.setTelefono(usuarioActualizado.getTelefono());
             existente.setCodigo(usuarioActualizado.getCodigo());
             existente.setRol(usuarioActualizado.getRol());

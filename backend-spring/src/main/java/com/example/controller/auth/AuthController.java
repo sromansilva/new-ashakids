@@ -24,11 +24,11 @@ public class AuthController {
 
     @PostMapping("/login")
     public String login(@RequestParam String codigo,
-                        @RequestParam String contraseña,
+                        @RequestParam String contrasena,
                         HttpSession session,
                         Model model) {
 
-        Optional<Usuario> usuarioDB = usuarioRepository.findByCodigoAndContraseña(codigo, contraseña);
+        Optional<Usuario> usuarioDB = usuarioRepository.findByCodigoAndContrasena(codigo, contrasena);
 
         if (usuarioDB.isPresent()) {
             Usuario u = usuarioDB.get();
@@ -43,12 +43,12 @@ public class AuthController {
                 case admin -> "redirect:/administrador";
                 default -> {
                     model.addAttribute("error", "Rol desconocido");
-                    yield "login";
+                    yield "auth/login";
                 }
             };
         } else {
             model.addAttribute("error", "Código o contraseña incorrectos");
-            return "login";
+            return "auth/login";
         }
     }
 }

@@ -10,7 +10,7 @@ import com.example.model.Usuario;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
-@RequestMapping("/administrador")
+@RequestMapping("/admin")
 public class AdminDashboardController {
 
     @GetMapping("")
@@ -26,7 +26,8 @@ public class AdminDashboardController {
     }
 
 
-    @GetMapping("/inicio") public String inicio() { return "admin/adminInicio"; }
+    @GetMapping("/adminInicio") public String inicio() { return "admin/adminInicio"; }
+    @GetMapping("/panelDeControl") public String panelDeControl() { return "admin/panelDeControl"; }
     @GetMapping("/usuarios") public String usuarios() { return "admin/adminUsuarios"; }
     @GetMapping("/psicologos") public String psicologos() { return "admin/adminPsicologos"; }
     @GetMapping("/reportes") public String reportes() { return "admin/adminReportes"; }

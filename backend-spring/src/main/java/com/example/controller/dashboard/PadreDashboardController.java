@@ -38,6 +38,8 @@ public class PadreDashboardController {
         if (u == null || u.getRol() != Usuario.Rol.padre) {
             return "redirect:/auth/login";
         }
+        
+        model.addAttribute("usuario", u.getNombre());
 
         // Cargar hijos y citas
         List<Nino> ninos = ninoRepository.findByIdPadre(u.getId_usuario());
@@ -45,6 +47,8 @@ public class PadreDashboardController {
         for (Nino n : ninos) {
             citas.addAll(citaRepository.findByIdNino(n.getId_nino()));
         }
+
+        
 
         model.addAttribute("citas", citas);
         model.addAttribute("padre", u);

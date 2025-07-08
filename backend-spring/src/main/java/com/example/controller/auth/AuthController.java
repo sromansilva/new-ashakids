@@ -40,7 +40,7 @@ public class AuthController {
             return switch (u.getRol()) {
                 case padre -> "redirect:/padre";
                 case terapeuta -> "redirect:/terapeuta";
-                case admin -> "redirect:/administrador";
+                case admin -> "redirect:/admin";
                 default -> {
                     model.addAttribute("error", "Rol desconocido");
                     yield "auth/login";

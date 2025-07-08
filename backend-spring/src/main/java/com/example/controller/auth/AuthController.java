@@ -21,7 +21,8 @@ public class AuthController {
     public String mostrarLogin() {
         return "auth/login";
     }
-
+}
+/*
     @PostMapping("/login")
     public String login(@RequestParam String codigo,
                         @RequestParam String contrasena,
@@ -51,4 +52,4 @@ public class AuthController {
             return "auth/login";
         }
     }
-}
+*/

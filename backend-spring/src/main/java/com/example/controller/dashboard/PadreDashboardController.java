@@ -16,6 +16,7 @@ import com.example.repository.CitaRepository;
 import com.example.repository.NinoRepository;
 import com.example.repository.UsuarioRepository;
 
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -30,7 +31,7 @@ public class PadreDashboardController {
 
     @Autowired
     private CitaRepository citaRepository;
-
+/*
     @GetMapping("")
     public String mostrarVistaPadre(HttpSession session, Model model) {
         Usuario u = (Usuario) session.getAttribute("usuarioObj");
@@ -55,7 +56,32 @@ public class PadreDashboardController {
 
         return "padre/padreInicio";
     }
+*/
+    @GetMapping("")
+    public String mostrarVistaPadre(HttpSession session, Model model, HttpServletResponse response) {
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        response.setHeader("Pragma", "no-cache");
+        response.setDateHeader("Expires", 0);
 
+        Usuario u = (Usuario) session.getAttribute("usuarioObj");
+
+        if (u == null || u.getRol() != Usuario.Rol.padre) {
+            return "redirect:/auth/login";
+        }
+
+        model.addAttribute("usuario", u.getNombre());
+
+        List<Nino> ninos = ninoRepository.findByIdPadre(u.getId_usuario());
+        List<Cita> citas = new ArrayList<>();
+        for (Nino n : ninos) {
+            citas.addAll(citaRepository.findByIdNino(n.getId_nino()));
+        }
+
+        model.addAttribute("citas", citas);
+        model.addAttribute("padre", u);
+
+        return "padre/padreInicio";
+    }
 
     @GetMapping("/psicologos")
     public String vistaPsicologos(HttpSession session) {

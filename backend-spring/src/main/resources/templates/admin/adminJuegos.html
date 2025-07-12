@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/adminLayout :: Head}"></head>
+
+<body>
+  <!-- Navbar para pantallas pequeñas -->
+  <nav th:replace="~{fragments/adminLayout :: navSmallAdmin}"></nav>
+
+  <div class="d-flex" style="min-height: 100vh;">
+    <!-- Sidebar -->
+    <div th:replace="~{fragments/adminLayout :: sidebarAdmin}"></div>
+
+    <div class="sidebar-backdrop" onclick="toggleSidebar()"></div>
+
+    <!-- Contenido principal -->
+    <div class="flex-grow-1 p-4">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Gestión de Juegos <span class="text-primary fw-bold" th:text="${admin.nombre}">Administrador</span> 🎮</h2>
+      </div>
+
+      <!-- Estadísticas de juegos -->
+      <div class="row mb-4">
+        <div class="col-md-3 mb-3">
+          <div class="card border-start border-primary border-4 shadow-sm">
+            <div class="card-body d-flex align-items-center">
+              <i class="fas fa-gamepad fa-2x text-primary me-3"></i>
+              <div>
+                <h6 class="mb-0">Total Juegos</h6>
+                <p class="text-muted mb-0" th:text="${totalJuegos}">15</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 mb-3">
+          <div class="card border-start border-success border-4 shadow-sm">
+            <div class="card-body d-flex align-items-center">
+              <i class="fas fa-users fa-2x text-success me-3"></i>
+              <div>
+                <h6 class="mb-0">Jugadores Activos</h6>
+                <p class="text-muted mb-0" th:text="${jugadoresActivos}">234</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 mb-3">
+          <div class="card border-start border-warning border-4 shadow-sm">
+            <div class="card-body d-flex align-items-center">
+              <i class="fas fa-clock fa-2x text-warning me-3"></i>
+              <div>
+                <h6 class="mb-0">Tiempo Promedio</h6>
+                <p class="text-muted mb-0" th:text="${tiempoPromedio}">25 min</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 mb-3">
+          <div class="card border-start border-info border-4 shadow-sm">
+            <div class="card-body d-flex align-items-center">
+              <i class="fas fa-star fa-2x text-info me-3"></i>
+              <div>
+                <h6 class="mb-0">Rating Promedio</h6>
+                <p class="text-muted mb-0" th:text="${ratingPromedio}">4.5</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lista de juegos -->
+      <div class="row mb-4">
+        <div class="col-12">
+          <div class="card shadow-sm">
+            <div class="card-header">
+              <h6 class="mb-0">Lista de Juegos</h6>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <!-- Juego 1 -->
+                <div class="col-md-4 mb-4">
+                  <div class="card h-100">
+                    <img src="/img/juegos/memoria.jpg" class="card-img-top" alt="Juego de Memoria" style="height: 200px; object-fit: cover;">
+                    <div class="card-body">
+                      <h5 class="card-title">Juego de Memoria</h5>
+                      <p class="card-text">Desarrolla la memoria y concentración de los niños.</p>
+                      <div class="d-flex justify-content-between align-items-center">
+                        <span class="badge bg-success">Activo</span>
+                        <div class="text-warning">
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="far fa-star"></i>
+                          <small class="text-muted ms-1">4.2</small>
+                        </div>
+                      </div>
+                      <div class="mt-2">
+                        <small class="text-muted">1,234 jugadores • 45 min promedio</small>
+                      </div>
+                    </div>
+                    <div class="card-footer">
+                      <div class="btn-group w-100" role="group">
+                        <button class="btn btn-sm btn-outline-primary" onclick="verEstadisticas(1)">
+                          <i class="fas fa-chart-bar"></i> Estadísticas
+                        </button>
+                        <button class="btn btn-sm btn-outline-warning" onclick="editarJuego(1)">
+                          <i class="fas fa-edit"></i> Editar
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Juego 2 -->
+                <div class="col-md-4 mb-4">
+                  <div class="card h-100">
+                    <img src="/img/juegos/palabras.jpg" class="card-img-top" alt="Juego de Palabras" style="height: 200px; object-fit: cover;">
+                    <div class="card-body">
+                      <h5 class="card-title">Juego de Palabras</h5>
+                      <p class="card-text">Mejora el vocabulario y la pronunciación.</p>
+                      <div class="d-flex justify-content-between align-items-center">
+                        <span class="badge bg-success">Activo</span>
+                        <div class="text-warning">
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <small class="text-muted ms-1">4.8</small>
+                        </div>
+                      </div>
+                      <div class="mt-2">
+                        <small class="text-muted">987 jugadores • 30 min promedio</small>
+                      </div>
+                    </div>
+                    <div class="card-footer">
+                      <div class="btn-group w-100" role="group">
+                        <button class="btn btn-sm btn-outline-primary" onclick="verEstadisticas(2)">
+                          <i class="fas fa-chart-bar"></i> Estadísticas
+                        </button>
+                        <button class="btn btn-sm btn-outline-warning" onclick="editarJuego(2)">
+                          <i class="fas fa-edit"></i> Editar
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Juego 3 -->
+                <div class="col-md-4 mb-4">
+                  <div class="card h-100">
+                    <img src="/img/juegos/matematicas.jpg" class="card-img-top" alt="Juego de Matemáticas" style="height: 200px; object-fit: cover;">
+                    <div class="card-body">
+                      <h5 class="card-title">Juego de Matemáticas</h5>
+                      <p class="card-text">Aprende matemáticas de forma divertida.</p>
+                      <div class="d-flex justify-content-between align-items-center">
+                        <span class="badge bg-warning">En desarrollo</span>
+                        <div class="text-warning">
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="far fa-star"></i>
+                          <i class="far fa-star"></i>
+                          <small class="text-muted ms-1">3.5</small>
+                        </div>
+                      </div>
+                      <div class="mt-2">
+                        <small class="text-muted">456 jugadores • 20 min promedio</small>
+                      </div>
+                    </div>
+                    <div class="card-footer">
+                      <div class="btn-group w-100" role="group">
+                        <button class="btn btn-sm btn-outline-primary" onclick="verEstadisticas(3)">
+                          <i class="fas fa-chart-bar"></i> Estadísticas
+                        </button>
+                        <button class="btn btn-sm btn-outline-warning" onclick="editarJuego(3)">
+                          <i class="fas fa-edit"></i> Editar
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ranking de jugadores -->
+      <div class="row">
+        <div class="col-md-8">
+          <div class="card shadow-sm">
+            <div class="card-header">
+              <h6 class="mb-0">Ranking de Mejores Jugadores</h6>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>Posición</th>
+                      <th>Jugador</th>
+                      <th>Juego</th>
+                      <th>Puntuación</th>
+                      <th>Tiempo</th>
+                      <th>Fecha</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><span class="badge bg-warning">🥇</span></td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <img src="/img/pacientes/avatar1.jpg" class="rounded-circle me-2" width="30" height="30" alt="Avatar">
+                          <span>Mateo Fernández</span>
+                        </div>
+                      </td>
+                      <td>Juego de Memoria</td>
+                      <td><span class="badge bg-success">9,850</span></td>
+                      <td>12:34</td>
+                      <td>15/01/2024</td>
+                    </tr>
+                    <tr>
+                      <td><span class="badge bg-secondary">🥈</span></td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <img src="/img/pacientes/avatar2.jpg" class="rounded-circle me-2" width="30" height="30" alt="Avatar">
+                          <span>Ana García</span>
+                        </div>
+                      </td>
+                      <td>Juego de Palabras</td>
+                      <td><span class="badge bg-success">9,720</span></td>
+                      <td>15:22</td>
+                      <td>14/01/2024</td>
+                    </tr>
+                    <tr>
+                      <td><span class="badge bg-warning">🥉</span></td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <img src="/img/pacientes/avatar3.jpg" class="rounded-circle me-2" width="30" height="30" alt="Avatar">
+                          <span>Carlos López</span>
+                        </div>
+                      </td>
+                      <td>Juego de Memoria</td>
+                      <td><span class="badge bg-success">9,650</span></td>
+                      <td>13:45</td>
+                      <td>13/01/2024</td>
+                    </tr>
+                    <tr>
+                      <td><span class="badge bg-light">4</span></td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <img src="/img/pacientes/avatar4.jpg" class="rounded-circle me-2" width="30" height="30" alt="Avatar">
+                          <span>María Rodríguez</span>
+                        </div>
+                      </td>
+                      <td>Juego de Palabras</td>
+                      <td><span class="badge bg-success">9,580</span></td>
+                      <td>14:18</td>
+                      <td>12/01/2024</td>
+                    </tr>
+                    <tr>
+                      <td><span class="badge bg-light">5</span></td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <img src="/img/pacientes/avatar5.jpg" class="rounded-circle me-2" width="30" height="30" alt="Avatar">
+                          <span>Luis Pérez</span>
+                        </div>
+                      </td>
+                      <td>Juego de Matemáticas</td>
+                      <td><span class="badge bg-success">9,420</span></td>
+                      <td>16:30</td>
+                      <td>11/01/2024</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Estadísticas rápidas -->
+        <div class="col-md-4">
+          <div class="card shadow-sm mb-4">
+            <div class="card-header">
+              <h6 class="mb-0">Estadísticas Rápidas</h6>
+            </div>
+            <div class="card-body">
+              <div class="mb-3">
+                <h6>Juego Más Popular</h6>
+                <p class="mb-1">Juego de Memoria</p>
+                <div class="progress">
+                  <div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">75%</div>
+                </div>
+              </div>
+              
+              <div class="mb-3">
+                <h6>Promedio de Sesiones</h6>
+                <p class="mb-1">3.2 sesiones por niño</p>
+                <div class="progress">
+                  <div class="progress-bar bg-success" role="progressbar" style="width: 64%" aria-valuenow="64" aria-valuemin="0" aria-valuemax="100">64%</div>
+                </div>
+              </div>
+              
+              <div class="mb-3">
+                <h6>Satisfacción General</h6>
+                <p class="mb-1">4.5/5 estrellas</p>
+                <div class="progress">
+                  <div class="progress-bar bg-warning" role="progressbar" style="width: 90%" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100">90%</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card shadow-sm">
+            <div class="card-header">
+              <h6 class="mb-0">Juegos por Categoría</h6>
+            </div>
+            <div class="card-body">
+              <canvas id="juegosPorCategoriaChart" height="200"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script>
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('show');
+      document.querySelector('.sidebar-backdrop').classList.toggle('show');
+    }
+
+    function verEstadisticas(id) {
+      // Implementar vista de estadísticas del juego
+      console.log('Ver estadísticas del juego:', id);
+    }
+
+    function editarJuego(id) {
+      // Implementar edición del juego
+      console.log('Editar juego:', id);
+    }
+
+
+
+    // Gráfico de juegos por categoría
+    const categoriaCtx = document.getElementById('juegosPorCategoriaChart').getContext('2d');
+    new Chart(categoriaCtx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Memoria', 'Lenguaje', 'Matemáticas', 'Coordinación', 'Lógica'],
+        datasets: [{
+          data: [4, 3, 2, 3, 3],
+          backgroundColor: ['#36b9cc', '#f6c23e', '#1cc88a', '#e74a3b', '#6f42c1']
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { position: 'bottom' } }
+      }
+    });
+  </script>
+</body>
+</html> 

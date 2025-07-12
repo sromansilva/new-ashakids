@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/adminLayout :: Head}"></head>
+
+<body>
+  <!-- Navbar para pantallas pequeñas -->
+  <nav th:replace="~{fragments/adminLayout :: navSmallAdmin}"></nav>
+
+  <div class="d-flex" style="min-height: 100vh;">
+    <!-- Sidebar -->
+    <div th:replace="~{fragments/adminLayout :: sidebarAdmin}"></div>
+
+    <div class="sidebar-backdrop" onclick="toggleSidebar()"></div>
+
+    <!-- Contenido principal -->
+    <div class="flex-grow-1 p-4">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Gestión de Usuarios <span class="text-primary fw-bold" th:text="${admin.nombre}">Administrador</span> 👥</h2>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#agregarUsuarioModal">
+          <i class="fas fa-plus me-2"></i>Agregar Usuario
+        </button>
+      </div>
+
+      <!-- Filtros -->
+      <div class="row mb-4">
+        <div class="col-md-4">
+          <input type="text" class="form-control" id="buscarUsuario" placeholder="Buscar usuario...">
+        </div>
+        <div class="col-md-3">
+          <select class="form-select" id="filtroRol">
+            <option value="">Todos los roles</option>
+            <option value="padre">Padres</option>
+            <option value="terapeuta">Terapeutas</option>
+            <option value="admin">Administradores</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <select class="form-select" id="filtroEstado">
+            <option value="">Todos los estados</option>
+            <option value="activo">Activos</option>
+            <option value="inactivo">Inactivos</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Tabla de usuarios -->
+      <div class="card shadow-sm">
+        <div class="card-header">
+          <h6 class="mb-0">Lista de Usuarios</h6>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Nombre</th>
+                  <th>Correo</th>
+                  <th>Código</th>
+                  <th>Rol</th>
+                  <th>Teléfono</th>
+                  <th>Estado</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr th:each="usuario : ${usuarios}">
+                  <td th:text="${usuario.id_usuario}">1</td>
+                  <td th:text="${usuario.nombre}">Javier Fernández</td>
+                  <td th:text="${usuario.correo}">javier@asha.com</td>
+                  <td th:text="${usuario.codigo}">p12345</td>
+                  <td>
+                    <span class="badge" th:class="${usuario.rol == 'padre' ? 'bg-primary' : (usuario.rol == 'terapeuta' ? 'bg-success' : 'bg-warning')}" 
+                          th:text="${usuario.rol}">padre</span>
+                  </td>
+                  <td th:text="${usuario.telefono}">666666666</td>
+                  <td>
+                    <span class="badge bg-success">Activo</span>
+                  </td>
+                  <td>
+                    <div class="btn-group" role="group">
+                      <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editarUsuarioModal" 
+                              th:onclick="'editarUsuario(' + ${usuario.id_usuario} + ')'">
+                        <i class="fas fa-edit"></i>
+                      </button>
+                      <button class="btn btn-sm btn-outline-warning" data-bs-toggle="modal" data-bs-target="#cambiarPasswordModal"
+                              th:onclick="'cambiarPassword(' + ${usuario.id_usuario} + ')'">
+                        <i class="fas fa-key"></i>
+                      </button>
+                      <button class="btn btn-sm btn-outline-danger" th:onclick="'eliminarUsuario(' + ${usuario.id_usuario} + ')'">
+                        <i class="fas fa-trash"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Agregar Usuario -->
+  <div class="modal fade" id="agregarUsuarioModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Agregar Nuevo Usuario</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <form th:action="@{/admin/usuarios/agregar}" method="post">
+          <div class="modal-body">
+            <div class="mb-3">
+              <label class="form-label">Nombre</label>
+              <input type="text" class="form-control" name="nombre" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Correo</label>
+              <input type="email" class="form-control" name="correo" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Código</label>
+              <input type="text" class="form-control" name="codigo" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Contraseña</label>
+              <input type="password" class="form-control" name="contrasena" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Rol</label>
+              <select class="form-select" name="rol" required>
+                <option value="padre">Padre</option>
+                <option value="terapeuta">Terapeuta</option>
+                <option value="admin">Administrador</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Teléfono</label>
+              <input type="text" class="form-control" name="telefono">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Agregar Usuario</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Editar Usuario -->
+  <div class="modal fade" id="editarUsuarioModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Editar Usuario</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <form th:action="@{/admin/usuarios/editar}" method="post">
+          <input type="hidden" name="id_usuario" id="editIdUsuario">
+          <div class="modal-body">
+            <div class="mb-3">
+              <label class="form-label">Nombre</label>
+              <input type="text" class="form-control" name="nombre" id="editNombre" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Correo</label>
+              <input type="email" class="form-control" name="correo" id="editCorreo" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Código</label>
+              <input type="text" class="form-control" name="codigo" id="editCodigo" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Rol</label>
+              <select class="form-select" name="rol" id="editRol" required>
+                <option value="padre">Padre</option>
+                <option value="terapeuta">Terapeuta</option>
+                <option value="admin">Administrador</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Teléfono</label>
+              <input type="text" class="form-control" name="telefono" id="editTelefono">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Cambiar Contraseña -->
+  <div class="modal fade" id="cambiarPasswordModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Cambiar Contraseña</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <form th:action="@{/admin/usuarios/cambiar-password}" method="post">
+          <input type="hidden" name="id_usuario" id="passwordIdUsuario">
+          <div class="modal-body">
+            <div class="mb-3">
+              <label class="form-label">Nueva Contraseña</label>
+              <input type="password" class="form-control" name="nuevaContrasena" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Confirmar Contraseña</label>
+              <input type="password" class="form-control" name="confirmarContrasena" required>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-warning">Cambiar Contraseña</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('show');
+      document.querySelector('.sidebar-backdrop').classList.toggle('show');
+    }
+
+    function editarUsuario(id) {
+      // Aquí cargarías los datos del usuario en el modal
+      document.getElementById('editIdUsuario').value = id;
+    }
+
+    function cambiarPassword(id) {
+      document.getElementById('passwordIdUsuario').value = id;
+    }
+
+    function eliminarUsuario(id) {
+      if (confirm('¿Estás seguro de que quieres eliminar este usuario?')) {
+        // Aquí harías la petición para eliminar
+        console.log('Eliminar usuario:', id);
+      }
+    }
+
+    // Filtros
+    document.getElementById('buscarUsuario').addEventListener('input', function() {
+      // Implementar búsqueda
+    });
+
+    document.getElementById('filtroRol').addEventListener('change', function() {
+      // Implementar filtro por rol
+    });
+
+    document.getElementById('filtroEstado').addEventListener('change', function() {
+      // Implementar filtro por estado
+    });
+  </script>
+</body>
+</html> 

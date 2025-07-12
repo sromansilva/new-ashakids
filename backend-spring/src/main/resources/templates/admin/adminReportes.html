@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/adminLayout :: Head}"></head>
+
+<body>
+  <!-- Navbar para pantallas pequeñas -->
+  <nav th:replace="~{fragments/adminLayout :: navSmallAdmin}"></nav>
+
+  <div class="d-flex" style="min-height: 100vh;">
+    <!-- Sidebar -->
+    <div th:replace="~{fragments/adminLayout :: sidebarAdmin}"></div>
+
+    <div class="sidebar-backdrop" onclick="toggleSidebar()"></div>
+
+    <!-- Contenido principal -->
+    <div class="flex-grow-1 p-4">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Reportes y Estadísticas <span class="text-primary fw-bold" th:text="${admin.nombre}">Administrador</span> 📈</h2>
+        <div>
+          <button class="btn btn-outline-primary me-2" onclick="exportarReporte()">
+            <i class="fas fa-download me-2"></i>Exportar
+          </button>
+          <button class="btn btn-outline-secondary" onclick="imprimirReporte()">
+            <i class="fas fa-print me-2"></i>Imprimir
+          </button>
+        </div>
+      </div>
+
+      <!-- Filtros de fecha -->
+      <div class="row mb-4">
+        <div class="col-md-3">
+          <label class="form-label">Fecha Inicio</label>
+          <input type="date" class="form-control" id="fechaInicio" th:value="${fechaInicio}">
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Fecha Fin</label>
+          <input type="date" class="form-control" id="fechaFin" th:value="${fechaFin}">
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Tipo de Reporte</label>
+          <select class="form-select" id="tipoReporte">
+            <option value="general">Reporte General</option>
+            <option value="sesiones">Sesiones</option>
+            <option value="usuarios">Usuarios</option>
+            <option value="terapias">Terapias</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">&nbsp;</label>
+          <button class="btn btn-primary w-100" onclick="generarReporte()">
+            <i class="fas fa-chart-bar me-2"></i>Generar Reporte
+          </button>
+        </div>
+      </div>
+
+      <!-- Resumen de métricas -->
+      <div class="row mb-4">
+        <div class="col-md-3 mb-3">
+          <div class="card border-start border-primary border-4 shadow-sm">
+            <div class="card-body">
+              <div class="d-flex align-items-center">
+                <i class="fas fa-users fa-2x text-primary me-3"></i>
+                <div>
+                  <h6 class="mb-0">Total Usuarios</h6>
+                  <h4 class="mb-0" th:text="${totalUsuarios}">1,247</h4>
+                  <small class="text-success">+12% vs mes anterior</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 mb-3">
+          <div class="card border-start border-success border-4 shadow-sm">
+            <div class="card-body">
+              <div class="d-flex align-items-center">
+                <i class="fas fa-calendar-check fa-2x text-success me-3"></i>
+                <div>
+                  <h6 class="mb-0">Sesiones Completadas</h6>
+                  <h4 class="mb-0" th:text="${sesionesCompletadas}">856</h4>
+                  <small class="text-success">+8% vs mes anterior</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 mb-3">
+          <div class="card border-start border-warning border-4 shadow-sm">
+            <div class="card-body">
+              <div class="d-flex align-items-center">
+                <i class="fas fa-star fa-2x text-warning me-3"></i>
+                <div>
+                  <h6 class="mb-0">Satisfacción Promedio</h6>
+                  <h4 class="mb-0" th:text="${satisfaccionPromedio}">4.7</h4>
+                  <small class="text-success">+0.2 vs mes anterior</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 mb-3">
+          <div class="card border-start border-info border-4 shadow-sm">
+            <div class="card-body">
+              <div class="d-flex align-items-center">
+                <i class="fas fa-dollar-sign fa-2x text-info me-3"></i>
+                <div>
+                  <h6 class="mb-0">Ingresos Mensuales</h6>
+                  <h4 class="mb-0" th:text="${ingresosMensuales}">$45,230</h4>
+                  <small class="text-success">+15% vs mes anterior</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Gráficos -->
+      <div class="row">
+        <!-- Gráfico 1: Crecimiento de usuarios -->
+        <div class="col-md-6 mb-4">
+          <div class="card shadow-sm">
+            <div class="card-header">
+              <h6 class="mb-0">Crecimiento de Usuarios (Últimos 6 meses)</h6>
+            </div>
+            <div class="card-body">
+              <canvas id="crecimientoUsuariosChart" height="200"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Gráfico 2: Distribución de sesiones por tipo -->
+        <div class="col-md-6 mb-4">
+          <div class="card shadow-sm">
+            <div class="card-header">
+              <h6 class="mb-0">Distribución de Sesiones por Tipo</h6>
+            </div>
+            <div class="card-body">
+              <canvas id="sesionesPorTipoChart" height="200"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Gráfico 3: Rendimiento de terapeutas -->
+        <div class="col-md-6 mb-4">
+          <div class="card shadow-sm">
+            <div class="card-header">
+              <h6 class="mb-0">Rendimiento de Terapeutas</h6>
+            </div>
+            <div class="card-body">
+              <canvas id="rendimientoTerapeutasChart" height="200"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Gráfico 4: Satisfacción por edad -->
+        <div class="col-md-6 mb-4">
+          <div class="card shadow-sm">
+            <div class="card-header">
+              <h6 class="mb-0">Satisfacción por Grupo de Edad</h6>
+            </div>
+            <div class="card-body">
+              <canvas id="satisfaccionPorEdadChart" height="200"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabla de datos detallados -->
+      <div class="row">
+        <div class="col-12">
+          <div class="card shadow-sm">
+            <div class="card-header">
+              <h6 class="mb-0">Datos Detallados</h6>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>Métrica</th>
+                      <th>Valor Actual</th>
+                      <th>Valor Anterior</th>
+                      <th>Cambio</th>
+                      <th>Tendencia</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Nuevos Usuarios</td>
+                      <td>156</td>
+                      <td>142</td>
+                      <td class="text-success">+9.9%</td>
+                      <td><i class="fas fa-arrow-up text-success"></i></td>
+                    </tr>
+                    <tr>
+                      <td>Sesiones Canceladas</td>
+                      <td>23</td>
+                      <td>31</td>
+                      <td class="text-success">-25.8%</td>
+                      <td><i class="fas fa-arrow-down text-success"></i></td>
+                    </tr>
+                    <tr>
+                      <td>Tiempo Promedio de Sesión</td>
+                      <td>45 min</td>
+                      <td>42 min</td>
+                      <td class="text-warning">+7.1%</td>
+                      <td><i class="fas fa-arrow-up text-warning"></i></td>
+                    </tr>
+                    <tr>
+                      <td>Retención de Usuarios</td>
+                      <td>87%</td>
+                      <td>84%</td>
+                      <td class="text-success">+3.6%</td>
+                      <td><i class="fas fa-arrow-up text-success"></i></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script>
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('show');
+      document.querySelector('.sidebar-backdrop').classList.toggle('show');
+    }
+
+    function generarReporte() {
+      // Implementar generación de reporte
+      console.log('Generando reporte...');
+    }
+
+    function exportarReporte() {
+      // Implementar exportación
+      alert('Función de exportación en desarrollo');
+    }
+
+    function imprimirReporte() {
+      window.print();
+    }
+
+    // Gráfico 1: Crecimiento de usuarios
+    const crecimientoCtx = document.getElementById('crecimientoUsuariosChart').getContext('2d');
+    new Chart(crecimientoCtx, {
+      type: 'line',
+      data: {
+        labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun'],
+        datasets: [{
+          label: 'Usuarios',
+          data: [120, 150, 180, 220, 280, 320],
+          borderColor: '#4e73df',
+          backgroundColor: 'rgba(78, 115, 223, 0.1)',
+          tension: 0.4,
+          fill: true
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: { y: { beginAtZero: true } }
+      }
+    });
+
+    // Gráfico 2: Distribución de sesiones por tipo
+    const sesionesCtx = document.getElementById('sesionesPorTipoChart').getContext('2d');
+    new Chart(sesionesCtx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Terapia Individual', 'Terapia Grupal', 'Evaluación', 'Seguimiento'],
+        datasets: [{
+          data: [45, 25, 20, 10],
+          backgroundColor: ['#36b9cc', '#f6c23e', '#1cc88a', '#e74a3b']
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { position: 'bottom' } }
+      }
+    });
+
+    // Gráfico 3: Rendimiento de terapeutas
+    const rendimientoCtx = document.getElementById('rendimientoTerapeutasChart').getContext('2d');
+    new Chart(rendimientoCtx, {
+      type: 'bar',
+      data: {
+        labels: ['Dr. García', 'Dra. López', 'Dr. Martínez', 'Dra. Rodríguez', 'Dr. Pérez'],
+        datasets: [{
+          label: 'Sesiones Completadas',
+          data: [45, 38, 42, 35, 28],
+          backgroundColor: '#1cc88a'
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: { y: { beginAtZero: true } }
+      }
+    });
+
+    // Gráfico 4: Satisfacción por edad
+    const satisfaccionCtx = document.getElementById('satisfaccionPorEdadChart').getContext('2d');
+    new Chart(satisfaccionCtx, {
+      type: 'radar',
+      data: {
+        labels: ['3-5 años', '6-8 años', '9-11 años', '12-14 años', '15-17 años'],
+        datasets: [{
+          label: 'Satisfacción',
+          data: [4.8, 4.6, 4.7, 4.5, 4.9],
+          borderColor: '#f6c23e',
+          backgroundColor: 'rgba(246, 194, 62, 0.2)',
+          pointBackgroundColor: '#f6c23e'
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          r: {
+            beginAtZero: true,
+            max: 5
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html> 

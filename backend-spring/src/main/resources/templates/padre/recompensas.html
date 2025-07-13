@@ -3,72 +3,72 @@
 
 <head>
   <title>Recompensas - ASHAKids</title>
-  <style>
-    .card-img-top {
-      object-fit: contain;
-      height: 150px;
-      padding: 1rem;
-    }
-  </style>
 </head>
+
 <head th:replace="~{fragments/padreLayout :: Head}"></head>
 
 <body class="bg-light">
   <!-- Sidebar -->
-    <div th:replace="~{fragments/padreLayout :: sidebar}"></div>
+  <div th:replace="~{fragments/padreLayout :: menuToggle}"></div>
 
+  <div th:replace="~{fragments/padreLayout :: sidebar}"></div>
 
-  <!-- Título -->
-  <div class="container my-5">
-    <h2 class="text-center mb-4">🏆 Recompensas divertidas para grandes logros</h2>
-    <p class="text-center text-muted mb-5">Motiva a tu peque con premios que celebran cada paso de su crecimiento.</p>
+  <div th:replace="~{fragments/padreLayout :: overlay}"></div>
 
-    <!-- Fila de recompensas -->
-    <div class="row g-4">
+  <!-- Contenido principal -->
+  <div class="main-content">
+    <div class="container my-5">
+      <h2 class="text-center mb-4">🏆 Recompensas divertidas para grandes logros</h2>
+      <p class="text-center text-muted mb-5">Motiva a tu peque con premios que celebran cada paso de su crecimiento.</p>
 
-      <!-- Recompensa 1 -->
-      <div class="col-md-4">
-        <div class="card shadow-sm h-100">
-          <img src="https://cdn-icons-png.flaticon.com/512/616/616408.png" class="card-img-top" alt="Estrella Dorada">
-          <div class="card-body text-center">
-            <h5 class="card-title">⭐ Estrella Dorada</h5>
-            <p class="card-text">Por completar 5 juegos del Rincón Divertido.</p>
-            <span class="badge bg-success">Disponible</span>
-            <button class="btn btn-outline-primary mt-3 w-100">Canjear</button>
+      <!-- Fila de recompensas -->
+      <div class="row g-4">
+
+        <!-- Recompensa 1 -->
+        <div class="col-md-4">
+          <div class="card shadow-sm h-100">
+            <img src="https://cdn-icons-png.flaticon.com/512/616/616408.png" class="card-img-top" alt="Estrella Dorada">
+            <div class="card-body text-center">
+              <h5 class="card-title">⭐ Estrella Dorada</h5>
+              <p class="card-text">Por completar 5 juegos del Rincón Divertido.</p>
+              <span class="badge bg-success">Disponible</span>
+              <button class="btn btn-outline-primary mt-3 w-100">Canjear</button>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- Recompensa 2 -->
-      <div class="col-md-4">
-        <div class="card shadow-sm h-100">
-          <img src="https://cdn-icons-png.flaticon.com/512/809/809957.png" class="card-img-top" alt="Medalla de Esfuerzo">
-          <div class="card-body text-center">
-            <h5 class="card-title">🥇 Medalla de Esfuerzo</h5>
-            <p class="card-text">Por asistir a 3 sesiones de terapia sin faltar.</p>
-            <span class="badge bg-warning text-dark">En progreso</span>
-            <button class="btn btn-outline-secondary mt-3 w-100" disabled>Canjear</button>
+        <!-- Recompensa 2 -->
+        <div class="col-md-4">
+          <div class="card shadow-sm h-100">
+            <img src="https://cdn-icons-png.flaticon.com/512/809/809957.png" class="card-img-top" alt="Medalla de Esfuerzo">
+            <div class="card-body text-center">
+              <h5 class="card-title">🥇 Medalla de Esfuerzo</h5>
+              <p class="card-text">Por asistir a 3 sesiones de terapia sin faltar.</p>
+              <span class="badge bg-warning text-dark">En progreso</span>
+              <button class="btn btn-outline-secondary mt-3 w-100" disabled>Canjear</button>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- Recompensa 3 -->
-      <div class="col-md-4">
-        <div class="card shadow-sm h-100">
-          <img src="https://cdn-icons-png.flaticon.com/512/190/190411.png" class="card-img-top" alt="Diploma del Mes">
-          <div class="card-body text-center">
-            <h5 class="card-title">📜 Diploma del Mes</h5>
-            <p class="card-text">Para el peque más participativo del mes.</p>
-            <span class="badge bg-secondary">Por anunciar</span>
-            <button class="btn btn-outline-secondary mt-3 w-100" disabled>Próximamente</button>
+        <!-- Recompensa 3 -->
+        <div class="col-md-4">
+          <div class="card shadow-sm h-100">
+            <img src="https://cdn-icons-png.flaticon.com/512/190/190411.png" class="card-img-top" alt="Diploma del Mes">
+            <div class="card-body text-center">
+              <h5 class="card-title">📜 Diploma del Mes</h5>
+              <p class="card-text">Para el peque más participativo del mes.</p>
+              <span class="badge bg-secondary">Por anunciar</span>
+              <button class="btn btn-outline-secondary mt-3 w-100" disabled>Próximamente</button>
+            </div>
           </div>
         </div>
-      </div>
 
+      </div>
     </div>
   </div>
 
+  <!-- Scripts -->
   <div th:replace="~{fragments/padreLayout :: padre-scripts}"></div>
-
 </body>
+
 </html>

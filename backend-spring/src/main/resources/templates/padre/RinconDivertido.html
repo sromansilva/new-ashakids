@@ -10,8 +10,11 @@
 <body>
 
   <!-- Sidebar -->
+  <div th:replace="~{fragments/padreLayout :: menuToggle}"></div>
+
   <div th:replace="~{fragments/padreLayout :: sidebar}"></div>
 
+  <div th:replace="~{fragments/padreLayout :: overlay}"></div>
 
   <div class="main-content d-flex justify-content-center" style="margin-left: 260px;">
     <div class="container text-center" style="width: 700px; height: 300px; margin-top: 2rem;">

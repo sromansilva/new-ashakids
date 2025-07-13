@@ -7,11 +7,14 @@
 
 <head th:replace="~{fragments/padreLayout :: Head}"></head>
 
-
 <body>
-<!--sidebar jamon-->
-  <div class="menu-toggle">☰</div>
-    <div th:replace="~{fragments/padreLayout :: sidebar}"></div>
+  <!--sidebar jamon-->
+
+  <div th:replace="~{fragments/padreLayout :: menuToggle}"></div>
+
+  <div th:replace="~{fragments/padreLayout :: sidebar}"></div>
+
+  <div th:replace="~{fragments/padreLayout :: overlay}"></div>
 
   <div class="main-content">
     <div class="container py-4">
@@ -70,8 +73,6 @@
 
       </div>
 
-
-
       <div class="bg-white rounded p-4 shadow">
         <h4 class="mb-4 text-center">Agenda tu primera cita</h4>
         <div class="row g-3 text-center">
@@ -104,15 +105,11 @@
         </div>
       </div>
 
-
-
     </div>
   </div>
 
-
-
   <div th:replace="~{fragments/padreLayout :: padre-scripts}"></div>
-  
+
 </body>
 
 </html>

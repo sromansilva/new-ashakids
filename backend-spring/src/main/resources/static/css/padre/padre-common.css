@@ -1,0 +1,142 @@
+/* Importar fuente en el HTML HEAD */
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background-color: #FDFDFD;
+  color: #2D3E50;
+}
+
+/* Sidebar general */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 250px; /* Asegura que sea igual al margin del main-content */
+  height: 100vh;
+  background-color: #2D3E50;
+  padding-top: 20px;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  overflow-y: auto;
+}
+
+/* Logo */
+.sidebar-header img {
+  max-width: 180px;
+  margin: 0 auto;
+}
+
+/* Navegación */
+.nav {
+  margin-top: 30px;
+}
+
+.nav-link {
+  color: #F5F7FA;
+  padding: 12px 20px;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  transition: background 0.3s, color 0.3s;
+}
+
+.nav-link:hover {
+  background-color: #0099B0;
+  color: #fff;
+  border-radius: 5px;
+}
+
+.nav-link.active {
+  background-color: #00B8D9;
+  color: #fff;
+  font-weight: 600;
+  border-radius: 5px;
+}
+
+/* Íconos */
+.nav-link i,
+.nav-link img {
+  margin-right: 10px;
+}
+
+/* Enlace deshabilitado */
+.nav-link[style*="pointer-events: none"] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Toggle del menú (puedes implementarlo después con JS si es necesario) */
+.menu-toggle {
+  display: none;
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  background-color: #2D3E50;
+  color: #fff;
+  padding: 10px 12px;
+  font-size: 18px;
+  border-radius: 5px;
+  z-index: 1100;
+  cursor: pointer;
+}
+
+/* Espacio a la derecha del sidebar para el contenido principal */
+.main-content {
+  margin-left: 250px; /* Desplazamiento lateral para evitar que el contenido se oculte detrás del sidebar */
+  padding: 20px;
+  transition: margin-left 0.3s ease-in-out;
+}
+
+.sidebar.hidden {
+  transform: translateX(-100%);
+  transition: transform 0.3s ease-in-out;
+}
+
+.sidebar.active {
+  transform: translateX(0);
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 900;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.overlay.hidden {
+  display: none;
+}
+
+
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    width: 85vw; /* ocupa el 85% del ancho */
+    height: 100vh;
+    top: 0;
+    left: 0;
+    background-color: #2D3E50;
+    box-shadow: 4px 0 10px rgba(0, 0, 0, 0.3);
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+    z-index: 1000;
+  }
+
+  .sidebar.active {
+    transform: translateX(0);
+  }
+
+  .main-content {
+    margin-left: 0;
+    padding: 20px;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+}

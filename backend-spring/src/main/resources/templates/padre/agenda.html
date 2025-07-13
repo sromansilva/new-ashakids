@@ -9,7 +9,12 @@
   <!--------------------------------->
 <body class="bg-light">
   <!-- Sidebar -->
+
+    <div th:replace="~{fragments/padreLayout :: menuToggle}"></div>
+
     <div th:replace="~{fragments/padreLayout :: sidebar}"></div>
+
+    <div th:replace="~{fragments/padreLayout :: overlay}"></div>
   <!--------------------------------->
 
   <!-- Contenido -->

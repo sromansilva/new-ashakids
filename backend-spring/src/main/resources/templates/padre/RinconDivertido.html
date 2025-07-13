@@ -4,25 +4,27 @@
 <head>
   <title>Página de Ejemplo 1</title>
 </head>
+
 <head th:replace="~{fragments/padreLayout :: Head}"></head>
 
 <body>
 
-    <!-- Sidebar -->
-    <div th:replace="~{fragments/padreLayout :: sidebar}"></div>
+  <!-- Sidebar -->
+  <div th:replace="~{fragments/padreLayout :: sidebar}"></div>
 
 
-    <div class="main-content d-flex justify-content-center" style="margin-left: 260px;">
-  <div class="container text-center" style="width: 700px; height: 300px; margin-top: 2rem;">
-    <h1>¡Bienvenido al Rincón Divertido!</h1>
-    <p>Aquí encontrarás todos los recursos para tu hijo</p>
-    <span th:text="${queso}">Sergio</span>
-    <br><br>
-    <a th:href="@{/padre}" class="btn btn-primary">Volver al inicio</a>
+  <div class="main-content d-flex justify-content-center" style="margin-left: 260px;">
+    <div class="container text-center" style="width: 700px; height: 300px; margin-top: 2rem;">
+      <h1>¡Bienvenido al Rincón Divertido!</h1>
+      <p>Aquí encontrarás todos los recursos para tu hijo</p>
+      <span th:text="${queso}">Sergio</span>
+      <br><br>
+      <a th:href="@{/padre}" class="btn btn-primary">Volver al inicio</a>
+    </div>
   </div>
-</div>
 
+  <div th:replace="~{fragments/padreLayout :: padre-scripts}"></div>
 
-    
 </body>
+
 </html>

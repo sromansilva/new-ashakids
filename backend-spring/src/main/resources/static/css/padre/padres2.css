@@ -1,35 +1,8 @@
+
     body {
         background: linear-gradient(to right, #c9eaff, #e6f7ff);
         font-family: 'Quicksand', sans-serif;
         color: #333;
-    }
-
-    .sidebar {
-        background-color: #0f4c81;
-        color: white;
-        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
-    }
-
-    .sidebar .nav-link {
-        color: #e3f2fd;
-        font-weight: 600;
-        margin: 0.4rem 0;
-        font-size: 1rem;
-    }
-
-    .sidebar .nav-link.active,
-    .sidebar .nav-link:hover {
-        background-color: #2196f3;
-        color: white;
-        border-radius: 10px;
-    }
-
-    .sidebar-header img {
-        margin: 1rem auto;
-        display: block;
-        background-color: #c1d9ff;
-        border-radius: 15%;
-        border: 5px solid #214a6b;
     }
 
     .main-content {
@@ -115,5 +88,3 @@
             display: block;
         }
     }
-
-    

@@ -57,6 +57,14 @@
         border-radius: 10px;
     }
 
+    /* Efecto hover para accesos rápidos */
+    .card.h-100.text-center.shadow-sm.border-0:hover {
+        box-shadow: 0 8px 24px rgba(33, 150, 243, 0.18), 0 1.5px 6px rgba(33, 150, 243, 0.10);
+        background-color: #e3f2fd;
+        transition: box-shadow 0.2s, background-color 0.2s;
+        cursor: pointer;
+    }
+
     @media (max-width: 768px) {
         .sidebar {
             position: relative;

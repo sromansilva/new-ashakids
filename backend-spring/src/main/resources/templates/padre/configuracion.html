@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <title>AshaKids - Configuración</title>
+</head>
+
+<head th:replace="~{fragments/padreLayout :: Head}"></head>
+
+<body>
+<!--sidebar jamon-->
+    <div th:replace="~{fragments/padreLayout :: sidebar}"></div>
+
+  <div class="main-content">
+    <div class="container py-4">
+      <!-- Header -->
+      <div class="config-header">
+        <div class="row align-items-center">
+          <div class="col-md-8">
+            <h1 class="display-6 fw-bold mb-2">⚙️ Configuración</h1>
+            <p class="mb-0 fs-5 opacity-90">Gestiona las fotos de tus pequeños</p>
+          </div>
+          <div class="col-md-4 text-md-end">
+            <div class="bg-white bg-opacity-20 rounded-circle d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+              <i class="fas fa-cog fs-3"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mensajes de éxito/error -->
+      <div th:if="${param.success}" class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="fas fa-check-circle me-2"></i>
+        <span th:if="${param.success == 'foto_guardada'}">¡Foto guardada exitosamente!</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+
+      <div th:if="${param.error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="fas fa-exclamation-triangle me-2"></i>
+        <span th:if="${param.error == 'niño_no_encontrado'}">Niño no encontrado.</span>
+        <span th:if="${param.error == 'tipo_archivo_invalido'}">Solo se permiten archivos de imagen (JPG, PNG, GIF).</span>
+        <span th:if="${param.error == 'archivo_muy_grande'}">El archivo es muy grande. Máximo 5MB.</span>
+        <span th:if="${param.error == 'error_guardar'}">Error al guardar la foto. Inténtalo de nuevo.</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+
+      <!-- Lista de niños -->
+      <div th:if="${!#lists.isEmpty(ninos)}" class="row g-4">
+        <div th:each="nino : ${ninos}" class="col-md-6 col-lg-4">
+          <div class="nino-card">
+            <div class="nino-photo-container">
+              <!-- Foto del niño -->
+              <div class="nino-photo">
+                <img th:if="${nino.tieneFoto()}" 
+                     th:src="@{'/padre/foto-nino/' + ${nino.id_nino}}" 
+                     alt="Foto de niño" 
+                     class="img-fluid rounded-circle">
+                <div th:unless="${nino.tieneFoto()}" class="no-photo">
+                  <i class="fas fa-child"></i>
+                </div>
+              </div>
+            </div>
+
+            <div class="nino-info">
+              <h5 class="fw-bold mb-2" th:text="${nino.nombre}">Nombre del Niño</h5>
+              <p class="text-muted mb-3" th:text="${'Nacido el ' + #temporals.format(nino.fechaNacimiento, 'dd/MM/yyyy')}">Fecha de nacimiento</p>
+              
+              <!-- Formulario para subir foto -->
+              <form th:action="@{'/padre/subir-foto-nino/' + ${nino.id_nino}}" 
+                    method="post" 
+                    enctype="multipart/form-data" 
+                    class="upload-form">
+                
+                <div class="mb-3">
+                  <label th:for="'foto-' + ${nino.id_nino}" class="form-label">
+                    <i class="fas fa-camera me-2"></i>Seleccionar foto
+                  </label>
+                  <input type="file" 
+                         th:id="'foto-' + ${nino.id_nino}"
+                         name="foto" 
+                         class="form-control" 
+                         accept="image/*" 
+                         required>
+                  <div class="form-text">
+                    Formatos: JPG, PNG, GIF. Máximo 5MB.
+                  </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-upload">
+                  <i class="fas fa-upload me-2"></i>Subir Foto
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Estado vacío -->
+      <div th:if="${#lists.isEmpty(ninos)}" class="empty-state">
+        <div class="mb-4">
+          <div class="empty-icon">
+            <i class="fas fa-child"></i>
+          </div>
+        </div>
+        <h3 class="fw-bold mb-3">No tienes niños registrados</h3>
+        <p class="text-muted fs-5 mb-4">Contacta con el administrador para registrar a tus pequeños.</p>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    /* Estilos para la página de configuración */
+    .config-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border-radius: 20px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+    }
+    
+    .nino-card {
+      background: white;
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      text-align: center;
+      transition: transform 0.3s ease;
+      height: 100%;
+    }
+    
+    .nino-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .nino-photo-container {
+      margin-bottom: 1.5rem;
+    }
+    
+    .nino-photo {
+      width: 120px;
+      height: 120px;
+      margin: 0 auto;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 4px solid #f8f9fa;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    
+    .nino-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .no-photo {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #ff6b6b, #ffa726);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 3rem;
+    }
+    
+    .nino-info {
+      text-align: center;
+    }
+    
+    .upload-form {
+      margin-top: 1rem;
+    }
+    
+    .btn-upload {
+      background: linear-gradient(135deg, #4caf50, #66bb6a);
+      border: none;
+      border-radius: 25px;
+      padding: 0.75rem 1.5rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-upload:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+    }
+    
+    .empty-state {
+      background: white;
+      border-radius: 25px;
+      padding: 3rem;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      margin-top: 2rem;
+    }
+    
+    .empty-icon {
+      width: 120px;
+      height: 120px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 2rem;
+      color: white;
+      font-size: 3rem;
+    }
+    
+    .form-control:focus {
+      border-color: #667eea;
+      box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    }
+  </style>
+
+  <script th:src="@{/js/padre/padres.js}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Validación de archivos
+    document.addEventListener('DOMContentLoaded', function() {
+      const fileInputs = document.querySelectorAll('input[type="file"]');
+      
+      fileInputs.forEach(input => {
+        input.addEventListener('change', function(e) {
+          const file = e.target.files[0];
+          
+          if (file) {
+            // Validar tipo de archivo
+            if (!file.type.startsWith('image/')) {
+              alert('Solo se permiten archivos de imagen (JPG, PNG, GIF).');
+              this.value = '';
+              return;
+            }
+            
+            // Validar tamaño (5MB)
+            if (file.size > 5 * 1024 * 1024) {
+              alert('El archivo es muy grande. Máximo 5MB.');
+              this.value = '';
+              return;
+            }
+          }
+        });
+      });
+    });
+  </script>
+
+</body>
+
+</html> 

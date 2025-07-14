@@ -1,61 +1,1081 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
   
 <head>
-  <title>Agenda - ASHAKids</title>
+  <title>AshaKids - Mi Agenda</title>
 </head>
+
 <head th:replace="~{fragments/padreLayout :: Head}"></head>
 
-<body class="bg-light">
-  <!-- Sidebar -->
+<body>
+<!--sidebar jamon-->
     <div th:replace="~{fragments/padreLayout :: sidebar}"></div>
 
-  <!-- Contenido -->
   <div class="main-content">
-    <h2 class="mb-4 text-center">📅 Agenda de Citas</h2>
-
-    <!-- Botón para nueva cita -->
-    <div class="text-end mb-3">
-      <button class="btn btn-primary">
-        ➕ Agendar nueva cita
-      </button>
-    </div>
-
-    <!-- Calendario (placeholder por ahora) -->
-    <div class="bg-white p-4 rounded shadow-sm mb-5">
-      <h5>Calendario</h5>
-      <p class="text-muted">Aquí aparecerá el calendario interactivo de citas (puedes integrarlo con FullCalendar más adelante).</p>
-    </div>
-
-    <!-- Próximas citas -->
-    <h5 class="mb-3">Próximas sesiones</h5>
-    <div class="list-group mb-5">
-      <div class="list-group-item d-flex justify-content-between align-items-center">
-        <div>
-          <strong>🧠 Terapia de lenguaje</strong> <br>
-          con Lic. María López <br>
-          <small>📅 12 de junio - ⏰ 4:00 p.m.</small>
-        </div>
-        <div>
-          <button class="btn btn-sm btn-outline-warning me-2">Reprogramar</button>
-          <button class="btn btn-sm btn-outline-danger">Cancelar</button>
+    <div class="container py-4">
+      <!-- Header llamativo y amigable -->
+      <div class="agenda-header">
+        <div class="row align-items-center">
+          <div class="col-md-8">
+            <h1 class="display-6 fw-bold mb-2">🎉 Mi Agenda de Terapia</h1>
+            <p class="mb-0 fs-5 opacity-90">¡Aquí están las citas de terapia de tus pequeños!</p>
+          </div>
+          <div class="col-md-4 text-md-end">
+            <div class="d-flex align-items-center justify-content-md-end">
+              <div class="me-3">
+                <div class="fw-bold fs-4" th:text="${#lists.size(citas)}">0</div>
+                <div class="small opacity-75">Citas activas</div>
+              </div>
+              <div class="bg-white bg-opacity-20 rounded-circle d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                <i class="fas fa-calendar-alt fs-3"></i>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="list-group-item d-flex justify-content-between align-items-center">
-        <div>
-          <strong>👨‍⚕️ Psicología infantil</strong> <br>
-          con Dr. Pedro Gómez <br>
-          <small>📅 14 de junio - ⏰ 11:00 a.m.</small>
+
+      <!-- Botón Agendar Nueva Cita -->
+      <div class="text-center mb-4">
+        <a href="http://localhost:3000/crear-reunion.html" class="btn btn-primary btn-lg btn-agendar">
+          <i class="fas fa-plus me-2"></i>¡Agendar Nueva Cita!
+        </a>
+    </div>
+
+      <!-- Estadísticas con diseño infantil -->
+      <div class="row mb-4">
+        <div class="col-md-3">
+          <div class="stats-card stats-total">
+            <div class="stats-icon">📅</div>
+            <div class="stats-number" th:text="${#lists.size(citas)}">0</div>
+            <div class="stats-label">Total de Citas</div>
+          </div>
         </div>
+        <div class="col-md-3">
+          <div class="stats-card stats-programada">
+            <div class="stats-icon">✅</div>
+            <div class="stats-number" th:text="${#lists.size(citas.?[estado == 'programada'])}">0</div>
+            <div class="stats-label">Programadas</div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="stats-card stats-reprogramada">
+            <div class="stats-icon">🔄</div>
+            <div class="stats-number" th:text="${#lists.size(citas.?[estado == 'reprogramada'])}">0</div>
+            <div class="stats-label">Reprogramadas</div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="stats-card stats-completada">
+            <div class="stats-icon">🎉</div>
+            <div class="stats-number" th:text="${#lists.size(citas.?[estado == 'completada'])}">0</div>
+            <div class="stats-label">Completadas</div>
+          </div>
+        </div>
+    </div>
+
+      <!-- Estado vacío -->
+      <div th:if="${#lists.isEmpty(citas)}" class="empty-state">
+        <div class="mb-4">
+          <div class="empty-icon">
+            <i class="fas fa-calendar-times"></i>
+          </div>
+        </div>
+        <h3 class="fw-bold mb-3">¡No tienes citas programadas!</h3>
+        <p class="text-muted fs-5 mb-4">¡Agenda la primera cita de terapia para que tus pequeños comiencen su aventura de aprendizaje!</p>
+        <a href="http://localhost:3000/crear-reunion.html" class="btn btn-primary btn-lg btn-agendar">
+          <i class="fas fa-plus me-2"></i>¡Agendar Primera Cita!
+        </a>
+      </div>
+
+      <!-- Lista de citas -->
+      <div th:if="${!#lists.isEmpty(citas)}" class="citas-container">
+        <div th:each="cita : ${citas}" class="cita-card">
+          <div class="cita-content">
+            <!-- Título de la cita (tema) -->
+            <div class="mb-3">
+              <h5 class="fw-bold text-primary mb-1" th:text="${cita.tema != null ? cita.tema : 'Cita de Terapia'}">Cita de Terapia</h5>
+              <p class="text-muted mb-0" th:text="${cita.retroalimentacion_padre != null ? 'Tutor: ' + cita.retroalimentacion_padre : 'Tutor: No especificado'}">Tutor</p>
+            </div>
+
+            <!-- Fecha y hora destacadas -->
+            <div class="date-time">
+              <div class="row align-items-center">
+                <div class="col-8">
+                  <h6 class="fw-bold mb-1" th:text="${cita.fecha != null ? #temporals.format(cita.fecha, 'EEEE, d MMMM yyyy') : 'Sin fecha'}">Fecha</h6>
+                  <p class="mb-0 text-primary fw-semibold" th:text="${cita.hora != null ? cita.hora : 'Sin hora'}">Hora</p>
+                </div>
+                <div class="col-4 text-end">
+                  <span class="status-badge" 
+                        th:classappend="${cita.estado == 'programada' ? 'status-programada' : 
+                                       cita.estado == 'reprogramada' ? 'status-reprogramada' : 
+                                       cita.estado == 'completada' ? 'status-completada' : 
+                                       cita.estado == 'cancelada' ? 'status-cancelada' : ''}"
+                        th:text="${cita.estado != null ? cita.estado : 'Sin estado'}">Estado</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Información del niño -->
+            <div class="patient-info">
+              <div class="d-flex align-items-center mb-2">
+                <div class="nino-avatar me-3">
+                  <img th:if="${cita.nino != null && cita.nino.tieneFoto()}" 
+                       th:src="@{'/padre/foto-nino/' + ${cita.nino.id_nino}}" 
+                       alt="Foto del niño" 
+                       class="img-fluid rounded-circle">
+                  <div th:unless="${cita.nino != null && cita.nino.tieneFoto()}" class="default-avatar">
+                    <i class="fas fa-child text-primary"></i>
+                  </div>
+                </div>
+                <div>
+                  <h6 class="fw-bold mb-0" th:text="${cita.nino != null && cita.nino.nombre != null ? cita.nino.nombre : 'Sin asignar'}">Nombre Niño</h6>
+                  <small class="text-muted">Paciente</small>
+                  <br/>
+                  <span class="text-primary" th:if="${cita.terapeuta != null && cita.terapeuta.nombre != null}" th:text="'Terapeuta: ' + ${cita.terapeuta.nombre}">Terapeuta: Nombre</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Detalles de la cita -->
+            <div class="row g-3 mb-3">
+              <div class="col-6">
+                <div class="d-flex align-items-center">
+                  <i class="fas fa-video text-info me-2"></i>
         <div>
-          <button class="btn btn-sm btn-outline-warning me-2">Reprogramar</button>
-          <button class="btn btn-sm btn-outline-danger">Cancelar</button>
+                    <small class="text-muted d-block">Modalidad</small>
+                    <span class="fw-semibold" th:text="${cita.modalidad != null ? cita.modalidad : 'Sin modalidad'}">Modalidad</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="d-flex align-items-center">
+                  <i class="fas fa-map-marker-alt text-danger me-2"></i>
+                  <div class="link-container">
+                    <small class="text-muted d-block">Ubicación</small>
+                    <span class="fw-semibold link-text" th:text="${cita.enlace_o_direccion != null ? cita.enlace_o_direccion : 'Sin enlace o dirección'}">Ubicación</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Información de ubicación para citas presenciales -->
+            <div th:if="${cita.modalidad == 'Presencial'}" class="ubicacion-info">
+              <div class="d-flex align-items-center mb-2">
+                <i class="fas fa-map-marker-alt me-2"></i>
+                <strong>Ubicación:</strong> Villa El Salvador, cerca de Av. Jorge Chávez y Calle Apolino
+              </div>
+              <div class="d-flex align-items-center mb-2">
+                <i class="fas fa-info-circle me-2"></i>
+                <small class="text-muted">A pocos metros de la cevichería Puerto Escondido y la cebichería El Ají</small>
+              </div>
+              <div class="d-flex align-items-center mb-2">
+                <i class="fas fa-subway me-2"></i>
+                <small class="text-muted">Metro de Lima (Línea 1), estación Villa El Salvador, luego mototaxi por Av. El Sol (10 min)</small>
+              </div>
+            </div>
+            
+            <!-- Información para citas virtuales -->
+            <div th:if="${cita.modalidad == 'Virtual'}" class="virtual-info">
+              <div class="d-flex align-items-center mb-2">
+                <i class="fas fa-video me-2"></i>
+                <strong>Sesión Virtual:</strong> Reunión por Zoom
+              </div>
+              <div class="d-flex align-items-center mb-2">
+                <i class="fas fa-clock me-2"></i>
+                <small class="text-muted">Conéctate 5 minutos antes de la hora programada</small>
+              </div>
+              <div class="d-flex align-items-center mb-2">
+                <i class="fas fa-headphones me-2"></i>
+                <small class="text-muted">Asegúrate de tener una conexión estable a internet</small>
+              </div>
+              <div class="d-flex align-items-center">
+                <i class="fas fa-lightbulb me-2"></i>
+                <small class="text-muted">Encuentra un lugar tranquilo y bien iluminado para la sesión</small>
+              </div>
+            </div>
+          </div>
+
+          <!-- Botones de acción -->
+          <div class="cita-actions">
+            <div class="d-flex flex-wrap gap-2">
+              <!-- Botón Zoom solo para citas virtuales -->
+              <a th:if="${cita.modalidad == 'Virtual' && cita.enlace_o_direccion != null && (cita.estado == 'programada' || cita.estado == 'reprogramada')}" 
+                 th:href="${cita.enlace_o_direccion}"
+                 class="btn btn-success btn-action zoom-link"
+                 target="_blank"
+                 th:data-zoom-url="${cita.enlace_o_direccion}">
+                <i class="fas fa-video me-2"></i>Unirse al Zoom
+              </a>
+              
+              <!-- Botones de reprogramar y cancelar solo para citas activas -->
+              <button th:if="${cita.estado == 'programada' || cita.estado == 'reprogramada'}" 
+                      class="btn btn-outline-primary btn-action reprogramar-cita-btn" 
+                      th:data-cita-id="${cita.id_cita}">
+                <i class="fas fa-edit me-2"></i>Reprogramar
+              </button>
+              
+              <button th:if="${cita.estado == 'programada' || cita.estado == 'reprogramada'}" 
+                      class="btn btn-outline-danger btn-action cancelar-cita-btn" 
+                      th:data-cita-id="${cita.id_cita}">
+                <i class="fas fa-times me-2"></i>Cancelar
+              </button>
+              
+              <a th:if="${cita.modalidad == 'Presencial'}" 
+                 href="https://www.google.com/maps/place/YUPIKIDS+-+CENTRO+DE+TERAPIA+INFANTIL/@-12.2121606,-76.9419293,21z/data=!4m6!3m5!1s0x9105b948dae5430b:0x4ea22f0707ab62e7!8m2!3d-12.2121035!4d-76.9415536!16s%2Fg%2F11swd3krh5?entry=ttu&g_ep=EgoyMDI1MDcwOS4wIKXMDSoASAFQAw%3D%3D" 
+                 target="_blank" class="btn btn-outline-success btn-action ms-2">
+                <i class="fas fa-map me-2"></i>Google Maps
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- JS de Bootstrap -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Modal de Reprogramación -->
+  <div class="modal fade" id="reprogramarModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">
+            <i class="fas fa-edit me-2"></i>Reprogramar Cita
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form id="reprogramarForm">
+            <input type="hidden" id="citaIdReprogramar" name="citaId">
+            
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="fechaReprogramar" class="form-label">
+                  <i class="fas fa-calendar me-2"></i>Nueva Fecha
+                </label>
+                <input type="date" class="form-control" id="fechaReprogramar" name="fecha" required>
+                <div class="form-text">No se pueden seleccionar fechas pasadas</div>
+              </div>
+              
+              <div class="col-md-6 mb-3">
+                <label for="horaReprogramar" class="form-label">
+                  <i class="fas fa-clock me-2"></i>Nueva Hora
+                </label>
+                <select class="form-select" id="horaReprogramar" name="hora" required>
+                  <option value="">Selecciona una hora</option>
+                  <option value="08:00">8:00 AM</option>
+                  <option value="09:00">9:00 AM</option>
+                  <option value="10:00">10:00 AM</option>
+                  <option value="11:00">11:00 AM</option>
+                  <option value="14:00">2:00 PM</option>
+                  <option value="15:00">3:00 PM</option>
+                  <option value="16:00">4:00 PM</option>
+                  <option value="17:00">5:00 PM</option>
+                </select>
+                <div class="form-text">Horarios disponibles de lunes a viernes</div>
+              </div>
+            </div>
+            
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="modalidadReprogramar" class="form-label">
+                  <i class="fas fa-video me-2"></i>Nueva Modalidad
+                </label>
+                <select class="form-select" id="modalidadReprogramar" name="modalidad" required>
+                  <option value="">Selecciona modalidad</option>
+                  <option value="Virtual">Virtual (Zoom)</option>
+                  <option value="Presencial">Presencial (Sede)</option>
+                </select>
+              </div>
+              
+              <div class="col-md-6 mb-3">
+                <label for="temaReprogramar" class="form-label">
+                  <i class="fas fa-comment me-2"></i>Nuevo Tema
+                </label>
+                <select class="form-select" id="temaReprogramar" name="tema" required>
+                  <option value="">Selecciona un tema de terapia</option>
+                  <option value="Evaluación del Lenguaje">Evaluación del Lenguaje</option>
+                  <option value="Terapia de Articulación">Terapia de Articulación</option>
+                  <option value="Desarrollo del Vocabulario">Desarrollo del Vocabulario</option>
+                  <option value="Fluidez del Habla">Fluidez del Habla</option>
+                  <option value="Comprensión del Lenguaje">Comprensión del Lenguaje</option>
+                  <option value="Expresión del Lenguaje">Expresión del Lenguaje</option>
+                  <option value="Terapia de Voz">Terapia de Voz</option>
+                  <option value="Terapia de Deglución">Terapia de Deglución</option>
+                  <option value="Terapia Ocupacional">Terapia Ocupacional</option>
+                  <option value="Psicología Infantil">Psicología Infantil</option>
+                  <option value="Seguimiento de Progreso">Seguimiento de Progreso</option>
+                  <option value="Otro">Otro (especificar)</option>
+                </select>
+              </div>
+            </div>
+            
+            <!-- Campo para especificar tema personalizado -->
+            <div class="mb-3" id="temaPersonalizadoReprogramar" style="display: none;">
+              <label for="temaOtroReprogramar" class="form-label">
+                <i class="fas fa-edit me-2"></i>Especificar Tema
+              </label>
+              <input type="text" class="form-control" id="temaOtroReprogramar" 
+                     placeholder="Describe el tema específico de la terapia..." />
+            </div>
+            
+            <!-- Información de ubicación para modalidad presencial -->
+            <div id="infoPresencial" class="alert alert-info" style="display: none;">
+              <div class="d-flex align-items-center mb-2">
+                <i class="fas fa-map-marker-alt me-2"></i>
+                <strong>Ubicación:</strong> Villa El Salvador, cerca de Av. Jorge Chávez y Calle Apolino
+              </div>
+              <div class="d-flex align-items-center">
+                <i class="fas fa-info-circle me-2"></i>
+                <small>A pocos metros de la cevichería Puerto Escondido y la cebichería El Ají</small>
+              </div>
+              <div class="mt-2">
+                <a href="https://www.google.com/maps/place/YUPIKIDS+-+CENTRO+DE+TERAPIA+INFANTIL/@-12.2121606,-76.9419293,21z/data=!4m6!3m5!1s0x9105b948dae5430b:0x4ea22f0707ab62e7!8m2!3d-12.2121035!4d-76.9415536!16s%2Fg%2F11swd3krh5?entry=ttu&g_ep=EgoyMDI1MDcwOS4wIKXMDSoASAFQAw%3D%3D" 
+                   target="_blank" class="btn btn-outline-primary btn-sm">
+                  <i class="fas fa-map me-2"></i>Ver en Google Maps
+                </a>
+              </div>
+            </div>
+            
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary btn-lg">
+                <i class="fas fa-save me-2"></i>Guardar Cambios
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    /* Estilos orientados a niños */
+    .agenda-header {
+      background: linear-gradient(135deg, #ff6b6b 0%, #ffa726 100%);
+      color: white;
+      border-radius: 20px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 8px 32px rgba(255, 107, 107, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .agenda-header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+      animation: float 6s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(180deg); }
+    }
+    
+    .btn-agendar {
+      background: linear-gradient(135deg, #4caf50 0%, #66bb6a 100%);
+      border: none;
+      border-radius: 25px;
+      padding: 15px 30px;
+      font-weight: bold;
+      font-size: 1.1rem;
+      box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+      transition: all 0.3s ease;
+    }
+    
+    .btn-agendar:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+    }
+    
+    .stats-card {
+      background: white;
+      border-radius: 20px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      text-align: center;
+      transition: transform 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .stats-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .stats-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+    }
+    
+    .stats-total::before { background: linear-gradient(90deg, #ff6b6b, #ffa726); }
+    .stats-programada::before { background: linear-gradient(90deg, #4caf50, #66bb6a); }
+    .stats-reprogramada::before { background: linear-gradient(90deg, #ff9800, #ffb74d); }
+    .stats-completada::before { background: linear-gradient(90deg, #9c27b0, #ba68c8); }
+    
+    .stats-icon {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .stats-number {
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      color: #333;
+    }
+    
+    .stats-label {
+      font-size: 0.9rem;
+      color: #666;
+      font-weight: 600;
+    }
+    
+    /* Contenedor de citas */
+    .citas-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    @media (max-width: 900px) {
+      .citas-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+      }
+      .cita-card {
+        margin-bottom: 1.5rem;
+        padding: 1rem;
+      }
+      .virtual-info, .ubicacion-info {
+        padding: 0.7rem;
+        font-size: 0.97rem;
+      }
+      .cita-actions {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+      }
+    }
+    @media (max-width: 600px) {
+      .citas-container {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+      .cita-card {
+        padding: 0.7rem;
+        font-size: 0.95rem;
+      }
+      .virtual-info, .ubicacion-info {
+        padding: 0.5rem;
+        font-size: 0.93rem;
+      }
+      .cita-actions {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.4rem;
+      }
+      .btn {
+        width: 100%;
+        min-width: 0;
+        font-size: 1rem;
+      }
+    }
+    
+    .cita-card {
+      background: white;
+      border-radius: 20px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      border-left: 5px solid #ff6b6b;
+      transition: transform 0.2s, box-shadow 0.2s;
+      position: relative;
+      overflow: hidden;
+      height: fit-content;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      width: 100%;
+      min-width: 0;
+      word-break: break-word;
+    }
+    .virtual-info, .ubicacion-info {
+      width: 100%;
+      min-width: 0;
+      word-break: break-word;
+      white-space: normal;
+      box-sizing: border-box;
+    }
+    .status-badge {
+      word-break: break-word;
+      white-space: normal;
+      max-width: 100%;
+      box-sizing: border-box;
+      text-align: center;
+      padding: 0.5rem 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+    @media (max-width: 600px) {
+      .cita-card {
+        padding: 0.5rem;
+        font-size: 0.93rem;
+      }
+      .virtual-info, .ubicacion-info {
+        padding: 0.3rem;
+        font-size: 0.91rem;
+      }
+      .status-badge {
+        font-size: 0.95rem;
+        padding: 0.4rem 0.3rem;
+      }
+    }
+    
+    .cita-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+    }
+    
+    .cita-card:hover::before {
+      opacity: 1;
+    }
+    
+    .cita-content {
+      flex-grow: 1;
+    }
+    
+    .cita-actions {
+      margin-top: auto;
+      padding-top: 1rem;
+    }
+    
+    .status-badge {
+      padding: 0.5rem 1rem;
+      border-radius: 25px;
+      font-weight: 600;
+      font-size: 0.875rem;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .status-programada {
+      background: linear-gradient(45deg, #4caf50, #66bb6a);
+      color: white;
+      box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+    }
+    
+    .status-reprogramada {
+      background: linear-gradient(45deg, #ff9800, #ffb74d);
+      color: white;
+      box-shadow: 0 4px 15px rgba(255, 152, 0, 0.3);
+    }
+    
+    .status-completada {
+      background: linear-gradient(45deg, #9c27b0, #ba68c8);
+      color: white;
+      box-shadow: 0 4px 15px rgba(156, 39, 176, 0.3);
+    }
+    
+    .status-cancelada {
+      background: linear-gradient(45deg, #f44336, #ef5350);
+      color: white;
+      box-shadow: 0 4px 15px rgba(244, 67, 54, 0.3);
+    }
+    
+    .modalidad-badge {
+      background: linear-gradient(45deg, #2196f3, #42a5f5);
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 15px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    
+    .tema-badge {
+      background: linear-gradient(45deg, #4caf50, #66bb6a);
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 15px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    
+    .btn-action {
+      border-radius: 20px;
+      padding: 0.75rem 1.5rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      border: none;
+      margin: 0.25rem;
+    }
+    
+    .btn-action:hover {
+      transform: translateY(-2px);
+    }
+    
+    .btn-outline-primary {
+      background: linear-gradient(135deg, #2196f3, #42a5f5);
+      color: white;
+    }
+    
+    .btn-outline-danger {
+      background: linear-gradient(135deg, #f44336, #ef5350);
+      color: white;
+    }
+    
+    .btn-success {
+      background: linear-gradient(135deg, #4caf50, #66bb6a);
+      color: white;
+    }
+    
+    .empty-state {
+      background: white;
+      border-radius: 25px;
+      padding: 3rem;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      margin-top: 2rem;
+    }
+    
+    .empty-icon {
+      width: 120px;
+      height: 120px;
+      background: linear-gradient(135deg, #ff6b6b, #ffa726);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 2rem;
+      color: white;
+      font-size: 3rem;
+    }
+    
+    .ubicacion-info {
+      background: linear-gradient(135deg, #fff3e0, #ffe0b2);
+      border-left: 4px solid #ff9800;
+      padding: 1rem;
+      border-radius: 15px;
+      margin-top: 1rem;
+    }
+    
+    .date-time {
+      background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+      padding: 1rem;
+      border-radius: 15px;
+      margin-bottom: 1rem;
+    }
+    
+    .patient-info {
+      background: linear-gradient(135deg, #f3e5f5, #e1bee7);
+      padding: 1rem;
+      border-radius: 15px;
+      margin-bottom: 1rem;
+    }
+    
+    .link-container {
+      word-break: break-all;
+      overflow-wrap: break-word;
+      max-width: 100%;
+      height: 60px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    
+    .link-text {
+      font-size: 0.8rem;
+      color: #666;
+      word-break: break-all;
+      overflow-wrap: break-word;
+      max-width: 100%;
+    }
+    
+    /* Estilos para avatar del niño */
+    .nino-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 2px solid #e3f2fd;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .nino-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .default-avatar {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+    }
+    
+    /* Asegurar que los botones sean clickeables */
+    .btn-action {
+      pointer-events: auto !important;
+      cursor: pointer !important;
+      position: relative;
+      z-index: 10;
+    }
+    
+    .cita-actions {
+      pointer-events: auto !important;
+      position: relative;
+      z-index: 10;
+    }
+    
+    .cita-actions .d-flex {
+      pointer-events: auto !important;
+    }
+    
+    /* Hacer que todas las citas tengan la misma altura */
+    .cita-card {
+      min-height: 400px;
+      height: auto;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .cita-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .cita-actions {
+      margin-top: auto;
+    }
+    
+    /* Estilos base para información virtual y presencial */
+    .virtual-info, .ubicacion-info {
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      border-radius: 10px;
+      border-left: 4px solid #007bff;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+    
+    /* Estilos específicos para información virtual */
+    .virtual-info {
+      padding: 0.8rem;
+      margin-top: 0.5rem;
+      margin-bottom: 0.5rem;
+      height: 160px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      text-align: left;
+    }
+    
+    /* Estilos específicos para información de ubicación */
+    .ubicacion-info {
+      padding: 0.6rem;
+      margin-top: 0.3rem;
+      margin-bottom: 0.4rem;
+      height: 160px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      text-align: left;
+    }
+    .ubicacion-info .mt-2 {
+      margin-top: auto !important;
+    }
+    .virtual-info .mt-2 {
+      margin-top: auto !important;
+    }
+    .cita-actions {
+      margin-top: auto;
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+  </style>
+
+  <script th:src="@{/js/padre/padres.js}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Información de ubicación de AshaKids
+    const ubicacionAshaKids = {
+      direccion: "Villa El Salvador, cerca de Av. Jorge Chávez y Calle Apolino",
+      referencia: "A pocos metros de la cevichería Puerto Escondido y la cebichería El Ají",
+      transporte: "Metro de Lima (Línea 1), estación Villa El Salvador, luego mototaxi por Av. El Sol (10 min)"
+    };
+    
+    // Inicialización
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('DOM cargado, inicializando agenda...');
+      
+      // Configurar fecha mínima como hoy
+      const fechaReprogramarInput = document.getElementById('fechaReprogramar');
+      if (fechaReprogramarInput) {
+        const today = new Date().toISOString().split('T')[0];
+        fechaReprogramarInput.min = today;
+      }
+      
+      // Forzar que los botones sean clickeables
+      const botones = document.querySelectorAll('.btn-action, .reprogramar-cita-btn, .cancelar-cita-btn, .zoom-link');
+      botones.forEach(boton => {
+        boton.style.pointerEvents = 'auto';
+        boton.style.cursor = 'pointer';
+        boton.style.position = 'relative';
+        boton.style.zIndex = '10';
+        console.log('Botón configurado:', boton.className);
+      });
+      
+      // Configurar eventos para botones de reprogramar y cancelar
+      setupEventListeners();
+      
+      // Configurar eventos del modal de reprogramación
+      setupModalEvents();
+      
+      console.log('Inicialización completada');
+    });
+    
+    // Configurar event listeners
+    function setupEventListeners() {
+      console.log('Configurando event listeners...');
+      
+      // Reprogramar cita
+      document.addEventListener('click', function(e) {
+        console.log('Click detectado:', e.target);
+        if (e.target.closest('.reprogramar-cita-btn')) {
+          console.log('Botón reprogramar clickeado');
+          const button = e.target.closest('.reprogramar-cita-btn');
+          const citaId = button.getAttribute('data-cita-id');
+          console.log('ID de cita:', citaId);
+          reprogramarCita(citaId);
+        }
+      });
+      
+      // Cancelar cita
+      document.addEventListener('click', function(e) {
+        if (e.target.closest('.cancelar-cita-btn')) {
+          console.log('Botón cancelar clickeado');
+          const button = e.target.closest('.cancelar-cita-btn');
+          const citaId = button.getAttribute('data-cita-id');
+          console.log('ID de cita a cancelar:', citaId);
+          cancelarCita(citaId);
+        }
+      });
+      
+      // Enlaces de Zoom
+      document.addEventListener('click', function(e) {
+        if (e.target.closest('.zoom-link')) {
+          e.preventDefault();
+          const link = e.target.closest('.zoom-link');
+          const zoomUrl = link.getAttribute('data-zoom-url');
+          if (zoomUrl) {
+            window.open(zoomUrl, '_blank');
+          }
+        }
+      });
+    }
+    
+    // Configurar eventos del modal
+    function setupModalEvents() {
+      const modalidadSelect = document.getElementById('modalidadReprogramar');
+      const infoPresencial = document.getElementById('infoPresencial');
+      
+      if (modalidadSelect) {
+        modalidadSelect.addEventListener('change', function() {
+          if (this.value === 'Presencial') {
+            infoPresencial.style.display = 'block';
+          } else {
+            infoPresencial.style.display = 'none';
+          }
+        });
+      }
+      
+      // Manejar tema personalizado
+      const temaSelect = document.getElementById('temaReprogramar');
+      const temaPersonalizado = document.getElementById('temaPersonalizadoReprogramar');
+      
+      if (temaSelect) {
+        temaSelect.addEventListener('change', function() {
+          if (this.value === 'Otro') {
+            temaPersonalizado.style.display = 'block';
+            document.getElementById('temaOtroReprogramar').required = true;
+          } else {
+            temaPersonalizado.style.display = 'none';
+            document.getElementById('temaOtroReprogramar').required = false;
+          }
+        });
+      }
+      
+      // Validar fecha y hora al cambiar
+      const fechaInput = document.getElementById('fechaReprogramar');
+      const horaSelect = document.getElementById('horaReprogramar');
+      
+      if (fechaInput && horaSelect) {
+        fechaInput.addEventListener('change', validateDateTime);
+        horaSelect.addEventListener('change', validateDateTime);
+      }
+    }
+    
+    // Validar fecha y hora
+    function validateDateTime() {
+      const fechaInput = document.getElementById('fechaReprogramar');
+      const horaSelect = document.getElementById('horaReprogramar');
+      
+      if (fechaInput.value && horaSelect.value) {
+        const selectedDate = new Date(fechaInput.value + 'T' + horaSelect.value);
+        const now = new Date();
+        
+        if (selectedDate <= now) {
+          alert('No puedes seleccionar una fecha y hora pasada.');
+          fechaInput.value = '';
+          horaSelect.value = '';
+        }
+      }
+    }
+    
+    // Reprogramar cita
+    function reprogramarCita(idCita) {
+      console.log('Función reprogramarCita llamada con ID:', idCita);
+      
+      const citaIdInput = document.getElementById('citaIdReprogramar');
+      if (!citaIdInput) {
+        console.error('No se encontró el input citaIdReprogramar');
+        return;
+      }
+      
+      citaIdInput.value = idCita;
+      console.log('ID de cita establecido en el formulario:', idCita);
+      
+      // Limpiar formulario
+      document.getElementById('fechaReprogramar').value = '';
+      document.getElementById('horaReprogramar').value = '';
+      document.getElementById('modalidadReprogramar').value = '';
+      document.getElementById('temaReprogramar').value = '';
+      document.getElementById('temaOtroReprogramar').value = '';
+      document.getElementById('temaPersonalizadoReprogramar').style.display = 'none';
+      document.getElementById('infoPresencial').style.display = 'none';
+      
+      const modal = document.getElementById('reprogramarModal');
+      if (modal) {
+        new bootstrap.Modal(modal).show();
+        console.log('Modal de reprogramación abierto');
+      } else {
+        console.error('No se encontró el modal de reprogramación');
+      }
+    }
+    
+    // Guardar reprogramación
+    document.getElementById('reprogramarForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      console.log('Formulario de reprogramación enviado');
+      
+      const formData = new FormData(this);
+      let tema = formData.get('tema');
+      
+      // Si se seleccionó "Otro", usar el tema personalizado
+      if (tema === 'Otro') {
+        const temaOtro = document.getElementById('temaOtroReprogramar').value;
+        if (temaOtro.trim()) {
+          tema = temaOtro;
+        } else {
+          alert('Por favor especifica el tema personalizado');
+          return;
+        }
+      }
+      
+      const data = {
+        idCita: formData.get('citaId'),
+        fecha: formData.get('fecha'),
+        hora: formData.get('hora'),
+        modalidad: formData.get('modalidad'),
+        tema: tema
+      };
+      
+      console.log('Datos a enviar:', JSON.stringify(data, null, 2));
+      console.log('Iniciando petición PUT a: http://localhost:3000/reprogramar-cita');
+      
+      try {
+        const response = await fetch('http://localhost:3000/reprogramar-cita', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        
+        console.log('Respuesta del servidor:', response.status, response.statusText);
+        console.log('Headers de respuesta:', response.headers);
+        const result = await response.json();
+        console.log('Resultado:', result);
+        
+        if (response.ok) {
+          console.log('Cita reprogramada exitosamente');
+          bootstrap.Modal.getInstance(document.getElementById('reprogramarModal')).hide();
+          // Recargar la página para mostrar los cambios
+          window.location.reload();
+          alert('¡Cita reprogramada exitosamente!');
+        } else {
+          console.error('Error del servidor:', result.error);
+          alert('Error al reprogramar la cita: ' + result.error);
+        }
+      } catch (error) {
+        console.error('Error de red:', error);
+        alert('Error al reprogramar la cita: ' + error.message);
+      }
+    });
+    
+    // Cancelar cita
+    async function cancelarCita(idCita) {
+      console.log('Función cancelarCita llamada con ID:', idCita);
+      
+      if (!confirm('¿Estás seguro de que deseas cancelar esta cita? Esta acción no se puede deshacer.')) {
+        console.log('Usuario canceló la operación');
+        return;
+      }
+      
+      console.log('Iniciando petición DELETE a:', `http://localhost:3000/cancelar-cita/${idCita}`);
+      
+      try {
+        const response = await fetch(`http://localhost:3000/cancelar-cita/${idCita}`, {
+          method: 'DELETE'
+        });
+        
+        console.log('Respuesta del servidor:', response.status, response.statusText);
+        
+        const result = await response.json();
+        console.log('Resultado:', result);
+        
+        if (response.ok) {
+          console.log('Cita cancelada exitosamente, recargando página...');
+          // Recargar la página para mostrar los cambios
+          window.location.reload();
+          alert('Cita cancelada exitosamente');
+        } else {
+          console.error('Error del servidor:', result.error);
+          alert('Error al cancelar la cita: ' + result.error);
+        }
+      } catch (error) {
+        console.error('Error de red:', error);
+        alert('Error al cancelar la cita: ' + error.message);
+      }
+    }
+  </script>
+
 </body>
+
 </html>

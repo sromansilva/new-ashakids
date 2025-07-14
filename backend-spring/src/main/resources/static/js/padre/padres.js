@@ -1,18 +1,52 @@
-
 document.addEventListener("DOMContentLoaded", () => {
-  const toggleBtn = document.createElement("div");
-  toggleBtn.className = "menu-toggle";
-  toggleBtn.innerHTML = "☰";
-  document.body.appendChild(toggleBtn);
-
+  const toggleBtn = document.querySelector(".menu-toggle");
   const sidebar = document.querySelector(".sidebar");
+  const overlay = document.getElementById("sidebar-overlay");
 
-  toggleBtn.addEventListener("click", () => {
-    sidebar.classList.toggle("active");
-  });
+  const handleResize = () => {
+    const isMobile = window.innerWidth <= 768;
+
+    if (!sidebar) return;
+
+    if (!isMobile) {
+      sidebar.classList.add("active");
+      sidebar.classList.remove("hidden");
+      if (overlay) overlay.classList.add("hidden");
+    } else {
+      sidebar.classList.remove("active");
+      sidebar.classList.add("hidden");
+      if (overlay) overlay.classList.add("hidden");
+    }
+  };
+
+  if (toggleBtn) {
+    toggleBtn.addEventListener("click", () => {
+      sidebar.classList.toggle("active");
+      sidebar.classList.toggle("hidden");
+
+      if (overlay) {
+        if (sidebar.classList.contains("active")) {
+          overlay.classList.remove("hidden");
+        } else {
+          overlay.classList.add("hidden");
+        }
+      }
+    });
+  }
+
+  if (overlay) {
+    overlay.addEventListener("click", () => {
+      sidebar.classList.remove("active");
+      sidebar.classList.add("hidden");
+      overlay.classList.add("hidden");
+    });
+  }
+
+  window.addEventListener("resize", handleResize);
+  handleResize();
 });
 
-
+/*
 function mostrarModalZoom(link) {
   const linkBtn = document.getElementById("linkReunion");
   linkBtn.href = link;
@@ -25,7 +59,11 @@ function mostrarModalZoom(link) {
 document.addEventListener("DOMContentLoaded", () => {
   vincularBotonesReservar();
 });
+<<<<<<< HEAD
 
+=======
+*/
+>>>>>>> e21576c8f62f4e8817ccc426d4de95b2bbc7687c
 document.addEventListener('DOMContentLoaded', function() {
   // Manejar clics en botones de cancelar cita
   document.addEventListener('click', function(e) {
@@ -73,4 +111,8 @@ document.addEventListener('DOMContentLoaded', function() {
       alert('Error al cancelar la cita. Verifica que el servidor esté ejecutándose.');
     }
   }
+<<<<<<< HEAD
 });
+=======
+});
+>>>>>>> e21576c8f62f4e8817ccc426d4de95b2bbc7687c

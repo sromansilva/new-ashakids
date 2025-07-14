@@ -4,128 +4,132 @@
 <head th:replace="~{fragments/adminLayout :: Head}"></head>
 
 <body>
-  <!-- Navbar para pantallas pequeñas -->
-  <nav th:replace="~{fragments/adminLayout :: navSmallAdmin}"></nav>
 
   <div class="d-flex" style="min-height: 100vh;">
-    <!-- Sidebar -->
+
+    <div th:replace="~{fragments/adminLayout :: menuToggle}"></div>
+
     <div th:replace="~{fragments/adminLayout :: sidebarAdmin}"></div>
 
-    <div class="sidebar-backdrop" onclick="toggleSidebar()"></div>
+    <div th:replace="~{fragments/adminLayout :: overlay}"></div>
 
     <!-- Contenido principal -->
-    <div class="flex-grow-1 p-4">
-      <h2>Panel de Control <span class="text-primary fw-bold" th:text="${admin.nombre}">Administrador</span> 📊</h2>
-      <p class="text-muted">Monitoreo en tiempo real del sistema:</p>
+    <main class="content-area">
+      <!-- Contenido principal -->
+      <div class="flex-grow-1 p-4">
+        <h2>Panel de Control <span class="text-primary fw-bold" th:text="${admin.nombre}">Administrador</span> 📊</h2>
+        <p class="text-muted">Monitoreo en tiempo real del sistema:</p>
 
-      <!-- Estadísticas principales -->
-      <div class="row mb-4">
-        <div class="col-md-3 mb-3">
-          <div class="card border-start border-primary border-4 shadow-sm">
-            <div class="card-body d-flex align-items-center">
-              <i class="fas fa-eye fa-2x text-primary me-3"></i>
-              <div>
-                <h6 class="mb-0">Visitas Totales</h6>
-                <p class="text-muted mb-0" th:text="${visitasTotales}">1,247</p>
+        <!-- Estadísticas principales -->
+        <div class="row mb-4">
+          <div class="col-md-3 mb-3">
+            <div class="card border-start border-primary border-4 shadow-sm">
+              <div class="card-body d-flex align-items-center">
+                <i class="fas fa-eye fa-2x text-primary me-3"></i>
+                <div>
+                  <h6 class="mb-0">Visitas Totales</h6>
+                  <p class="text-muted mb-0" th:text="${visitasTotales}">1,247</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 mb-3">
+            <div class="card border-start border-success border-4 shadow-sm">
+              <div class="card-body d-flex align-items-center">
+                <i class="fas fa-users fa-2x text-success me-3"></i>
+                <div>
+                  <h6 class="mb-0">Usuarios Activos</h6>
+                  <p class="text-muted mb-0" th:text="${usuariosActivos}">89</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 mb-3">
+            <div class="card border-start border-warning border-4 shadow-sm">
+              <div class="card-body d-flex align-items-center">
+                <i class="fas fa-clock fa-2x text-warning me-3"></i>
+                <div>
+                  <h6 class="mb-0">Tiempo Promedio</h6>
+                  <p class="text-muted mb-0" th:text="${tiempoPromedio}">12 min</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 mb-3">
+            <div class="card border-start border-info border-4 shadow-sm">
+              <div class="card-body d-flex align-items-center">
+                <i class="fas fa-chart-line fa-2x text-info me-3"></i>
+                <div>
+                  <h6 class="mb-0">Crecimiento</h6>
+                  <p class="text-muted mb-0" th:text="${crecimiento}">+15%</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="col-md-3 mb-3">
-          <div class="card border-start border-success border-4 shadow-sm">
-            <div class="card-body d-flex align-items-center">
-              <i class="fas fa-users fa-2x text-success me-3"></i>
-              <div>
-                <h6 class="mb-0">Usuarios Activos</h6>
-                <p class="text-muted mb-0" th:text="${usuariosActivos}">89</p>
+
+        <!-- Gráficos de actividad -->
+        <div class="row mb-4">
+          <div class="col-md-8 mb-4">
+            <div class="card shadow-sm">
+              <div class="card-header">
+                <h6 class="mb-0">Actividad de la Página (Últimos 7 días)</h6>
+              </div>
+              <div class="card-body">
+                <canvas id="activityChart" height="100"></canvas>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 mb-4">
+            <div class="card shadow-sm">
+              <div class="card-header">
+                <h6 class="mb-0">Distribución de Visitas</h6>
+              </div>
+              <div class="card-body">
+                <canvas id="visitsChart" height="200"></canvas>
               </div>
             </div>
           </div>
         </div>
-        <div class="col-md-3 mb-3">
-          <div class="card border-start border-warning border-4 shadow-sm">
-            <div class="card-body d-flex align-items-center">
-              <i class="fas fa-clock fa-2x text-warning me-3"></i>
-              <div>
-                <h6 class="mb-0">Tiempo Promedio</h6>
-                <p class="text-muted mb-0" th:text="${tiempoPromedio}">12 min</p>
+
+        <!-- Tabla de actividad reciente -->
+        <div class="row">
+          <div class="col-12">
+            <div class="card shadow-sm">
+              <div class="card-header">
+                <h6 class="mb-0">Actividad Reciente</h6>
               </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3 mb-3">
-          <div class="card border-start border-info border-4 shadow-sm">
-            <div class="card-body d-flex align-items-center">
-              <i class="fas fa-chart-line fa-2x text-info me-3"></i>
-              <div>
-                <h6 class="mb-0">Crecimiento</h6>
-                <p class="text-muted mb-0" th:text="${crecimiento}">+15%</p>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th>Usuario</th>
+                        <th>Acción</th>
+                        <th>Página</th>
+                        <th>Hora</th>
+                        <th>Duración</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr th:each="actividad : ${actividadesRecientes}">
+                        <td th:text="${actividad.usuario}">Ana García</td>
+                        <td th:text="${actividad.accion}">Inició sesión</td>
+                        <td th:text="${actividad.pagina}">Dashboard</td>
+                        <td th:text="${actividad.hora}">14:30</td>
+                        <td th:text="${actividad.duracion}">5 min</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-
-      <!-- Gráficos de actividad -->
-      <div class="row mb-4">
-        <div class="col-md-8 mb-4">
-          <div class="card shadow-sm">
-            <div class="card-header">
-              <h6 class="mb-0">Actividad de la Página (Últimos 7 días)</h6>
-            </div>
-            <div class="card-body">
-              <canvas id="activityChart" height="100"></canvas>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 mb-4">
-          <div class="card shadow-sm">
-            <div class="card-header">
-              <h6 class="mb-0">Distribución de Visitas</h6>
-            </div>
-            <div class="card-body">
-              <canvas id="visitsChart" height="200"></canvas>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Tabla de actividad reciente -->
-      <div class="row">
-        <div class="col-12">
-          <div class="card shadow-sm">
-            <div class="card-header">
-              <h6 class="mb-0">Actividad Reciente</h6>
-            </div>
-            <div class="card-body">
-              <div class="table-responsive">
-                <table class="table table-hover">
-                  <thead>
-                    <tr>
-                      <th>Usuario</th>
-                      <th>Acción</th>
-                      <th>Página</th>
-                      <th>Hora</th>
-                      <th>Duración</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr th:each="actividad : ${actividadesRecientes}">
-                      <td th:text="${actividad.usuario}">Ana García</td>
-                      <td th:text="${actividad.accion}">Inició sesión</td>
-                      <td th:text="${actividad.pagina}">Dashboard</td>
-                      <td th:text="${actividad.hora}">14:30</td>
-                      <td th:text="${actividad.duracion}">5 min</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
+  </main>
+
 
   <!-- Scripts -->
   <script>
@@ -174,5 +178,7 @@
       }
     });
   </script>
+  <div th:replace="~{fragments/adminLayout :: admin-scripts}"></div>
 </body>
+
 </html>

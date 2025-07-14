@@ -1,0 +1,83 @@
+/* Título de bienvenida */
+h2 {
+  font-weight: 600;
+  color: #2D3E50;
+}
+
+/* Caja de bienvenida */
+.info-box {
+  background-color: #E3F2FD;
+  color: #0D47A1;
+  padding: 15px 20px;
+  border-left: 5px solid #00B8D9;
+  border-radius: 5px;
+  margin-bottom: 30px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+/* Tarjetas de accesos rápidos */
+.card-feature {
+  border-radius: 12px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  min-height: 120px;
+}
+
+.card-feature:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.feature-icon {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+  margin-bottom: 8px;
+}
+
+
+.feature-text {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* Sección de pasos */
+.bg-white {
+  background-color: #fff !important;
+}
+
+.shadow {
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08) !important;
+}
+
+.border {
+  border-color: #dee2e6 !important;
+}
+
+p {
+  margin: 0;
+  font-size: 14px;
+  color: #495057;
+}
+
+/* Botón reservar Zoom */
+.btn-reservar a {
+  color: white;
+  text-decoration: none;
+}
+
+.btn-reservar:hover a {
+  color: #e2e2e2;
+}
+
+/* Responsive: asegurar que el main content no se esconda */
+@media (max-width: 768px) {
+  .main-content {
+    margin-left: 0 !important;
+    padding: 20px;
+  }
+
+  .card-feature {
+    min-height: auto;
+  }
+}

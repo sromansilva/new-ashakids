@@ -112,7 +112,13 @@
 </head>
 <body>
 
-<nav th:replace="~{fragments/terapeutaLayout :: sidebarTerapeuta}"></nav>
+<!--SIDEBAR-->
+  <div th:replace="~{fragments/terapeutaLayout :: menuToggle}"></div>
+
+  <nav th:replace="~{fragments/terapeutaLayout :: sidebarTerapeuta}"></nav>
+
+  <div th:replace="~{fragments/terapeutaLayout :: overlay}"></div>
+
 
   <main class="content-area">
     <!-- Header llamativo -->

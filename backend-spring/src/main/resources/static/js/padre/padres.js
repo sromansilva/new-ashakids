@@ -59,7 +59,7 @@ function mostrarModalZoom(link) {
 document.addEventListener("DOMContentLoaded", () => {
   vincularBotonesReservar();
 });
-
+*/
 document.addEventListener('DOMContentLoaded', function() {
   // Manejar clics en botones de cancelar cita
   document.addEventListener('click', function(e) {

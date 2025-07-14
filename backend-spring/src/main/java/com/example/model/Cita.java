@@ -55,4 +55,15 @@ public class Cita {
     private String estado = "programada";
 
     private String retroalimentacion_padre;
+
+    @Column(name = "tema")
+    private String tema;
+
+    public String getTema() {
+        return tema;
+    }
+
+    public void setTema(String tema) {
+        this.tema = tema;
+    }
 }

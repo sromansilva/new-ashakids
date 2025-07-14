@@ -72,11 +72,26 @@
     </div>
 
     <style>
-      .quick-access-card:hover {
-        transform: translateY(-6px) scale(1.04);
-        box-shadow: 0 8px 32px rgba(33,150,243,0.18), 0 1.5px 6px rgba(33,150,243,0.10);
-        z-index: 2;
-      }
+          .quick-access-card:hover {
+      transform: translateY(-6px) scale(1.04);
+      box-shadow: 0 8px 32px rgba(33,150,243,0.18), 0 1.5px 6px rgba(33,150,243,0.10);
+      z-index: 2;
+    }
+    
+    /* Estilos para manejar links largos */
+    .link-container {
+      word-break: break-all;
+      overflow-wrap: break-word;
+      max-width: 100%;
+    }
+    
+    .link-text {
+      font-size: 0.8rem;
+      color: #666;
+      word-break: break-all;
+      overflow-wrap: break-word;
+      max-width: 100%;
+    }
     </style>
 
     <!-- Próximas citas en tarjeta alineada al banner, con borde colorido -->
@@ -96,18 +111,51 @@
           <div th:each="cita : ${citas}" class="col-12 col-md-6 col-lg-4">
             <div class="card h-100 border-0 shadow-sm rounded-3" style="background: linear-gradient(135deg,#f8f9fa 0%,#e9ecef 100%); border-left: 4px solid #1976d2;">
               <div class="card-body p-3">
-                <h6 class="fw-bold mb-2 text-primary" th:text="${cita.fecha != null ? #temporals.format(cita.fecha, 'EEEE, d MMMM yyyy') : 'Sin fecha'} + ' - ' + (${cita.hora != null ? cita.hora : ''})">Fecha y hora</h6>
-                <p class="mb-1 small"><strong>Paciente:</strong> <span th:text="${cita.nino != null && cita.nino.nombre != null ? cita.nino.nombre : 'Sin asignar'}">Nombre Niño</span></p>
-                <p class="mb-1 small"><strong>Modalidad:</strong> <span th:text="${cita.modalidad != null ? cita.modalidad : 'Sin modalidad'}">Modalidad</span></p>
-                <p class="mb-2 small"><strong>Ubicación:</strong> <span th:text="${cita.enlace_o_direccion != null ? cita.enlace_o_direccion : 'Sin enlace o dirección'}">Ubicación</span></p>
+                <!-- Título de la cita (tema) -->
+                <h6 class="fw-bold mb-2 text-primary" th:text="${cita.tema != null ? cita.tema : 'Cita de Terapia'}">Cita de Terapia</h6>
+                
+                <!-- Fecha y hora -->
+                <p class="mb-1 small"><strong>📅 Fecha:</strong> <span th:text="${cita.fecha != null ? #temporals.format(cita.fecha, 'EEEE, d MMMM yyyy') : 'Sin fecha'}">Fecha</span></p>
+                <p class="mb-1 small"><strong>🕐 Hora:</strong> <span th:text="${cita.hora != null ? cita.hora : 'Sin hora'}">Hora</span></p>
+                
+                <!-- Información del paciente y tutor -->
+                <p class="mb-1 small"><strong>👶 Niño:</strong> <span th:text="${cita.nino != null && cita.nino.nombre != null ? cita.nino.nombre : 'Sin asignar'}">Nombre Niño</span></p>
+                <p class="mb-1 small"><strong>👨‍👩‍👧‍👦 Tutor:</strong> <span th:text="${cita.retroalimentacion_padre != null ? cita.retroalimentacion_padre : 'No especificado'}">Nombre Tutor</span></p>
+                
+                <!-- Modalidad -->
+                <p class="mb-1 small"><strong>🎯 Modalidad:</strong> 
+                  <span th:if="${cita.modalidad == 'Virtual'}" class="badge bg-info">Virtual</span>
+                  <span th:if="${cita.modalidad == 'Presencial'}" class="badge bg-warning">Presencial</span>
+                  <span th:if="${cita.modalidad == null}" class="text-muted">Sin especificar</span>
+                </p>
+                
+                <!-- Estado -->
                 <div class="d-flex justify-content-between align-items-center mb-2">
                   <span class="badge bg-primary" th:text="${cita.estado != null ? cita.estado : 'Sin estado'}">Estado</span>
                 </div>
+                
+                <!-- Botones según modalidad -->
                 <div class="d-flex gap-2 mt-3">
-                  <button class="btn btn-success btn-sm flex-fill" style="background: linear-gradient(135deg,#4caf50 0%,#66bb6a 100%); border: none; color: white; font-size: 0.8rem;">
+                  <!-- Botón Zoom solo para citas virtuales -->
+                  <button th:if="${cita.modalidad == 'Virtual' && cita.enlace_o_direccion != null}" 
+                          class="btn btn-success btn-sm flex-fill" 
+                          style="background: linear-gradient(135deg,#4caf50 0%,#66bb6a 100%); border: none; color: white; font-size: 0.8rem;"
+                          th:data-zoom-link="${cita.enlace_o_direccion}"
+                          onclick="window.open(this.getAttribute('data-zoom-link'), '_blank')">
                     <i class="fas fa-video me-1"></i> Unirse al Zoom
                   </button>
-                  <button class="btn btn-danger btn-sm flex-fill" style="background: linear-gradient(135deg,#f44336 0%,#ef5350 100%); border: none; color: white; font-size: 0.8rem;">
+                  
+                  <!-- Aviso para citas presenciales -->
+                  <div th:if="${cita.modalidad == 'Presencial'}" 
+                       class="btn btn-warning btn-sm flex-fill" 
+                       style="background: linear-gradient(135deg,#ff9800 0%,#ffb74d 100%); border: none; color: white; font-size: 0.8rem; cursor: default;">
+                    <i class="fas fa-building me-1"></i> Cita en Sede
+                  </div>
+                  
+                  <!-- Botón cancelar -->
+                  <button class="btn btn-danger btn-sm flex-fill cancelar-cita-btn" 
+                          style="background: linear-gradient(135deg,#f44336 0%,#ef5350 100%); border: none; color: white; font-size: 0.8rem;"
+                          th:data-cita-id="${cita.id_cita}">
                     <i class="fas fa-times me-1"></i> Cancelar
                   </button>
                 </div>
@@ -120,5 +168,57 @@
   </main>
 
   <script th:src="@{/js/padres.js}"></script>
+  
+  <!-- Script para cancelar citas -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Manejar clics en botones de cancelar cita
+      document.addEventListener('click', function(e) {
+        if (e.target.closest('.cancelar-cita-btn')) {
+          const button = e.target.closest('.cancelar-cita-btn');
+          const citaId = button.getAttribute('data-cita-id');
+          
+          if (confirm('¿Estás seguro de que quieres cancelar esta cita? Esta acción no se puede deshacer.')) {
+            cancelarCita(citaId, button);
+          }
+        }
+      });
+      
+      async function cancelarCita(citaId, button) {
+        try {
+          const response = await fetch(`http://localhost:3000/cancelar-cita/${citaId}`, {
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          });
+          
+          const result = await response.json();
+          
+          if (response.ok) {
+            // Mostrar mensaje de éxito
+            alert('Cita cancelada exitosamente');
+            
+            // Remover la tarjeta de la cita del DOM
+            const card = button.closest('.col-12');
+            if (card) {
+              card.remove();
+            }
+            
+            // Si no quedan citas, recargar la página
+            const remainingCards = document.querySelectorAll('.col-12');
+            if (remainingCards.length === 0) {
+              location.reload();
+            }
+          } else {
+            alert('Error al cancelar la cita: ' + (result.error || 'Error desconocido'));
+          }
+        } catch (error) {
+          console.error('Error:', error);
+          alert('Error al cancelar la cita. Verifica que el servidor esté ejecutándose.');
+        }
+      }
+    });
+  </script>
 </body>
 </html>

@@ -69,9 +69,7 @@
 
       </div>
 
-
-
-      <div class="bg-white rounded p-4 shadow">
+      <div th:if="${#lists.isEmpty(citas)}" class="bg-white rounded p-4 shadow">
         <h4 class="mb-4 text-center">Agenda tu primera cita</h4>
         <div class="row g-3 text-center">
           <div class="col-md-4">
@@ -93,13 +91,66 @@
             </div>
           </div>
         </div>
-
         <div class="text-center mt-4">
-          <button class="btn btn-primary btn-lg btn-reservar">
-            <a th:href="@{'http://localhost:3000/crear-reunion.html'}">
-              Agendar reunión Zoom
+          <a th:href="@{'http://localhost:3000/crear-reunion.html?idPadre=' + ${padre.id_usuario}}" class="btn btn-primary btn-lg btn-reservar">
+            <i class="fas fa-calendar-plus me-2"></i>Agendar reunión Zoom
+          </a>
+        </div>
+      </div>
+
+      <div th:if="${!#lists.isEmpty(citas)}">
+        <div class="bg-white rounded-4 shadow-lg p-4 mb-4 mx-auto" style="max-width: 1500px;">
+          <h3 class="fw-bold mb-4" style="color:#1976d2;">Citas activas</h3>
+          <div class="row g-3">
+            <div th:each="cita : ${citas}" class="col-12 col-md-6 col-lg-4">
+              <div class="card h-100 border-0 shadow-sm rounded-3" style="background: linear-gradient(135deg,#f8f9fa 0%,#e9ecef 100%); border-left: 4px solid #1976d2;">
+                <div class="card-body p-3">
+                  <h6 class="fw-bold mb-2 text-primary" th:text="${cita.tema != null ? cita.tema : 'Cita de Terapia'}">Cita de Terapia</h6>
+                  <p class="mb-1 small"><strong>📅 Fecha:</strong> <span th:text="${cita.fecha != null ? #temporals.format(cita.fecha, 'EEEE, d MMMM yyyy') : 'Sin fecha'}">Fecha</span></p>
+                  <p class="mb-1 small"><strong>🕐 Hora:</strong> <span th:text="${cita.hora != null ? cita.hora : 'Sin hora'}">Hora</span></p>
+                  <p class="mb-1 small"><strong>👶 Niño:</strong> <span th:text="${cita.nino != null && cita.nino.nombre != null ? cita.nino.nombre : 'Sin asignar'}">Nombre Niño</span></p>
+                  <p class="mb-1 small"><strong>🧑‍⚕️ Terapeuta:</strong> <span th:text="${cita.terapeuta != null && cita.terapeuta.nombre != null ? cita.terapeuta.nombre : 'Sin asignar'}">Nombre Terapeuta</span></p>
+                  <p class="mb-1 small"><strong>🎯 Modalidad:</strong> 
+                    <span th:if="${cita.modalidad == 'Virtual'}" class="badge bg-info">Virtual</span>
+                    <span th:if="${cita.modalidad == 'Presencial'}" class="badge bg-warning">Presencial</span>
+                    <span th:if="${cita.modalidad == null}" class="text-muted">Sin especificar</span>
+                  </p>
+                  <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span class="badge bg-primary" th:text="${cita.estado != null ? cita.estado : 'Sin estado'}">Estado</span>
+                  </div>
+                  <div class="d-flex gap-2 mt-3">
+                    <button th:if="${cita.modalidad == 'Virtual' && cita.enlace_o_direccion != null}" 
+                            class="btn btn-success btn-sm flex-fill" 
+                            style="background: linear-gradient(135deg,#4caf50 0%,#66bb6a 100%); border: none; color: white; font-size: 0.8rem;"
+                            th:data-zoom-link="${cita.enlace_o_direccion}"
+                            onclick="window.open(this.getAttribute('data-zoom-link'), '_blank')">
+                      <i class="fas fa-video me-1"></i> Unirse al Zoom
+                    </button>
+                    <div th:if="${cita.modalidad == 'Presencial'}" 
+                         class="btn btn-warning btn-sm flex-fill" 
+                         style="background: linear-gradient(135deg,#ff9800 0%,#ffb74d 100%); border: none; color: white; font-size: 0.8rem; cursor: default;">
+                      <i class="fas fa-building me-1"></i> Cita en Sede
+                    </div>
+                    <a th:if="${cita.modalidad == 'Presencial'}" 
+                       th:href="@{'https://www.google.com/maps/place/YUPIKIDS+-+CENTRO+DE+TERAPIA+INFANTIL/@-12.2121606,-76.9419293,21z/data=!4m6!3m5!1s0x9105b948dae5430b:0x4ea22f0707ab62e7!8m2!3d-12.2121035!4d-76.9415536!16s%2Fg%2F11swd3krh5?entry=ttu&g_ep=EgoyMDI1MDcwOS4wIKXMDSoASAFQAw%3D%3D'}"
+                       target="_blank" class="btn btn-outline-success btn-sm flex-fill">
+                      <i class="fas fa-map me-1"></i> Google Maps
+                    </a>
+                    <button class="btn btn-danger btn-sm flex-fill cancelar-cita-btn" 
+                            style="background: linear-gradient(135deg,#f44336 0%,#ef5350 100%); border: none; color: white; font-size: 0.8rem;"
+                            th:data-cita-id="${cita.id_cita}">
+                      <i class="fas fa-times me-1"></i> Cancelar
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="text-center mt-4">
+            <a th:href="@{'http://localhost:3000/crear-reunion.html?idPadre=' + ${padre.id_usuario}}" class="btn btn-primary btn-lg btn-reservar">
+              <i class="fas fa-calendar-plus me-2"></i>Agendar reunión Zoom
             </a>
-          </button>
+          </div>
         </div>
       </div>
 

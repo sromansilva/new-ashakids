@@ -342,3 +342,105 @@ body {
   z-index: 1000;
   cursor: pointer;
 }
+
+/* Estilos para el formulario de agendar citas */
+.form-control-lg, .form-select-lg {
+  border-radius: 12px;
+  border: 2px solid #e0e0e0;
+  transition: all 0.3s ease;
+}
+
+.form-control-lg:focus, .form-select-lg:focus {
+  border-color: #1976D2;
+  box-shadow: 0 0 0 0.2rem rgba(25, 118, 210, 0.25);
+}
+
+.card.shadow-lg {
+  border-radius: 20px;
+  border: none;
+}
+
+.alert-info {
+  background-color: #e3f2fd;
+  border-color: #1976D2;
+  color: #1565c0;
+}
+
+.btn-primary {
+  background-color: #1976D2;
+  border-color: #1976D2;
+  border-radius: 12px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #1565c0;
+  border-color: #1565c0;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
+}
+
+.btn-outline-secondary {
+  border-radius: 12px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-secondary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Animaciones para el formulario */
+.card-body {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Estilos para las estadísticas */
+.card.bg-primary, .card.bg-success, .card.bg-warning, .card.bg-danger {
+  border-radius: 15px;
+  border: none;
+  transition: transform 0.3s ease;
+}
+
+.card.bg-primary:hover, .card.bg-success:hover, .card.bg-warning:hover, .card.bg-danger:hover {
+  transform: translateY(-5px);
+}
+
+/* Estilos para la lista de citas */
+.list-group-item {
+  border-radius: 12px !important;
+  margin-bottom: 10px;
+  border: 1px solid #e0e0e0 !important;
+  transition: all 0.3s ease;
+}
+
+.list-group-item:hover {
+  transform: translateX(5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.badge {
+  border-radius: 20px;
+  font-weight: 600;
+  padding: 8px 12px;
+}
+
+.ubicacion-info, .virtual-info {
+  margin-bottom: 8px !important;
+  margin-top: 4px !important;
+  padding-top: 4px !important;
+  padding-bottom: 4px !important;
+}

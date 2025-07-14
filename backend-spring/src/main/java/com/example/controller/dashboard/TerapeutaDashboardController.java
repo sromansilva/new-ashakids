@@ -12,6 +12,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
 
 @Controller
 @RequestMapping("/terapeuta")
@@ -30,15 +31,12 @@ public class TerapeutaDashboardController {
 
         // Obtener solo las citas de este terapeuta
         List<Cita> citas = citaRepository.findByIdTerapeuta(u.getId_usuario());
-        // Forzar carga de la relación Nino y otros campos relacionados
-        for (Cita c : citas) {
-            if (c.getNino() != null) {
-                c.getNino().getNombre();
-            }
-            if (c.getTerapeuta() != null) {
-                c.getTerapeuta().getNombre();
-            }
-        }
+        // Ordenar por fecha y hora
+        citas.sort((a, b) -> {
+            int cmp = a.getFecha().compareTo(b.getFecha());
+            if (cmp != 0) return cmp;
+            return a.getHora().compareTo(b.getHora());
+        });
         model.addAttribute("citas", citas);
         model.addAttribute("terapeuta", u);
         return "terapeuta/inicioTerapeuta";
@@ -76,6 +74,12 @@ public class TerapeutaDashboardController {
             return "redirect:/auth/login";
         }
         List<Cita> citas = citaRepository.findByIdTerapeuta(u.getId_usuario());
+        // Ordenar por fecha y hora
+        citas.sort((a, b) -> {
+            int cmp = a.getFecha().compareTo(b.getFecha());
+            if (cmp != 0) return cmp;
+            return a.getHora().compareTo(b.getHora());
+        });
         model.addAttribute("citas", citas);
         model.addAttribute("terapeuta", u);
         return "terapeuta/agendaTerapeuta";

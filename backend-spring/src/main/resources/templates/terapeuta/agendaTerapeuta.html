@@ -88,6 +88,26 @@
       border-radius: 10px;
       margin-bottom: 1rem;
     }
+    
+    /* Estilos para manejar links largos */
+    .link-container {
+      word-break: break-all;
+      overflow-wrap: break-word;
+      max-width: 100%;
+      height: 60px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    
+    .link-text {
+      font-size: 0.8rem;
+      color: #666;
+      word-break: break-all;
+      overflow-wrap: break-word;
+      max-width: 100%;
+    }
   </style>
 </head>
 <body>
@@ -137,11 +157,17 @@
       <div class="row g-4">
         <div th:each="cita : ${citas}" class="col-12 col-lg-6">
           <div class="cita-card">
+            <!-- Título de la cita (tema) -->
+            <div class="mb-3">
+              <h5 class="fw-bold text-primary mb-1" th:text="${cita.tema != null ? cita.tema : 'Cita de Terapia'}">Cita de Terapia</h5>
+              <p class="text-muted mb-0" th:text="${cita.retroalimentacion_padre != null ? 'Tutor: ' + cita.retroalimentacion_padre : 'Tutor: No especificado'}">Tutor</p>
+            </div>
+
             <!-- Fecha y hora destacadas -->
             <div class="date-time">
               <div class="row align-items-center">
                 <div class="col-8">
-                  <h5 class="fw-bold mb-1" th:text="${cita.fecha != null ? #temporals.format(cita.fecha, 'EEEE, d MMMM yyyy') : 'Sin fecha'}">Fecha</h5>
+                  <h6 class="fw-bold mb-1" th:text="${cita.fecha != null ? #temporals.format(cita.fecha, 'EEEE, d MMMM yyyy') : 'Sin fecha'}">Fecha</h6>
                   <p class="mb-0 text-primary fw-semibold" th:text="${cita.hora != null ? cita.hora : 'Sin hora'}">Hora</p>
                 </div>
                 <div class="col-4 text-end">
@@ -180,20 +206,33 @@
               <div class="col-6">
                 <div class="d-flex align-items-center">
                   <i class="fas fa-map-marker-alt text-danger me-2"></i>
-                  <div>
+                  <div class="link-container">
                     <small class="text-muted d-block">Ubicación</small>
-                    <span class="fw-semibold" th:text="${cita.enlace_o_direccion != null ? cita.enlace_o_direccion : 'Sin enlace o dirección'}">Ubicación</span>
+                    <span class="fw-semibold link-text" th:text="${cita.enlace_o_direccion != null ? cita.enlace_o_direccion : 'Sin enlace o dirección'}">Ubicación</span>
                   </div>
                 </div>
               </div>
             </div>
 
-            <!-- Botones de acción -->
+            <!-- Botones de acción según modalidad -->
             <div class="d-flex gap-2">
-              <button class="btn btn-zoom flex-fill">
+              <!-- Botón Zoom solo para citas virtuales -->
+              <button th:if="${cita.modalidad == 'Virtual' && cita.enlace_o_direccion != null}" 
+                      class="btn btn-zoom flex-fill"
+                      th:data-zoom-link="${cita.enlace_o_direccion}"
+                      onclick="window.open(this.getAttribute('data-zoom-link'), '_blank')">
                 <i class="fas fa-video me-2"></i>Unirse al Zoom
               </button>
-              <button class="btn btn-cancel flex-fill">
+              
+              <!-- Aviso para citas presenciales -->
+              <div th:if="${cita.modalidad == 'Presencial'}" 
+                   class="btn btn-warning flex-fill" 
+                   style="background: linear-gradient(135deg,#ff9800 0%,#ffb74d 100%); border: none; color: white; font-weight: 600; cursor: default;">
+                <i class="fas fa-building me-2"></i>Cita en Sede
+              </div>
+              
+              <!-- Botón cancelar -->
+              <button class="btn btn-cancel flex-fill cancelar-cita-btn" th:data-cita-id="${cita.id_cita}">
                 <i class="fas fa-times me-2"></i>Cancelar
               </button>
             </div>
@@ -202,5 +241,57 @@
       </div>
     </div>
   </main>
+  
+  <!-- Script para cancelar citas -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Manejar clics en botones de cancelar cita
+      document.addEventListener('click', function(e) {
+        if (e.target.closest('.cancelar-cita-btn')) {
+          const button = e.target.closest('.cancelar-cita-btn');
+          const citaId = button.getAttribute('data-cita-id');
+          
+          if (confirm('¿Estás seguro de que quieres cancelar esta cita? Esta acción no se puede deshacer.')) {
+            cancelarCita(citaId, button);
+          }
+        }
+      });
+      
+      async function cancelarCita(citaId, button) {
+        try {
+          const response = await fetch(`http://localhost:3000/cancelar-cita/${citaId}`, {
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          });
+          
+          const result = await response.json();
+          
+          if (response.ok) {
+            // Mostrar mensaje de éxito
+            alert('Cita cancelada exitosamente');
+            
+            // Remover la tarjeta de la cita del DOM
+            const card = button.closest('.col-12');
+            if (card) {
+              card.remove();
+            }
+            
+            // Si no quedan citas, recargar la página
+            const remainingCards = document.querySelectorAll('.col-12');
+            if (remainingCards.length === 0) {
+              location.reload();
+            }
+          } else {
+            alert('Error al cancelar la cita: ' + (result.error || 'Error desconocido'));
+          }
+        } catch (error) {
+          console.error('Error:', error);
+          alert('Error al cancelar la cita. Verifica que el servidor esté ejecutándose.');
+        }
+      }
+    });
+  </script>
 </body>
 </html>

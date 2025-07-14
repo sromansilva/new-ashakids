@@ -125,8 +125,8 @@
               
               <!-- Aviso para citas presenciales -->
               <div th:if="${cita.modalidad == 'Presencial'}" 
-                   class="btn btn-warning flex-fill" 
-                   style="background: linear-gradient(135deg,#ff9800 0%,#ffb74d 100%); border: none; color: white; font-weight: 600; cursor: default;">
+                  class="btn btn-warning flex-fill" 
+                  style="background: linear-gradient(135deg,#ff9800 0%,#ffb74d 100%); border: none; color: white; font-weight: 600; cursor: default;">
                 <i class="fas fa-building me-2"></i>Cita en Sede
               </div>
               
@@ -142,5 +142,57 @@
   </main>
 
     <div th:replace="~{fragments/terapeutaLayout :: terapeuta-scripts}"></div>
+  
+  <!-- Script para cancelar citas -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Manejar clics en botones de cancelar cita
+      document.addEventListener('click', function(e) {
+        if (e.target.closest('.cancelar-cita-btn')) {
+          const button = e.target.closest('.cancelar-cita-btn');
+          const citaId = button.getAttribute('data-cita-id');
+          
+          if (confirm('¿Estás seguro de que quieres cancelar esta cita? Esta acción no se puede deshacer.')) {
+            cancelarCita(citaId, button);
+          }
+        }
+      });
+      
+      async function cancelarCita(citaId, button) {
+        try {
+          const response = await fetch(`http://localhost:3000/cancelar-cita/${citaId}`, {
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          });
+          
+          const result = await response.json();
+          
+          if (response.ok) {
+            // Mostrar mensaje de éxito
+            alert('Cita cancelada exitosamente');
+            
+            // Remover la tarjeta de la cita del DOM
+            const card = button.closest('.col-12');
+            if (card) {
+              card.remove();
+            }
+            
+            // Si no quedan citas, recargar la página
+            const remainingCards = document.querySelectorAll('.col-12');
+            if (remainingCards.length === 0) {
+              location.reload();
+            }
+          } else {
+            alert('Error al cancelar la cita: ' + (result.error || 'Error desconocido'));
+          }
+        } catch (error) {
+          console.error('Error:', error);
+          alert('Error al cancelar la cita. Verifica que el servidor esté ejecutándose.');
+        }
+      }
+    });
+  </script>
 </body>
 </html>

@@ -59,7 +59,11 @@ function mostrarModalZoom(link) {
 document.addEventListener("DOMContentLoaded", () => {
   vincularBotonesReservar();
 });
+<<<<<<< HEAD
+
+=======
 */
+>>>>>>> e21576c8f62f4e8817ccc426d4de95b2bbc7687c
 document.addEventListener('DOMContentLoaded', function() {
   // Manejar clics en botones de cancelar cita
   document.addEventListener('click', function(e) {
@@ -107,4 +111,8 @@ document.addEventListener('DOMContentLoaded', function() {
       alert('Error al cancelar la cita. Verifica que el servidor esté ejecutándose.');
     }
   }
+<<<<<<< HEAD
 });
+=======
+});
+>>>>>>> e21576c8f62f4e8817ccc426d4de95b2bbc7687c

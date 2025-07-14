@@ -1,0 +1,2 @@
+USE Ashakids;
+DESCRIBE citas; 

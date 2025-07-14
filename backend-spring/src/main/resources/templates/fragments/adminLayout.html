@@ -1,41 +1,61 @@
-<div class="head">
-  <head th:fragment="Head">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Panel de Administración - ASHAKids</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <div class="head">
+    <head th:fragment="Head">
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>Panel de Administración - ASHAKids</title>
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <link rel="stylesheet" th:href="@{/css/admin/admin.css}">
+      <link rel="stylesheet" th:href="@{/css/admin/admin-common.css}">
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  </head>
-</div>
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    </head>
+  </div>
 
-<nav class="navbar bg-light d-md-none px-3" th:fragment="navSmallAdmin">
-  <button class="btn btn-outline-dark toggle-sidebar" onclick="toggleSidebar()">
-    <i class="fas fa-bars"></i>
-  </button>
-  <span class="ms-2 fw-bold">Panel ASHAKids</span>
-</nav>
+  <!--------------------------------->
 
-<div class="bg-dark text-white p-3 sidebar" id="sidebar" th:fragment="sidebarAdmin">
-    <div class="text-center mb-4">
-      <a th:href="@{/}">
-        <img th:src="@{/img/logo.svg}" alt="Logo" width="190"></a>
-      <h4 class="fw-bold" style="color: #c8c8c8;">Administrador</h4>
-    </div>
+  <nav class="navbar bg-light d-md-none px-3" th:fragment="navSmallAdmin">
+    <button class="btn btn-outline-dark toggle-sidebar" onclick="toggleSidebar()">
+      <i class="fas fa-bars"></i>
+    </button>
+    <span class="ms-2 fw-bold">Panel ASHAKids</span>
+  </nav>
 
-    <ul class="nav flex-column">
-      <li class="nav-item mb-2"><a class="nav-link text-white" th:href="@{/admin}"><i class="fas fa-home me-2"></i> Panel Principal</a></li>
-      <li class="nav-item mb-2"><a class="nav-link text-white" th:href="@{/admin/panelDeControl}"><i class="fas fa-user me-2"></i> Panel de Control</a></li>
-      <li class="nav-item mb-2"><a class="nav-link text-white" th:href="@{/admin/usuarios}"><i class="fas fa-user me-2"></i> Usuarios</a></li>
-      <li class="nav-item mb-2"><a class="nav-link text-white" th:href="@{/admin/psicologos}"><i class="fas fa-user-md me-2"></i> Psicólogos</a></li>
-      <li class="nav-item mb-2"><a class="nav-link text-white" th:href="@{/admin/reportes}"><i class="fas fa-chart-line me-2"></i> Reportes</a></li>
-      <li class="nav-item mb-2"><a class="nav-link text-white" th:href="@{/admin/terapias}"><i class="fas fa-stethoscope me-2"></i> Terapias</a></li>
-      <li class="nav-item mb-2"><a class="nav-link text-white" th:href="@{/admin/juegos}"><i class="fas fa-gamepad me-2"></i> Juegos</a></li>
-      <li class="nav-item mb-2"><a class="nav-link text-white" th:href="@{/admin/configuracion}" style="pointer-events: none;"><i class="fas fa-cogs me-2"></i> Configuración</a></li>
-      <li class="nav-item mt-4"><a class="nav-link text-danger" th:href="@{/auth/logout}"><i class="fas fa-sign-out-alt me-2"></i> Cerrar Sesión</a></li>
-    </ul>
+  <!--------------------------------->
 
-</div>
+  <div class="menu-toggle" th:fragment="menuToggle">☰</div>
+
+  <!--------------------------------->
+
+  <div id="sidebar-overlay" class="overlay hidden" th:fragment="overlay"></div>
+
+  <!--------------------------------->
+
+  <div class="bg-dark text-white p-3 sidebar" id="sidebar" th:fragment="sidebarAdmin">
+      <div class="text-center mb-4">
+        <a th:href="@{/}">
+          <img th:src="@{/img/logo.svg}" alt="Logo" width="190"></a>
+        <h4 class="fw-bold" style="color: #c8c8c8;">Administrador</h4>
+      </div>
+
+      <ul class="nav flex-column">
+        <li class="nav-item mb-2"><a class="nav-link text-white" th:href="@{/admin}"><i class="fas fa-home me-2"></i> Panel Principal</a></li>
+        <li class="nav-item mb-2"><a class="nav-link text-white" th:href="@{/admin/panelDeControl}"><i class="fas fa-user me-2"></i> Panel de Control</a></li>
+        <li class="nav-item mb-2"><a class="nav-link text-white" th:href="@{/admin/usuarios}"><i class="fas fa-user me-2"></i> Usuarios</a></li>
+        <li class="nav-item mb-2"><a class="nav-link text-white" th:href="@{/admin/psicologos}"><i class="fas fa-user-md me-2"></i> Psicólogos</a></li>
+        <li class="nav-item mb-2"><a class="nav-link text-white" th:href="@{/admin/reportes}"><i class="fas fa-chart-line me-2"></i> Reportes</a></li>
+        <li class="nav-item mb-2"><a class="nav-link text-white" th:href="@{/admin/terapias}"><i class="fas fa-stethoscope me-2"></i> Terapias</a></li>
+        <li class="nav-item mb-2"><a class="nav-link text-white" th:href="@{/admin/juegos}"><i class="fas fa-gamepad me-2"></i> Juegos</a></li>
+        <li class="nav-item mb-2"><a class="nav-link text-white" th:href="@{/admin/configuracion}" style="pointer-events: none;"><i class="fas fa-cogs me-2"></i> Configuración</a></li>
+        <li class="nav-item mt-4"><a class="nav-link text-danger" th:href="@{/auth/logout}"><i class="fas fa-sign-out-alt me-2"></i> Cerrar Sesión</a></li>
+      </ul>
+
+  </div>
+
+  <!--------------------------------->
+
+  <div th:fragment="admin-scripts">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script th:src="@{/js/admin/admin.js}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </div>

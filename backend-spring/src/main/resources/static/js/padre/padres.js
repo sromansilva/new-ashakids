@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   window.addEventListener("resize", handleResize);
-  handleResize(); // Ejecutar al cargar
+  handleResize();
 });
 
 /*

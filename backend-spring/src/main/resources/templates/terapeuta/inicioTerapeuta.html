@@ -1,37 +1,42 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Dashboard Terapeuta</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" th:href="@{/css/terapeuta/terapeuta.css}" />
 
-</head>
+<head th:replace="~{fragments/terapeutaLayout :: Head}"></head>
 
 <body>
 
   <!-- Sidebar -->
-<nav th:replace="~{fragments/terapeutaLayout :: sidebarTerapeuta}"></nav>
+
+  <div th:replace="~{fragments/terapeutaLayout :: menuToggle}"></div>
+
+  <nav th:replace="~{fragments/terapeutaLayout :: sidebarTerapeuta}"></nav>
+
+  <div th:replace="~{fragments/terapeutaLayout :: overlay}"></div>
 
 
   <!-- Área de contenido -->
   <main class="content-area">
-    <!-- Saludo personalizado -->
+
     <h2 class="fw-bold mb-4">¡Hola, <span th:text="${terapeuta.nombre}"></span>! 👋</h2>
 
-    <!-- Banner azul grande, centrado y más alto, con letras e imagen grandes y fondo decorativo -->
     <div class="p-5 mb-4 rounded-4 d-flex align-items-center justify-content-between position-relative overflow-hidden"
-         style="background: linear-gradient(90deg, #7b1fa2 0%, #1976d2 60%, #42a5f5 100%); color: white; min-height: 240px; max-width: 1500px; margin: 0 auto 2rem auto; box-shadow: 0 8px 32px rgba(123,31,162,0.12);">
+      style="background: linear-gradient(90deg, #7b1fa2 0%, #1976d2 60%, #42a5f5 100%); color: white; min-height: 240px; max-width: 1500px; margin: 0 auto 2rem auto; box-shadow: 0 8px 32px rgba(123,31,162,0.12);">
       <!-- Detalle decorativo SVG -->
-      <svg style="position:absolute;right:0;bottom:0;z-index:0;opacity:0.15;" width="300" height="180" viewBox="0 0 300 180"><ellipse cx="150" cy="90" rx="150" ry="90" fill="#fff"/></svg>
+      <svg style="position:absolute;right:0;bottom:0;z-index:0;opacity:0.15;" width="300" height="180"
+        viewBox="0 0 300 180">
+        <ellipse cx="150" cy="90" rx="150" ry="90" fill="#fff" />
+      </svg>
       <div class="flex-grow-1 position-relative" style="z-index:1;">
         <h1 class="fw-bold display-4 mb-3" style="letter-spacing:1px;">Organiza tus citas y recursos en Ashakids</h1>
-        <p class="fs-4 mb-4">Planifica tus sesiones, accede a tus pacientes y mantén todo bajo control desde tu panel de terapeuta.</p>
-        <a href="/terapeuta/agenda" class="btn fw-bold px-4 py-2 fs-5" style="background:#ffb300;color:#fff;box-shadow:0 2px 8px #ffb30055;">Ver agenda</a>
+        <p class="fs-4 mb-4">Planifica tus sesiones, accede a tus pacientes y mantén todo bajo control desde tu panel de
+          terapeuta.</p>
+        <a href="/terapeuta/agenda" class="btn fw-bold px-4 py-2 fs-5"
+          style="background:#ffb300;color:#fff;box-shadow:0 2px 8px #ffb30055;">Ver agenda</a>
       </div>
       <div class="d-none d-md-block ms-4 flex-shrink-0 position-relative" style="z-index:1;">
-        <img src="/img/conoceMas.png" alt="Banner decorativo" style="max-width: 240px; max-height: 180px; border-radius: 2rem; box-shadow:0 4px 24px #7b1fa255;" th:src="@{/img/conoceMas.png}">
+        <img src="/img/conoceMas.png" alt="Banner decorativo"
+          style="max-width: 240px; max-height: 180px; border-radius: 2rem; box-shadow:0 4px 24px #7b1fa255;"
+          th:src="@{/img/conoceMas.png}">
       </div>
     </div>
 
@@ -39,31 +44,36 @@
     <div class="bg-white rounded-4 shadow-lg p-4 mb-4 mx-auto" style="max-width: 1000px;">
       <div class="row g-3 justify-content-center align-items-center">
         <div class="col-6 col-md-2">
-          <div class="card shadow-sm rounded-3 p-3 h-100 text-center border-0 quick-access-card" style="background: linear-gradient(135deg,#42a5f5 60%,#bbdefb 100%); border-bottom: 6px solid #1976d2; transition: transform 0.2s, box-shadow 0.2s;">
+          <div class="card shadow-sm rounded-3 p-3 h-100 text-center border-0 quick-access-card"
+            style="background: linear-gradient(135deg,#42a5f5 60%,#bbdefb 100%); border-bottom: 6px solid #1976d2; transition: transform 0.2s, box-shadow 0.2s;">
             <div class="display-4 mb-1">📅</div>
             <a href="/terapeuta/agenda" class="text-decoration-none text-dark fw-bold small">Agenda</a>
           </div>
         </div>
         <div class="col-6 col-md-2">
-          <div class="card shadow-sm rounded-3 p-3 h-100 text-center border-0 quick-access-card" style="background: linear-gradient(135deg,#fff176 60%,#fffde7 100%); border-bottom: 6px solid #ffb300; transition: transform 0.2s, box-shadow 0.2s;">
+          <div class="card shadow-sm rounded-3 p-3 h-100 text-center border-0 quick-access-card"
+            style="background: linear-gradient(135deg,#fff176 60%,#fffde7 100%); border-bottom: 6px solid #ffb300; transition: transform 0.2s, box-shadow 0.2s;">
             <div class="display-4 mb-1">✉️</div>
             <a href="/terapeuta/mensajes" class="text-decoration-none text-dark fw-bold small">Mensajes</a>
           </div>
         </div>
         <div class="col-6 col-md-2">
-          <div class="card shadow-sm rounded-3 p-3 h-100 text-center border-0 quick-access-card" style="background: linear-gradient(135deg,#81c784 60%,#e8f5e9 100%); border-bottom: 6px solid #388e3c; transition: transform 0.2s, box-shadow 0.2s;">
+          <div class="card shadow-sm rounded-3 p-3 h-100 text-center border-0 quick-access-card"
+            style="background: linear-gradient(135deg,#81c784 60%,#e8f5e9 100%); border-bottom: 6px solid #388e3c; transition: transform 0.2s, box-shadow 0.2s;">
             <div class="display-4 mb-1">🧍</div>
             <a href="/terapeuta/pacientes" class="text-decoration-none text-dark fw-bold small">Pacientes</a>
           </div>
         </div>
         <div class="col-6 col-md-2">
-          <div class="card shadow-sm rounded-3 p-3 h-100 text-center border-0 quick-access-card" style="background: linear-gradient(135deg,#ffb74d 60%,#fff3e0 100%); border-bottom: 6px solid #f57c00; transition: transform 0.2s, box-shadow 0.2s;">
+          <div class="card shadow-sm rounded-3 p-3 h-100 text-center border-0 quick-access-card"
+            style="background: linear-gradient(135deg,#ffb74d 60%,#fff3e0 100%); border-bottom: 6px solid #f57c00; transition: transform 0.2s, box-shadow 0.2s;">
             <div class="display-4 mb-1">📋</div>
             <a href="/terapeuta/reportes" class="text-decoration-none text-dark fw-bold small">Reportes</a>
           </div>
         </div>
         <div class="col-6 col-md-2">
-          <div class="card shadow-sm rounded-3 p-3 h-100 text-center border-0 quick-access-card" style="background: linear-gradient(135deg,#f06292 60%,#fce4ec 100%); border-bottom: 6px solid #c2185b; transition: transform 0.2s, box-shadow 0.2s;">
+          <div class="card shadow-sm rounded-3 p-3 h-100 text-center border-0 quick-access-card"
+            style="background: linear-gradient(135deg,#f06292 60%,#fce4ec 100%); border-bottom: 6px solid #c2185b; transition: transform 0.2s, box-shadow 0.2s;">
             <div class="display-4 mb-1">📚</div>
             <a href="/terapeuta/recursos" class="text-decoration-none text-dark fw-bold small">Recursos</a>
           </div>
@@ -74,7 +84,7 @@
     <style>
       .quick-access-card:hover {
         transform: translateY(-6px) scale(1.04);
-        box-shadow: 0 8px 32px rgba(33,150,243,0.18), 0 1.5px 6px rgba(33,150,243,0.10);
+        box-shadow: 0 8px 32px rgba(33, 150, 243, 0.18), 0 1.5px 6px rgba(33, 150, 243, 0.10);
         z-index: 2;
       }
     </style>
@@ -88,26 +98,38 @@
             <span class="display-3" style="color:#1976d2;">😌</span>
           </div>
           <h4 class="fw-bold mb-2" style="color:#1976d2;">¡No tienes citas programadas!</h4>
-          <p class="text-muted mb-0">Cuando tengas citas agendadas, aparecerán aquí para que puedas gestionarlas fácilmente.</p>
+          <p class="text-muted mb-0">Cuando tengas citas agendadas, aparecerán aquí para que puedas gestionarlas
+            fácilmente.</p>
         </div>
       </div>
       <div th:if="${!#lists.isEmpty(citas)}">
         <div class="row g-3">
           <div th:each="cita : ${citas}" class="col-12 col-md-6 col-lg-4">
-            <div class="card h-100 border-0 shadow-sm rounded-3" style="background: linear-gradient(135deg,#f8f9fa 0%,#e9ecef 100%); border-left: 4px solid #1976d2;">
+            <div class="card h-100 border-0 shadow-sm rounded-3"
+              style="background: linear-gradient(135deg,#f8f9fa 0%,#e9ecef 100%); border-left: 4px solid #1976d2;">
               <div class="card-body p-3">
-                <h6 class="fw-bold mb-2 text-primary" th:text="${cita.fecha != null ? #temporals.format(cita.fecha, 'EEEE, d MMMM yyyy') : 'Sin fecha'} + ' - ' + (${cita.hora != null ? cita.hora : ''})">Fecha y hora</h6>
-                <p class="mb-1 small"><strong>Paciente:</strong> <span th:text="${cita.nino != null && cita.nino.nombre != null ? cita.nino.nombre : 'Sin asignar'}">Nombre Niño</span></p>
-                <p class="mb-1 small"><strong>Modalidad:</strong> <span th:text="${cita.modalidad != null ? cita.modalidad : 'Sin modalidad'}">Modalidad</span></p>
-                <p class="mb-2 small"><strong>Ubicación:</strong> <span th:text="${cita.enlace_o_direccion != null ? cita.enlace_o_direccion : 'Sin enlace o dirección'}">Ubicación</span></p>
+                <h6 class="fw-bold mb-2 text-primary"
+                  th:text="${cita.fecha != null ? #temporals.format(cita.fecha, 'EEEE, d MMMM yyyy') : 'Sin fecha'} + ' - ' + (${cita.hora != null ? cita.hora : ''})">
+                  Fecha y hora</h6>
+                <p class="mb-1 small"><strong>Paciente:</strong> <span
+                    th:text="${cita.nino != null && cita.nino.nombre != null ? cita.nino.nombre : 'Sin asignar'}">Nombre
+                    Niño</span></p>
+                <p class="mb-1 small"><strong>Modalidad:</strong> <span
+                    th:text="${cita.modalidad != null ? cita.modalidad : 'Sin modalidad'}">Modalidad</span></p>
+                <p class="mb-2 small"><strong>Ubicación:</strong> <span
+                    th:text="${cita.enlace_o_direccion != null ? cita.enlace_o_direccion : 'Sin enlace o dirección'}">Ubicación</span>
+                </p>
                 <div class="d-flex justify-content-between align-items-center mb-2">
-                  <span class="badge bg-primary" th:text="${cita.estado != null ? cita.estado : 'Sin estado'}">Estado</span>
+                  <span class="badge bg-primary"
+                    th:text="${cita.estado != null ? cita.estado : 'Sin estado'}">Estado</span>
                 </div>
                 <div class="d-flex gap-2 mt-3">
-                  <button class="btn btn-success btn-sm flex-fill" style="background: linear-gradient(135deg,#4caf50 0%,#66bb6a 100%); border: none; color: white; font-size: 0.8rem;">
+                  <button class="btn btn-success btn-sm flex-fill"
+                    style="background: linear-gradient(135deg,#4caf50 0%,#66bb6a 100%); border: none; color: white; font-size: 0.8rem;">
                     <i class="fas fa-video me-1"></i> Unirse al Zoom
                   </button>
-                  <button class="btn btn-danger btn-sm flex-fill" style="background: linear-gradient(135deg,#f44336 0%,#ef5350 100%); border: none; color: white; font-size: 0.8rem;">
+                  <button class="btn btn-danger btn-sm flex-fill"
+                    style="background: linear-gradient(135deg,#f44336 0%,#ef5350 100%); border: none; color: white; font-size: 0.8rem;">
                     <i class="fas fa-times me-1"></i> Cancelar
                   </button>
                 </div>
@@ -119,6 +141,8 @@
     </div>
   </main>
 
-  <script th:src="@{/js/padres.js}"></script>
+  <div th:replace="~{fragments/terapeutaLayout :: terapeuta-scripts}"></div>
+
 </body>
+
 </html>

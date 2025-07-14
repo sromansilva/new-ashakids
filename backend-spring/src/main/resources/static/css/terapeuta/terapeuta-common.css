@@ -1,0 +1,103 @@
+/* === Comunes para todas las páginas de terapeuta === */
+
+body {
+  background-color: #f5f7fa;
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 250px;
+  height: 100vh;
+  background-color: #ffffff;
+  padding: 20px;
+  border-right: 1px solid #eee;
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow-y: auto;
+  transition: transform 0.3s ease;
+  z-index: 1000;
+}
+.sidebar img {
+  margin-bottom: 30px;
+}
+.nav-link {
+  font-size: 1.1rem;
+  color: #333;
+  padding: 12px 15px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  transition: background-color 0.2s, color 0.2s;
+}
+.nav-link:hover {
+  background-color: #ffe8cc;
+  text-decoration: none;
+}
+.nav-link.active {
+  background-color: #fd7e14;
+  color: white !important;
+  font-weight: bold;
+}
+
+/* Contenido */
+.content-area {
+  margin-left: 250px;
+  padding: 30px;
+  width: calc(100% - 250px);
+}
+
+/* Botón hamburguesa */
+.menu-toggle {
+  font-size: 1.8rem;
+  background: #fd7e14;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  cursor: pointer;
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1100;
+  display: none;
+  border-radius: 8px;
+}
+
+/* Overlay para móviles */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  transition: opacity 0.3s ease;
+}
+.overlay.hidden {
+  display: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 85%;
+    transform: translateX(-100%);
+    box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+  }
+
+  .sidebar.active {
+    transform: translateX(0);
+  }
+
+  .content-area {
+    margin-left: 0;
+    width: 100%;
+    padding: 20px;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+}

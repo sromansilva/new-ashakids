@@ -1,17 +1,24 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="es">
-<head th:replace="~{fragments :: Head}"></head>
-<body>
 
+<head th:replace="~{fragments/padreLayout :: Head}"></head>
+
+<head>
+    <title>Cuentos Clásicos - ASHAKids</title>
+    <link rel="stylesheet" th:href="@{/css/padre/cuento.css}">
+    <link rel="stylesheet" th:href="@{/css/padre/cuentosClasicos.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<body>
     <!-- Sidebar + navbar + toggle (si los usas) -->
-    <div th:replace="~{fragments :: sidebar}"></div>
-    <div th:replace="~{fragments :: menuToggle}"></div>
-    <div th:replace="~{fragments :: overlay}"></div>
+    <div th:replace="~{fragments/padreLayout :: sidebar}"></div>
+    <div th:replace="~{fragments/padreLayout :: menuToggle}"></div>
+    <div th:replace="~{fragments/padreLayout :: overlay}"></div>
 
     <!-- Contenido principal -->
     <main style="margin-left: 250px; padding: 20px;"> <!-- ajusta si usas sidebar fijo -->
         <div class="intro">
-            <img th:src="@{/Video-Cuentos/Icono.svg}" alt="Imagen de Cuento">
+            <img th:src="@{/img/Video-Cuentos/Icono.svg}" alt="Imagen de Cuento">
             <div class="text-container">
                 <h1 class="titulo-principal">Cuentos Clásicos</h1>
                 <p class="subtitulo-principal">Selecciona un cuento de la lista para verlo aquí.</p>
@@ -21,22 +28,22 @@
         <!-- Tarjetas -->
         <div class="card-contain">
             <div class="card" onclick="abrirModal('cuento1')">
-                <img th:src="@{/Video-Cuentos/RicitosdeOro.svg}" alt="Ricitos de Oro">
+                <img th:src="@{/img/Video-Cuentos/RicitosdeOro.svg}" alt="Ricitos de Oro">
                 <p>Ricitos de Oro y los tres osos</p>
             </div>
 
             <div class="card" onclick="abrirModal('cuento2')">
-                <img th:src="@{/Video-Cuentos/Los3cerditos.svg}" alt="Los 3 Cerditos">
+                <img th:src="@{/img/Video-Cuentos/Los3cerditos.svg}" alt="Los 3 Cerditos">
                 <p>Los 3 Cerditos</p>
             </div>
 
             <div class="card" onclick="abrirModal('cuento3')">
-                <img th:src="@{/Video-Cuentos/JackylasHabichuelas.svg}" alt="Jack y las Habichuelas">
+                <img th:src="@{/img/Video-Cuentos/JackylasHabichuelas.svg}" alt="Jack y las Habichuelas">
                 <p>Jack y las Habichuelas Mágicas</p>
             </div>
 
             <div class="card" onclick="abrirModal('cuento4')">
-                <img th:src="@{/Video-Cuentos/LosDuendes.svg}" alt="Los Duendes">
+                <img th:src="@{/img/Video-Cuentos/LosDuendes.svg}" alt="Los Duendes">
                 <p>Los Duendes y el Zapatero</p>
             </div>
         </div>
@@ -50,12 +57,10 @@
         </div>
     </main>
 
-    <!-- Footer -->
-    <footer th:replace="~{fragments :: footer}"></footer>
-    
     <!-- Scripts -->
-    <div th:replace="~{fragments :: padre-scripts}"></div>
-    <script th:src="@{/js/cuentoclasi.js}"></script>
+    <div th:replace="~{fragments/padreLayout :: padre-scripts}"></div>
+    <script th:src="@{/js/padre/cuentoclasi.js}"></script>
 
 </body>
+
 </html>

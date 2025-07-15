@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:replace="~{fragments/padreLayout :: head}"></head>
+<body>
+
+    <header th:replace="~{fragments/padreLayout :: navbar}"></header>
+
+    <!-- Contenido principal -->
+    <div class="intro">
+        <img th:src="@{/Video-Cuentos/Icono_inventado.png}" alt="Imagen de Cuento">
+        <div class="text-container">
+            <h1 class="titulo-principal">Cuentos Inventados</h1>
+            <p class="subtitulo-principal">Selecciona un cuento de la lista para verlo aquí.</p>
+        </div>
+    </div>
+
+    <!-- Tarjetas de cuentos -->
+    <div class="card-contain">
+        <div class="card" onclick="abrirModal('cuento1')">
+            <img th:src="@{/Video-Cuentos/AventuraAlea.svg}" alt="Aventura con Alea">
+            <p>Aventura con Alea</p>
+        </div>
+
+        <div class="card" onclick="abrirModal('cuento2')">
+            <img th:src="@{/Video-Cuentos/BosqueSorpresa.svg}" alt="La Gran Misión del Bosque Sorpresa">
+            <p>La Gran Misión del Bosque Sorpresa</p>
+        </div>
+
+        <div class="card" onclick="abrirModal('cuento3')">
+            <img th:src="@{/Video-Cuentos/CuevaCristal.svg}" alt="La búsqueda de la Cueva de Cristal">
+            <p>La búsqueda de la Cueva de Cristal</p>
+        </div>
+
+        <div class="card" onclick="abrirModal('cuento4')">
+            <img th:src="@{/Video-Cuentos/Lluvia.png}" alt="¿Dónde están mis botas?">
+            <p>¿Dónde están mis botas?</p>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="cerrarModal()">&times;</span>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+    <footer th:replace="~{fragments/padreLayout :: footer}"></footer>
+
+    <script th:src="@{/js/cuentoinven.js}"></script>
+</body>
+</html>

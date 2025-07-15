@@ -1,0 +1,85 @@
+.card-contain {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Establecer 4 columnas */
+    gap: 30px;
+    justify-items: center;
+    text-align: center;
+    padding: 0 180px; /* Añadir padding para ajustar el contenido */
+
+}
+/* Estilos para la ventana modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    margin-top: 0px;
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 5% auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 800px;
+    text-align: center;
+    position: relative;
+}
+
+/* Si quieres que el color gris se mantenga cuando el usuario pasa el ratón por encima */
+.navbar ul li:nth-child(4) a:hover {
+    color: #555;  /* Gris más oscuro para el hover */
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #888;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: #000;
+}
+
+/* Ajustar el ancho de la ventana modal en pantallas pequeñas */
+@media (max-width: 768px) {
+    .modal-content {
+        width: 90%; /* 90% del ancho en tabletas */
+    }
+    .modal {
+        margin-top: 10vh; /* Centrar la modal verticalmente */
+    }
+}
+
+@media (max-width: 480px) {
+    .modal-content {
+        width: 95%; /* 95% del ancho en móviles */
+    }
+    .modal {
+        margin-top: 15vh; /* Aumentar el margen superior en móviles */
+    }
+}
+
+/* Ajustar el tamaño del ícono de cierre en pantallas más pequeñas */
+@media (max-width: 768px) {
+    .close {
+        font-size: 20px;
+        right: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .close {
+        font-size: 18px;
+        right: 5px;
+    }
+}

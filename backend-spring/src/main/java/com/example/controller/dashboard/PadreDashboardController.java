@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+// import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.example.model.Cita;
 import com.example.model.Nino;
@@ -147,11 +147,18 @@ public class PadreDashboardController {
     }
 
 @GetMapping("/cuentos-clasicos")
-public String verCuentosClasicos() {
+public String vistaCuentosClasicos(HttpSession session, Model model) {
+    Usuario u = (Usuario) session.getAttribute("usuarioObj");
+
+    if (u == null || u.getRol() != Usuario.Rol.padre) {
+        return "redirect:/auth/login";
+    }
+
+    model.addAttribute("padre", u);
     return "padre/cuentosClasicos";
 }
 
-@GetMapping("/cuentos/inventados")
+@GetMapping("/cuentos-inventados")
 public String vistaCuentosInventados(HttpSession session, Model model) {
     Usuario u = (Usuario) session.getAttribute("usuarioObj");
 
@@ -160,7 +167,7 @@ public String vistaCuentosInventados(HttpSession session, Model model) {
     }
 
     model.addAttribute("padre", u);
-    return "padre/cuentosInventados"; // asegúrate de que este archivo exista
+    return "padre/cuentosInventados";
 }
 
 

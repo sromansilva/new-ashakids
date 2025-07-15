@@ -12,39 +12,69 @@
 
   <div th:replace="~{fragments/terapeutaLayout :: overlay}"></div>
 
-
-<main class="content-area container py-4">
-  <h2 class="mb-4">✉️ Bandeja de Entrada</h2>
-
-  <!-- Ejemplo de mensajes -->
-  <div class="mensaje-card">
-    <div class="d-flex justify-content-between align-items-center">
-      <div class="mensaje-header">Mamá de Diego</div>
-      <div class="mensaje-fecha">10 de junio, 3:45 p.m.</div>
+  <main class="content-area">
+    <div class="container py-4">
+        <div class="row justify-content-center">
+            <div class="col-lg-12">
+                <div class="card shadow-lg border-0 rounded-4">
+                    <div class="row g-0">
+                        <!-- Columna izquierda: lista de padres -->
+                        <div class="col-md-3 border-end bg-light p-0 rounded-start-4">
+                            <div class="p-3 border-bottom bg-white rounded-start-4">
+                                <h5 class="fw-bold mb-2"><i class="fas fa-users me-2 text-primary"></i>Padres</h5>
+                                <div class="input-group mb-2">
+                                    <span class="input-group-text bg-light"><i class="fas fa-search"></i></span>
+                                    <input type="text" class="form-control" id="buscadorPadres" placeholder="Buscar padre...">
+                                </div>
+                            </div>
+                            <div id="listaPadres" class="list-group list-group-flush overflow-auto" style="max-height: 60vh;">
+                                <!-- Aquí se cargan los padres con los que hay conversación -->
+                                <!-- Ejemplo de item:
+                                <button class="list-group-item list-group-item-action d-flex justify-content-between align-items-center padre-item active">
+                                    <span><i class="fas fa-user-circle me-2"></i> Laura Gómez</span>
+                                    <span class="badge bg-danger rounded-pill">2</span>
+                                </button>
+                                -->
+                            </div>
+                        </div>
+                        <!-- Columna derecha: chat -->
+                        <div class="col-md-9 p-0 d-flex flex-column" style="height: 70vh;">
+                            <div class="p-3 border-bottom bg-white d-flex align-items-center justify-content-between rounded-end-4">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-user-circle fa-2x me-2 text-primary"></i>
+                                    <span id="nombrePadreChat" class="fw-bold fs-5">Selecciona un padre</span>
+                                </div>
+                                <!-- Opcional: botón para refrescar mensajes -->
+                                <button class="btn btn-sm btn-outline-secondary" id="btnRefrescarChat" title="Refrescar"><i class="fas fa-sync-alt"></i></button>
+                            </div>
+                            <div id="chatMensajes" class="flex-grow-1 overflow-auto p-3 bg-white" style="min-height: 300px; max-height: 50vh;">
+                                <!-- Aquí se cargan los mensajes del chat -->
+                                <!-- Ejemplo de mensaje:
+                                <div class="mensaje mensaje-propio mb-2">
+                                    <div class="mensaje-cuerpo">Hola, ¿cómo está?</div>
+                                    <div class="mensaje-fecha">10:30</div>
+                                </div>
+                                <div class="mensaje mensaje-otro mb-2">
+                                    <div class="mensaje-cuerpo">¡Hola! Todo bien, gracias.</div>
+                                    <div class="mensaje-fecha">10:31</div>
+                                </div>
+                                -->
+                            </div>
+                            <form id="formEnviarMensaje" class="p-3 border-top bg-light d-flex align-items-center" autocomplete="off">
+                                <input type="hidden" id="idPadreSeleccionado" name="idPadre">
+                                <input type="text" class="form-control me-2" id="inputMensaje" placeholder="Escribe un mensaje..." autocomplete="off" required>
+                                <button type="submit" class="btn btn-primary rounded-circle" style="width: 48px; height: 48px;"><i class="fas fa-paper-plane"></i></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <p class="mb-1">Hola profesora, quería agradecerle por el material de esta semana. Diego lo disfrutó mucho 😊</p>
-  </div>
-
-  <div class="mensaje-card">
-    <div class="d-flex justify-content-between align-items-center">
-      <div class="mensaje-header">Papá de Sofía</div>
-      <div class="mensaje-fecha">9 de junio, 10:12 a.m.</div>
-    </div>
-    <p class="mb-1">Buenas tardes, quisiera saber si hay sesión este viernes o se reprogramará.</p>
-  </div>
-
-  <!-- Aquí puedes iterar con Thymeleaf -->
-  <!--
-  <div th:each="mensaje : ${mensajes}" class="mensaje-card">
-    <div class="d-flex justify-content-between align-items-center">
-      <div class="mensaje-header" th:text="${mensaje.remitente}">Remitente</div>
-      <div class="mensaje-fecha" th:text="${mensaje.fecha}">Fecha</div>
-    </div>
-    <p th:text="${mensaje.contenido}">Contenido del mensaje...</p>
-  </div>
-  -->
-
 </main>
-  <div th:replace="~{fragments/terapeutaLayout :: terapeuta-scripts}"></div>
+
+<script th:src="@{/js/terapeuta/terapeuta-mensajes.js}"></script>
+<div th:replace="~{fragments/terapeutaLayout :: terapeuta-scripts}"></div>
+
 </body>
 </html>

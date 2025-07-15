@@ -170,6 +170,11 @@ public String vistaCuentosInventados(HttpSession session, Model model) {
     return "padre/cuentosInventados";
 }
 
+    @GetMapping("/mensajes")
+    public String mensajesPadre(Model model, HttpSession session) {
+        return "padre/mensajesPadre";
+    }
+
 
     
     // NUEVOS MÉTODOS PARA MANEJAR FOTOS DE NIÑOS

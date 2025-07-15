@@ -1,0 +1,468 @@
+@import url('https://fonts.googleapis.com/css2?family=Lilita+One&family=Spicy+Rice&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    list-style: none;
+}
+
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    font-family: "Lilita One", sans-serif;
+    background-color: #fff8ec;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+img {
+    max-width: 100%;
+}
+
+.container {
+    max-width: 100%;
+    /* Make the container full-width */
+    margin: 0 auto;
+    padding: 0 50px;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Menú llamativo */
+.menu {
+    background-color: rgba(255, 255, 255, 0.9);
+    /* Ligera transparencia */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    /* Sombra suave */
+    padding: 15px 50px;
+    /* Ajusta el padding para espaciar mejor el contenido */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+
+.logo img {
+    max-width: 150px;
+    object-fit: contain;
+}
+
+.menu .navbar ul li {
+    position: relative;
+    float: left;
+}
+
+.menu .navbar ul li a {
+    font-size: 34px;
+    /* Ajusta el tamaño de la fuente si es muy grande */
+    color: #0f165ae8;
+    padding: 10px 20px;
+    /* Reduce el espaciado para compactar el menú */
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.menu .navbar ul {
+    display: flex;
+    gap: 20px;
+}
+
+.menu .navbar ul li a:hover {
+    background-color: #ffc83c;
+    color: #fff;
+}
+
+#menu {
+    display: none;
+}
+
+.menu-icono {
+    width: 25px;
+    height: 25px;
+    display: block;
+}
+
+.menu label {
+    cursor: pointer;
+    display: none;
+}
+
+/* Contenido Principal */
+.contenido {
+    display: flex;
+    margin-top: 250px;
+    padding: 20px;
+    gap: 20px;
+    align-items: flex-start;
+
+}
+
+/* Lista de Canciones */
+.song-list {
+    width: 950px;
+    height: 350px;
+    overflow-y: auto;
+    /* Añadir scroll si el contenido excede el alto */
+    background: #ffffffd4;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    /* Listado al frente */
+    position: fixed;
+    font-size: 20px;
+    margin-left: 60px;
+    /* Ajusta este valor según necesites */
+}
+
+.song-list h3 {
+    margin-bottom: 15px;
+    color: #FF5A2C;
+}
+
+.song-list li {
+    margin-bottom: 10px;
+    cursor: pointer;
+    color: #333;
+    transition: color 0.3s;
+}
+
+.song-list li:hover {
+    color: #FF5A2C;
+}
+
+.song-content {
+    margin-top: 20px;
+    /* Espaciado entre el disco y el contenido */
+    text-align: center;
+    /* Centrar el contenido */
+    color: #333;
+    /* Color del texto */
+}
+
+/* Contenedor Anaranjado */
+.orange-container {
+    width: 950px;
+    height: 350px;
+    background-color: orange;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    position: relative;
+    margin-left: 620px;
+}
+
+/* Disco Giratorio */
+.rotating-disc {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    background: radial-gradient(circle,
+            gray 15%,
+            /* Centro gris */
+            black 15% 30%,
+            /* Área negra */
+            white 30% 31%,
+            /* Primera línea blanca */
+            black 31% 45%,
+            /* Área negra */
+            rgb(174, 163, 163) 45% 46%,
+            /* Segunda línea gris clara */
+            black 46% 60%,
+            /* Área negra */
+            white 60% 61%,
+            /* Tercera línea blanca */
+            black 61% 75%,
+            /* Área negra */
+            white 75% 76%,
+            /* Cuarta línea blanca */
+            black 76%
+            /* Área negra hasta el borde */
+        );
+    animation: spin 4s linear infinite;
+}
+
+/* Animación de rotación */
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Video y Letra */
+.video-lyrics {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-left: 620px;
+
+}
+
+.video-lyrics h3 {
+    font-size: 2rem;
+    color: #67a392;
+}
+
+/* Si quieres que el color gris se mantenga cuando el usuario pasa el ratón por encima */
+.navbar ul li:nth-child(4) a:hover {
+    color: #555;
+    /* Gris más oscuro para el hover */
+}
+
+.video-lyrics video {
+    max-width: 100%;
+    margin-bottom: 1em;
+}
+
+.video-lyrics p {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin: 0.5em 0;
+    font-family: "Roboto Mono", serif;
+}
+
+.video-lyrics:target {
+    display: block;
+    /* Mostrar el contenido cuando el id es el objetivo */
+}
+
+.lyrics-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 2em;
+}
+
+.lyrics-column {
+    width: 20%;
+}
+
+/* Footer*/
+.footer {
+    padding: 50px 0;
+    background-color: #2A223A;
+    color: #ffffff;
+    font-size: 18px;
+    margin-top: 50px;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 0 50px;
+}
+
+.footer-section {
+    width: 30%;
+}
+
+.footer-section h5 {
+    font-size: 22px;
+    margin-bottom: 20px;
+    color: #FF5A2C;
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-section ul li {
+    margin-bottom: 10px;
+}
+
+.footer-section ul li a {
+    color: #ffffff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-section ul li a:hover {
+    color: #FF5A2C;
+}
+
+.footer-bottom {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 16px;
+    color: #E0E0E0;
+}
+
+.footer-bottom p {
+    margin: 0;
+}
+
+/* Estilos para los íconos de redes sociales */
+.social-icons {
+    display: flex;
+    gap: 20px;
+    list-style: none;
+    padding: 0;
+    justify-content: flex-start;
+    /* Cambié a flex-start para alinearlos a la izquierda */
+    margin-top: 20px;
+    /* Ajusta el margen superior para moverlos hacia abajo */
+    margin-left: 20px;
+    /* Ajusta el margen izquierdo para moverlos a la izquierda */
+}
+
+.social-icons li a {
+    color: #ffffff;
+    font-size: 24px;
+    transition: color 0.3s ease;
+}
+
+.social-icons li a:hover {
+    color: #FF5A2C;
+    /* Cambia de color al pasar el mouse */
+}
+
+
+/* Responsive Styles */
+@media (max-width: 1200px) {
+    .contenido {
+        flex-direction: column;
+        align-items: center;
+        margin-top: 200px;
+        /* Ajusta según sea necesario */
+    }
+
+    .song-list {
+        width: 90%;
+        margin: 0 auto;
+        /* Centra el listado */
+        position: static;
+        /* Evita que sea fijo en pantallas pequeñas */
+        margin-bottom: 20px;
+        /* Espaciado con el resto del contenido */
+    }
+
+    .orange-container,
+    .video-lyrics {
+        margin: 0 auto;
+        /* Centra el contenedor */
+        width: 90%;
+        /* Reduce el tamaño */
+    }
+}
+
+@media (max-width: 768px) {
+    .menu {
+        flex-direction: column;
+        padding: 15px 20px;
+    }
+
+    .menu .navbar ul {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        /* Reduce el espacio entre los elementos */
+    }
+
+    .menu .navbar ul li a {
+        font-size: 28px;
+        /* Reduce el tamaño de fuente */
+        padding: 8px 15px;
+    }
+
+    .song-list {
+        font-size: 18px;
+        /* Reduce el tamaño del texto */
+        height: auto;
+        /* Ajusta el alto automáticamente */
+    }
+
+    .rotating-disc {
+        width: 200px;
+        height: 200px;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        gap: 10px;
+        /* Reduce el espacio entre secciones */
+        padding: 0 20px;
+    }
+
+    .footer-section {
+        width: 100%;
+        text-align: center;
+        /* Centra el contenido */
+    }
+
+    .footer-section h5 {
+        font-size: 20px;
+        /* Ajusta el tamaño del encabezado */
+    }
+
+    .social-icons {
+        justify-content: center;
+        /* Centra los íconos */
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        font-size: 16px;
+        /* Reduce el tamaño general de fuente */
+    }
+
+    .menu .navbar ul li a {
+        font-size: 20px;
+        padding: 5px 10px;
+    }
+
+    .contenido {
+        margin-top: 150px;
+    }
+
+    .song-list {
+        padding: 20px;
+        font-size: 16px;
+    }
+
+    .rotating-disc {
+        width: 150px;
+        height: 150px;
+    }
+
+    .video-lyrics h3 {
+        font-size: 1.5rem;
+    }
+
+    .video-lyrics p {
+        font-size: 0.9rem;
+    }
+
+    .footer {
+        font-size: 16px;
+    }
+
+    .footer-content {
+        padding: 0 10px;
+    }
+}

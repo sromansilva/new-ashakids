@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+
+<head th:replace="~{fragments/padreLayout :: Head}"></head>
+
+<head>
+    <title>Canciones Infantiles - ASHAKids</title>
+    <link rel="stylesheet" th:href="@{/css/padre/cancion.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>
+    <!-- Sidebar + Toggle -->
+    <div th:replace="~{fragments/padreLayout :: sidebar}"></div>
+    <div th:replace="~{fragments/padreLayout :: menuToggle}"></div>
+    <div th:replace="~{fragments/padreLayout :: overlay}"></div>
+
+    <!-- Contenido principal -->
+    <main style="margin-left: 250px; padding: 20px;">
+        <div class="contenido">
+
+            <!-- Lista de Canciones -->
+            <aside class="song-list" style="width: 500px;">
+                <h3>Lista de Canciones</h3>
+                <ul>
+                    <li onclick="showSong('cancion1')">Canción 1: Plim Plam, A Saltar En El Lodo!</li>
+                    <li onclick="showSong('cancion2')">Canción 2: Abejita Chiquitita</li>
+                    <li onclick="showSong('cancion3')">Canción 3: Los Insectos Son Chiquitos</li>
+                </ul>
+            </aside>
+
+            <!-- Disco giratorio -->
+            <div class="orange-container" id="orangeContainer">
+                <div class="rotating-disc"></div>
+            </div>
+
+            <!-- Contenido de la Canción -->
+            <div id="songContent" class="song-content">
+
+                <!-- Canción 1 -->
+                <section class="video-lyrics" id="cancion1" style="display: none;">
+                    <h3>Plim Plam, A Saltar En El Lodo!</h3>
+                    <br>
+                    <video controls>
+                        <source
+                            th:src="@{/img/Video-Cancion/Plim Plam, A Saltar En El Lodo! ❤️ Canciones Infantiles _ Plim Plim.mp4}"
+                            type="video/mp4">
+                    </video>
+                    <br>
+                    <p><b>Letra de A Saltar en el Lodo</b></p>
+                    <div class="lyrics-container">
+                        <div class="lyrics-column">
+                            <!-- Primera columna con versos -->
+                            <p>La lluvia se fue<br>
+                                Charcos veo aparecer<br>
+                                ¿Quieres venir a jugar?<br>
+                                Hoy nos vamos a ensuciar</p>
+                            <p>Plim, plam, a saltar<br>
+                                Sobre charcos chapotear<br>
+                                En el lodo saltaré<br>
+                                Ay, qué divertido es...</p>
+                            <p>Iu-ju, aquí voy<br>
+                                En el lodo juego yo<br>
+                                Ven, te vas a divertir<br>
+                                Ven, juguemos, sí, sí, sí</p>
+                            <p>Plim, plam, a saltar<br>
+                                Sobre charcos chapotear<br>
+                                En el lodo saltaré<br>
+                                Ay, qué divertido es...</p>
+                            <!-- resto del contenido... -->
+                        </div>
+                        <div class="lyrics-column">
+                            <!-- Segunda columna con versos -->
+                            <p>Un, dos, un, dos, tres<br>
+                                Vamos a hacer un pastel<br>
+                                Mucho lodo hay que usar<br>
+                                Y lo puedes decorar</p>
+                            <p>Plim, plam, a saltar<br>
+                                Sobre charcos chapotear<br>
+                                En el lodo saltaré<br>
+                                Ay, qué divertido es...</p>
+                            <p>Mi-ren! Casi está<br>
+                                Un muñeco especial<br>
+                                Qué gracioso que se ve<br>
+                                Nuestro nuevo amigo es...</p>
+                            <p>Plim, plam, a saltar<br>
+                                Sobre charcos chapotear<br>
+                                En el lodo saltaré<br>
+                                Ay, qué divertido es...</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Canción 2 -->
+                <section class="video-lyrics" id="cancion2" style="display: none;">
+                    <h3>Abejita Chiquitita</h3>
+                    <br>
+                    <video controls>
+                        <source th:src="@{/img/Video-Cancion/Abejita Chiquitita.mp4}"
+                            type="video/mp4">
+                    </video>
+                    <br>
+                    <p><b>Letra de Abejita Chiquitita</b></p>
+                    <div class="lyrics-container">
+                        <div class="lyrics-column">
+                            <p>Abejita chiquitita
+                                Abejita chiquitita
+                                Abejita dime dónde estás
+                                Estoy aquí, en una flor
+                                Haciendo mi trabajo con amor
+                                Estoy aquí, en una flor
+                                Haciendo polinización</p>
+                        </div>
+                        <div class="lyrics-column">
+                            <p>Hay muchas flores en este jardín
+                                En cual estas me pregunta Plim Plim
+                                Hay muchas flores en este jardín
+                                En cuál estas me pregunta Plim Plim</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Canción 3 -->
+                <section class="video-lyrics" id="cancion3" style="display: none;">
+                    <h3>Los Insectos Son Chiquitos</h3>
+                    <br>
+                    <video controls>
+                        <source
+                            th:src="@{/img/Video-Cancion/Los Insectos Son Chiquitos.mp4}"
+                            type="video/mp4">
+                    </video>
+                    <br>
+                    <p><b>Letra de Los Insectos Son Chiquitos</b></p>
+                    <div class="lyrics-container">
+                        <div class="lyrics-column">
+                            <p>Los insectos
+                                Son chiquitos
+                                Chiquiti...
+                                Chiquiti...
+                                ¡Chiquititos! <br></p>
+                            <p> Los insectos
+                                Son chiquitos
+                                Chiquiti...
+                                Chiquiti...
+                                ¡Chiquititos! <br> </p>
+                            <p>Ocho patas
+                                Tienen las arañas
+                                Trepan, trepan
+                                Por su telaraña <br></p>
+                            <p>Las hormigas
+                                Hacen caminitos
+                                Van marchando
+                                Por los arbolitos <br> </p>
+                            <p>Los insectos
+                                Son chiquitos
+                                Chiquiti...
+                                Chiquiti...
+                                ¡Chiquititos! <br> </p>
+                            <p> Los insectos
+                                Son chiquitos
+                                Chiquiti...
+                                Chiquiti...
+                                ¡Chiquititos! <br></p>
+
+                            </p>
+                        </div>
+                        <div class="lyrics-column">
+                            <p>
+                                Caminando va el ciempiés
+                                Cien pasitos a la vez
+                                La luciérnaga, su amiga,
+                                El camino le ilumina <br> </p>
+
+                            <p> Los insectos
+                                Son chiquitos
+                                Chiquiti...
+                                Chiquiti...
+                                ¡Chiquititos!<br></p>
+
+                            <p> Los insectos
+                                Son chiquitos
+                                Chiquiti...
+                                Chiquiti...
+                                ¡Chiquititos!<br></p>
+
+
+                            <p>La araña…
+                                La hormiga…
+                                El ciempiés…
+                                ¡Y la luciérnaga!
+                                ¡Qué chiquitos y qué bonitos son! <br> </p>
+
+                            <p> Los insectos
+                                Son chiquitos
+                                Chiquiti...
+                                Chiquiti...
+                                ¡Chiquititos!<br></p>
+
+                            <p> Los insectos
+                                Son chiquitos
+                                Chiquiti...
+                                Chiquiti...
+                                ¡Chiquititos!<br></p>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <div th:replace="~{fragments/padreLayout :: padre-scripts}"></div>
+    <script th:src="@{/js/padre/song.js}"></script>
+</body>
+
+</html>

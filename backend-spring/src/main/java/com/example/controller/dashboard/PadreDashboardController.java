@@ -170,6 +170,19 @@ public String vistaCuentosInventados(HttpSession session, Model model) {
     return "padre/cuentosInventados";
 }
 
+    @GetMapping("/canciones")
+    public String vistaCanciones(HttpSession session, Model model) {
+        Usuario u = (Usuario) session.getAttribute("usuarioObj");
+
+        if (u == null || u.getRol() != Usuario.Rol.padre) {
+            return "redirect:/auth/login";
+        }
+
+        model.addAttribute("padre", u);
+        return "padre/canciones";
+    }
+
+
 
     
     // NUEVOS MÉTODOS PARA MANEJAR FOTOS DE NIÑOS

@@ -7,13 +7,15 @@ require 'PHPMailer/src/Exception.php';
 require 'PHPMailer/src/PHPMailer.php';
 require 'PHPMailer/src/SMTP.php';
 
-// Recoge el correo del formulario
-$correo = isset($_POST['correo']) ? trim($_POST['correo']) : '';
-
-if (!filter_var($correo, FILTER_VALIDATE_EMAIL)) {
-    echo '❌ Correo inválido.';
-    exit;
-}
+// Recoger los datos del formulario
+$nombreNiño   = $_POST['nombre_nino'];
+$terapeuta    = $_POST['terapeuta'];
+$fecha        = $_POST['fecha'];
+$hora         = $_POST['hora'];
+$duracion     = $_POST['duracion'];
+$tema         = $_POST['tema'];
+$nombreTutor  = $_POST['nombreTutor'];
+$correoPadre  = $_POST['correo_padre'];
 
 $mail = new PHPMailer(true);
 
@@ -23,17 +25,17 @@ try {
     $mail->Host       = 'smtp.gmail.com';
     $mail->SMTPAuth   = true;
     $mail->Username   = 'sergiosk357@gmail.com';
-    $mail->Password   = 'gzppeytlvqonvjor'; // ⚠️ Considera usar variables de entorno para mayor seguridad
+    $mail->Password   = 'gzppeytlvqonvjor';
     $mail->SMTPSecure = 'tls';
     $mail->Port       = 587;
 
     // Cabeceras del correo
     $mail->setFrom('sergiosk357@gmail.com', 'ASHAKids');
-    $mail->addAddress($correo);
+    $mail->addAddress($correoPadre, $nombreTutor);
 
     // Contenido del correo
     $mail->isHTML(true);
-    $mail->Subject = '¡Bienvenido al Boletín de ASHAKids!';
+    $mail->Subject = 'Confirmacion de Cita - ASHAKids';
 $mail->Body = "
     <div style='font-family: Arial, sans-serif; background-color: #fef9f3; padding: 30px; border-radius: 12px; color: #333;'>
         <h1 style='color: #ff9900; text-align: center;'>📰 Boletín ASHAKids</h1>
@@ -72,8 +74,7 @@ $mail->Body = "
 
 
     $mail->send();
-    echo '✅ ¡Te has suscrito al boletín exitosamente!';
+    echo '✅ Cita registrada y correo enviado correctamente.';
 } catch (Exception $e) {
     echo "❌ Error al enviar el correo: {$mail->ErrorInfo}";
 }
-?>

@@ -98,12 +98,12 @@
     <div class="container text-center" style="margin-top: 350px;">
       <h4 style="font-size: 1.8rem; font-weight: 800; color: rgb(52, 25, 75); font-family: 'Poppins', sans-serif;">Únete
         a nuestra familia</h4>
-      <form th:action="@{http://localhost/backend-mail/enviar-mail.html}" class="d-flex justify-content-center gap-2 mt-3 flex-wrap">
-        <input type="email" class="form-control w-auto correo-input" placeholder="Escribe tu correo"
-          style="background-color: #987fc3; color: white; border-radius: 25px; padding: 10px 20px; border: none; min-width: 250px;">
-        <input type="submit" class="btn" value="Enviar"
-          style="background-color: #f74f27; color: white; font-weight: 600; border-radius: 25px; padding: 10px 30px;">
-      </form>
+<form action="http://localhost/backend-mail/boletin.php" method="POST" class="d-flex justify-content-center gap-2 mt-3 flex-wrap">
+  <input type="email" name="correo_padre" class="form-control w-auto correo-input" placeholder="Escribe tu correo"
+    style="background-color: #987fc3; color: white; border-radius: 25px; padding: 10px 20px; border: none; min-width: 250px;" required>
+  <input type="submit" class="btn" value="Enviar"
+    style="background-color: #f74f27; color: white; font-weight: 600; border-radius: 25px; padding: 10px 30px;">
+</form>
     </div>
   </section>
 

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/terapeutaLayout :: Head}"></head>
+
+<body>
+
+  <!-- Scripts (fragmento) -->
+  <div th:replace="~{fragments/terapeutaLayout :: terapeuta-scripts}"></div>
+
+  <!-- SIDEBAR -->
+  <div th:replace="~{fragments/terapeutaLayout :: menuToggle}"></div>
+  <nav th:replace="~{fragments/terapeutaLayout :: sidebarTerapeuta}"></nav>
+  <div th:replace="~{fragments/terapeutaLayout :: overlay}"></div>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="content-area">
+
+    <!-- Encabezado -->
+    <div class="agenda-header">
+      <div class="row align-items-center">
+        <div class="col-md-8">
+          <h1 class="display-6 fw-bold mb-2">🧠 Sesiones del Terapeuta</h1>
+          <p class="mb-0 fs-5 opacity-90">Monitorea y gestiona tus sesiones terapéuticas</p>
+        </div>
+        <div class="col-md-4 text-md-end">
+          <div class="d-flex align-items-center justify-content-md-end">
+            <div class="me-3">
+              <div class="fw-bold fs-4" th:text="${sesiones != null ? #lists.size(sesiones) : 0}">0</div>
+              <div class="small opacity-75">Sesiones registradas</div>
+            </div>
+            <div class="bg-white bg-opacity-20 rounded-circle d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+              <i class="fas fa-brain fs-3" aria-hidden="true"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Estado vacío -->
+    <div th:if="${#lists.isEmpty(sesiones)}" class="empty-state text-center py-5">
+      <div class="mb-4">
+        <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 120px; height: 120px;">
+          <i class="fas fa-exclamation-circle text-muted" style="font-size: 3rem;" aria-hidden="true"></i>
+        </div>
+      </div>
+      <h3 class="fw-bold mb-3" style="color: #1976d2;">¡No tienes sesiones registradas aún!</h3>
+      <p class="text-muted fs-5 mb-4">Una vez registres tus sesiones, aparecerán aquí con toda la información relevante.</p>
+      <a th:href="@{/terapeuta/sesiones/nueva}" class="btn btn-primary btn-lg px-4 py-2">
+        <i class="fas fa-plus me-2" aria-hidden="true"></i>Registrar nueva sesión
+      </a>
+    </div>
+
+    <!-- Lista de sesiones -->
+    <div th:if="${!#lists.isEmpty(sesiones)}">
+      <div class="row g-4">
+        <div th:each="sesion : ${sesiones}" class="col-12 col-lg-6">
+          <div class="cita-card p-4 border rounded shadow-sm">
+
+            <!-- Título / Tema -->
+            <div class="mb-3">
+              <h5 class="fw-bold text-primary mb-1" th:text="${sesion.tema != null ? sesion.tema : 'Sesión de Terapia'}">Sesión de Terapia</h5>
+              <p class="text-muted mb-0" th:text="'Paciente: ' + (sesion.nino != null and sesion.nino.nombre != null ? sesion.nino.nombre : 'No asignado')">Paciente</p>
+            </div>
+
+            <!-- Fecha y estado -->
+            <div class="date-time">
+              <div class="row align-items-center">
+                <div class="col-8">
+                  <h6 class="fw-bold mb-1" th:text="${#temporals.format(sesion.fecha, 'EEEE, d MMMM yyyy')}">Fecha</h6>
+                  <p class="mb-0 text-primary fw-semibold">Sesión registrada</p>
+                </div>
+                <div class="col-4 text-end">
+                  <span class="status-badge badge"
+                    th:classappend="${sesion.estado == 'Finalizada' ? ' bg-success' : (sesion.estado == 'En proceso' ? ' bg-warning text-dark' : ' bg-secondary')}"
+                    th:text="${sesion.estado != null ? sesion.estado : 'Sin estado'}">Estado</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Detalles -->
+            <div class="row g-3 mt-3 mb-3">
+              <div class="col-12">
+                <strong class="d-block mb-1 text-muted">Retroalimentación padre:</strong>
+                <p class="mb-2" th:text="${sesion.retroalimentacion_padre != null ? sesion.retroalimentacion_padre : 'No registrada'}">No registrada</p>
+              </div>
+            </div>
+
+            <!-- Acciones -->
+            <div class="d-flex gap-2 mt-3">
+              <button class="btn btn-info" data-bs-toggle="modal" th:attr="data-bs-target='#detalleModal__${sesion.id_cita}'">Ver Detalles</button>
+              <button class="btn btn-outline-secondary flex-fill" data-bs-toggle="modal" th:attr="data-bs-target='#editarModal__${sesion.id_cita}'">
+                <i class="fas fa-edit me-2" aria-hidden="true"></i>Editar
+              </button>
+              <button class="btn btn-danger flex-fill eliminar-sesion-btn" th:data-sesion-id="${sesion.id_cita}">
+                <i class="fas fa-trash-alt me-2" aria-hidden="true"></i>Eliminar
+              </button>
+            </div>
+
+            <!-- Modal Detalle -->
+            <div class="modal fade" th:id="'detalleModal__' + ${sesion.id_cita}">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" th:text="${sesion.tema}">Tema</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                  </div>
+                  <div class="modal-body">
+                    <ul class="list-group list-group-flush">
+                      <li class="list-group-item"><b>Paciente:</b> <span th:text="${sesion.nino != null ? sesion.nino.nombre : 'No asignado'}">Nombre</span></li>
+                      <li class="list-group-item"><b>Fecha:</b> <span th:text="${#temporals.format(sesion.fecha, 'dd/MM/yyyy')}">Fecha</span></li>
+                      <li class="list-group-item"><b>Hora:</b> <span th:text="${#temporals.format(sesion.hora, 'HH:mm')}">Hora</span></li>
+                      <li class="list-group-item"><b>Modalidad:</b> <span th:text="${sesion.modalidad}">Modalidad</span></li>
+                      <li class="list-group-item"><b>Enlace / Dirección:</b> <span th:text="${sesion.enlace_o_direccion}">Enlace</span></li>
+                      <li class="list-group-item"><b>Estado:</b> <span th:text="${sesion.estado}">Estado</span></li>
+                      <li class="list-group-item"><b>Retroalimentación padre:</b> <span th:text="${sesion.retroalimentacion_padre != null ? sesion.retroalimentacion_padre : '—'}">—</span></li>
+                    </ul>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Modal Editar -->
+            <form th:action="@{/terapeuta/sesiones/editar/{id}(id=${sesion.id_cita})}" method="post">
+              <div class="modal fade" th:id="'editarModal__' + ${sesion.id_cita}" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header bg-secondary text-white">
+                      <h5 class="modal-title">Editar retroalimentación</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="mb-3">
+                        <label class="form-label">Retroalimentación</label>
+                        <textarea class="form-control" name="retroalimentacion_padre" rows="4" th:text="${sesion.retroalimentacion_padre}"></textarea>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Script de Bootstrap y JS de eliminación -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+      document.addEventListener('click', async (e) => {
+        const btn = e.target.closest('.eliminar-sesion-btn');
+        if (!btn) return;
+
+        const id = btn.dataset.sesionId;
+        if (!id) {
+          alert('ID de sesión no válido.');
+          return;
+        }
+
+        if (!confirm('¿Eliminar esta sesión?')) return;
+
+        try {
+          const resp = await fetch(`/terapeuta/sesiones/${id}`, {
+            method: 'DELETE',
+            headers: { 'X-Requested-With': 'XMLHttpRequest' },
+          });
+
+          if (resp.ok) {
+            const card = btn.closest('.col-12');
+            if (card) card.remove();
+          } else {
+            const errorMsg = await resp.text();
+            alert('Error al eliminar: ' + errorMsg);
+          }
+        } catch (err) {
+          console.error(err);
+          alert('Error de red o del servidor.');
+        }
+      });
+    </script>
+
+</body>
+</html>

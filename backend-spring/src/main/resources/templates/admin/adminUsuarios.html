@@ -109,48 +109,49 @@
       </div>
   </div>
 
+  
   <!-- Modal Agregar Usuario -->
   <div class="modal fade" id="agregarUsuarioModal" tabindex="-1">
     <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Agregar Nuevo Usuario</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      <div class="modal-content shadow-lg border-0">
+        <div class="modal-header bg-primary text-white">
+          <h5 class="modal-title fw-bold"><i class="fas fa-user-plus me-2"></i>Agregar Nuevo Usuario</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
         </div>
-        <form th:action="@{/admin/usuarios/agregar}" method="post">
+        <form th:action="@{/admin/usuarios/agregar}" method="post" class="p-2">
           <div class="modal-body">
-            <div class="mb-3">
-              <label class="form-label">Nombre</label>
-              <input type="text" class="form-control" name="nombre" required>
+            <div class="mb-3 input-group">
+              <span class="input-group-text bg-light"><i class="fas fa-user"></i></span>
+              <input type="text" class="form-control rounded-start" name="nombre" placeholder="Nombre completo" required>
+            </div>
+            <div class="mb-3 input-group">
+              <span class="input-group-text bg-light"><i class="fas fa-envelope"></i></span>
+              <input type="email" class="form-control" name="correo" placeholder="Correo electrónico" required>
+            </div>
+            <div class="mb-3 input-group">
+              <span class="input-group-text bg-light"><i class="fas fa-id-badge"></i></span>
+              <input type="text" class="form-control" name="codigo" placeholder="Código ASHA" required>
+            </div>
+            <div class="mb-3 input-group">
+              <span class="input-group-text bg-light"><i class="fas fa-lock"></i></span>
+              <input type="password" class="form-control" name="contrasena" placeholder="Contraseña" required>
             </div>
             <div class="mb-3">
-              <label class="form-label">Correo</label>
-              <input type="email" class="form-control" name="correo" required>
-            </div>
-            <div class="mb-3">
-              <label class="form-label">Código</label>
-              <input type="text" class="form-control" name="codigo" required>
-            </div>
-            <div class="mb-3">
-              <label class="form-label">Contraseña</label>
-              <input type="password" class="form-control" name="contrasena" required>
-            </div>
-            <div class="mb-3">
-              <label class="form-label">Rol</label>
+              <label class="form-label fw-semibold">Rol</label>
               <select class="form-select" name="rol" required>
                 <option value="padre">Padre</option>
                 <option value="terapeuta">Terapeuta</option>
                 <option value="admin">Administrador</option>
               </select>
             </div>
-            <div class="mb-3">
-              <label class="form-label">Teléfono</label>
-              <input type="text" class="form-control" name="telefono">
+            <div class="mb-3 input-group">
+              <span class="input-group-text bg-light"><i class="fas fa-phone"></i></span>
+              <input type="text" class="form-control" name="telefono" placeholder="Teléfono">
             </div>
           </div>
-          <div class="modal-footer">
+          <div class="modal-footer border-0">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-            <button type="submit" class="btn btn-primary">Agregar Usuario</button>
+            <button type="submit" class="btn btn-primary shadow-sm">Agregar Usuario</button>
           </div>
         </form>
       </div>
@@ -160,42 +161,42 @@
   <!-- Modal Editar Usuario -->
   <div class="modal fade" id="editarUsuarioModal" tabindex="-1">
     <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Editar Usuario</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      <div class="modal-content shadow-lg border-0">
+        <div class="modal-header bg-info text-white">
+          <h5 class="modal-title fw-bold"><i class="fas fa-user-edit me-2"></i>Editar Usuario</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
         </div>
-        <form th:action="@{/admin/usuarios/editar}" method="post">
+        <form th:action="@{/admin/usuarios/editar}" method="post" class="p-2">
           <input type="hidden" name="id_usuario" id="editIdUsuario">
           <div class="modal-body">
-            <div class="mb-3">
-              <label class="form-label">Nombre</label>
-              <input type="text" class="form-control" name="nombre" id="editNombre" required>
+            <div class="mb-3 input-group">
+              <span class="input-group-text bg-light"><i class="fas fa-user"></i></span>
+              <input type="text" class="form-control rounded-start" name="nombre" id="editNombre" placeholder="Nombre completo" required>
+            </div>
+            <div class="mb-3 input-group">
+              <span class="input-group-text bg-light"><i class="fas fa-envelope"></i></span>
+              <input type="email" class="form-control" name="correo" id="editCorreo" placeholder="Correo electrónico" required>
+            </div>
+            <div class="mb-3 input-group">
+              <span class="input-group-text bg-light"><i class="fas fa-id-badge"></i></span>
+              <input type="text" class="form-control" name="codigo" id="editCodigo" placeholder="Código ASHA" required>
             </div>
             <div class="mb-3">
-              <label class="form-label">Correo</label>
-              <input type="email" class="form-control" name="correo" id="editCorreo" required>
-            </div>
-            <div class="mb-3">
-              <label class="form-label">Código</label>
-              <input type="text" class="form-control" name="codigo" id="editCodigo" required>
-            </div>
-            <div class="mb-3">
-              <label class="form-label">Rol</label>
+              <label class="form-label fw-semibold">Rol</label>
               <select class="form-select" name="rol" id="editRol" required>
                 <option value="padre">Padre</option>
                 <option value="terapeuta">Terapeuta</option>
                 <option value="admin">Administrador</option>
               </select>
             </div>
-            <div class="mb-3">
-              <label class="form-label">Teléfono</label>
-              <input type="text" class="form-control" name="telefono" id="editTelefono">
+            <div class="mb-3 input-group">
+              <span class="input-group-text bg-light"><i class="fas fa-phone"></i></span>
+              <input type="text" class="form-control" name="telefono" id="editTelefono" placeholder="Teléfono">
             </div>
           </div>
-          <div class="modal-footer">
+          <div class="modal-footer border-0">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+            <button type="submit" class="btn btn-info shadow-sm text-white">Guardar Cambios</button>
           </div>
         </form>
       </div>
@@ -205,26 +206,26 @@
   <!-- Modal Cambiar Contraseña -->
   <div class="modal fade" id="cambiarPasswordModal" tabindex="-1">
     <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Cambiar Contraseña</h5>
+      <div class="modal-content shadow-lg border-0">
+        <div class="modal-header bg-warning text-dark">
+          <h5 class="modal-title fw-bold"><i class="fas fa-key me-2"></i>Cambiar Contraseña</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
-        <form th:action="@{/admin/usuarios/cambiar-password}" method="post">
+        <form th:action="@{/admin/usuarios/cambiar-password}" method="post" class="p-2">
           <input type="hidden" name="id_usuario" id="passwordIdUsuario">
           <div class="modal-body">
-            <div class="mb-3">
-              <label class="form-label">Nueva Contraseña</label>
-              <input type="password" class="form-control" name="nuevaContrasena" required>
+            <div class="mb-3 input-group">
+              <span class="input-group-text bg-light"><i class="fas fa-lock"></i></span>
+              <input type="password" class="form-control" name="nuevaContrasena" placeholder="Nueva Contraseña" required>
             </div>
-            <div class="mb-3">
-              <label class="form-label">Confirmar Contraseña</label>
-              <input type="password" class="form-control" name="confirmarContrasena" required>
+            <div class="mb-3 input-group">
+              <span class="input-group-text bg-light"><i class="fas fa-lock"></i></span>
+              <input type="password" class="form-control" name="confirmarContrasena" placeholder="Confirmar Contraseña" required>
             </div>
           </div>
-          <div class="modal-footer">
+          <div class="modal-footer border-0">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-            <button type="submit" class="btn btn-warning">Cambiar Contraseña</button>
+            <button type="submit" class="btn btn-warning shadow-sm text-dark">Cambiar Contraseña</button>
           </div>
         </form>
       </div>
@@ -234,41 +235,7 @@
 
 
   <!-- Scripts -->
-  <script>
-    function toggleSidebar() {
-      document.getElementById('sidebar').classList.toggle('show');
-      document.querySelector('.sidebar-backdrop').classList.toggle('show');
-    }
-
-    function editarUsuario(id) {
-      // Aquí cargarías los datos del usuario en el modal
-      document.getElementById('editIdUsuario').value = id;
-    }
-
-    function cambiarPassword(id) {
-      document.getElementById('passwordIdUsuario').value = id;
-    }
-
-    function eliminarUsuario(id) {
-      if (confirm('¿Estás seguro de que quieres eliminar este usuario?')) {
-        // Aquí harías la petición para eliminar
-        console.log('Eliminar usuario:', id);
-      }
-    }
-
-    // Filtros
-    document.getElementById('buscarUsuario').addEventListener('input', function () {
-      // Implementar búsqueda
-    });
-
-    document.getElementById('filtroRol').addEventListener('change', function () {
-      // Implementar filtro por rol
-    });
-
-    document.getElementById('filtroEstado').addEventListener('change', function () {
-      // Implementar filtro por estado
-    });
-  </script>
+  <script src="/js/admin/admin-usuarios.js"></script>
   <div th:replace="~{fragments/adminLayout :: admin-scripts}"></div>
 </body>
 

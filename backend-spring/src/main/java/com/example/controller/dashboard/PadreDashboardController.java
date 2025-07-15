@@ -138,6 +138,8 @@ public class PadreDashboardController {
         if (u == null || u.getRol() != Usuario.Rol.padre) {
             return "redirect:/auth/login";
         }
+        List<Nino> ninos = ninoRepository.findByIdPadre(u.getId_usuario());
+        model.addAttribute("ninos", ninos);
         model.addAttribute("padre", u);
         return "padre/configuracion";
     }

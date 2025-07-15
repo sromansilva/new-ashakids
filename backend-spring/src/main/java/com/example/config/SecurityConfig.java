@@ -10,6 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.http.HttpMethod;
 
 import com.example.service.UsuarioDetailsService;
 
@@ -38,6 +39,7 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable()) // Solo desactivar CSRF en desarrollo
             .authorizeHttpRequests(auth -> auth
+                .requestMatchers(HttpMethod.POST, "/auth/restablecer-contrasena").permitAll()
                 .requestMatchers("/", "/public/**", "/css/**", "/js/**", "/img/**", 
                                 "/auth/**", "/nosotros", "/faq", "/guiapadres", 
                                 "/actividades", "/opiniones", "/servicios").permitAll()

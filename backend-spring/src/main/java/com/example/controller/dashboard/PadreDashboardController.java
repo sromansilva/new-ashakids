@@ -17,12 +17,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.example.model.Cita;
 import com.example.model.Nino;
 import com.example.model.Usuario;
 import com.example.repository.CitaRepository;
 import com.example.repository.NinoRepository;
+import com.example.repository.UsuarioRepository;
+import com.example.utils.GenerarHash;
 
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -36,6 +39,9 @@ public class PadreDashboardController {
 
     @Autowired
     private NinoRepository ninoRepository;
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
     @GetMapping("")
     public String mostrarVistaPadre(HttpSession session, Model model, HttpServletResponse response) {
@@ -129,17 +135,10 @@ public class PadreDashboardController {
     @GetMapping("/configuracion")
     public String vistaConfiguracion(HttpSession session, Model model) {
         Usuario u = (Usuario) session.getAttribute("usuarioObj");
-
         if (u == null || u.getRol() != Usuario.Rol.padre) {
             return "redirect:/auth/login";
         }
-
-        // Obtener todos los niños del padre
-        List<Nino> ninos = ninoRepository.findByIdPadre(u.getId_usuario());
-        
-        model.addAttribute("ninos", ninos);
         model.addAttribute("padre", u);
-
         return "padre/configuracion";
     }
 
@@ -210,6 +209,37 @@ public class PadreDashboardController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
+    }
+
+    @PostMapping("/cambiar-contrasena")
+    public String cambiarContrasena(HttpSession session,
+                                    @RequestParam("actual") String actual,
+                                    @RequestParam("nueva") String nueva,
+                                    @RequestParam("confirmar") String confirmar) {
+        Usuario u = (Usuario) session.getAttribute("usuarioObj");
+        if (u == null || u.getRol() != Usuario.Rol.padre) {
+            System.out.println("Usuario no en sesión o no es padre");
+            return "redirect:/auth/login";
+        }
+        // Validar que la nueva y la confirmación coincidan
+        if (!nueva.equals(confirmar)) {
+            System.out.println("Las contraseñas nuevas no coinciden");
+            return "redirect:/padre/configuracion?error=no_coinciden";
+        }
+        // Validar la contraseña actual usando GenerarHash
+        System.out.println("Hash guardado: " + u.getContrasena());
+        boolean esCorrecta = GenerarHash.verificar(actual, u.getContrasena());
+        System.out.println("¿Contraseña actual correcta? " + esCorrecta);
+        if (!esCorrecta) {
+            System.out.println("La contraseña actual es incorrecta");
+            return "redirect:/padre/configuracion?error=actual_incorrecta";
+        }
+        // Cambiar la contraseña usando GenerarHash
+        u.setContrasena(GenerarHash.encriptar(nueva));
+        usuarioRepository.save(u);
+        session.setAttribute("usuarioObj", u);
+        System.out.println("Contraseña cambiada correctamente");
+        return "redirect:/padre/configuracion?success=contrasena_cambiada";
     }
 
 }

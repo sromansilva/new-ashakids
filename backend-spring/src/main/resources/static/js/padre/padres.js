@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
   handleResize();
 });
 
-/*
+
 function mostrarModalZoom(link) {
   const linkBtn = document.getElementById("linkReunion");
   linkBtn.href = link;
@@ -59,7 +59,7 @@ function mostrarModalZoom(link) {
 document.addEventListener("DOMContentLoaded", () => {
   vincularBotonesReservar();
 });
-*/
+
 document.addEventListener('DOMContentLoaded', function() {
   // Manejar clics en botones de cancelar cita
   document.addEventListener('click', function(e) {

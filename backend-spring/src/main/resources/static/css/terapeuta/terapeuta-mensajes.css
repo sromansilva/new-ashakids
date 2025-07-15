@@ -1,19 +1,33 @@
-.mensaje-card {
-  background-color: #ffffff;
-  border-radius: 15px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
-  padding: 15px 20px;
-  margin-bottom: 15px;
-  transition: transform 0.2s;
+.mensaje {
+  max-width: 70%;
+  padding: 0.7em 1.1em;
+  border-radius: 1.2em;
+  box-shadow: 0 2px 8px rgba(44,62,80,0.07);
+  position: relative;
+  word-break: break-word;
 }
-.mensaje-card:hover {
-  transform: scale(1.01);
+.mensaje-propio {
+  background: linear-gradient(90deg, #a8ff78 0%, #78ffd6 100%);
+  align-self: flex-end;
+  color: #155724;
+  margin-left: auto;
 }
-.mensaje-header {
-  font-weight: bold;
-  color: #333;
+.mensaje-otro {
+  background: #e3f0fa;
+  color: #2d3a4b;
+  align-self: flex-start;
+  margin-right: auto;
+}
+.mensaje-cuerpo {
+  font-size: 1.1em;
 }
 .mensaje-fecha {
-  font-size: 0.85rem;
+  font-size: 0.85em;
   color: #888;
+  text-align: right;
+  margin-top: 0.2em;
+}
+.padre-item.active, .padre-item:active {
+  background: linear-gradient(90deg, #4f8cff 0%, #1e40af 100%) !important;
+  color: #fff !important;
 }

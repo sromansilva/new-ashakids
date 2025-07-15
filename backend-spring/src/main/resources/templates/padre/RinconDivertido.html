@@ -1,33 +1,106 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head>
-  <title>Página de Ejemplo 1</title>
-</head>
-
 <head th:replace="~{fragments/padreLayout :: Head}"></head>
+
+<head>
+    <title>Rincón Divertido - ASHAKids</title>
+    <link rel="stylesheet" th:href="@{/css/padre/padre-rd.css}">
+</head>
 
 <body>
 
-  <!-- Sidebar -->
-  <div th:replace="~{fragments/padreLayout :: menuToggle}"></div>
+    <!-- Sidebar -->
+    <div th:replace="~{fragments/padreLayout :: menuToggle}"></div>
+    <div th:replace="~{fragments/padreLayout :: sidebar}"></div>
+    <div th:replace="~{fragments/padreLayout :: overlay}"></div>
 
-  <div th:replace="~{fragments/padreLayout :: sidebar}"></div>
+    <!-- Contenido del Rincón Divertido -->
+    <div class="main-content" style="margin-left: 260px; padding: 2rem;">
 
-  <div th:replace="~{fragments/padreLayout :: overlay}"></div>
+        <!-- Introducción -->
+        <div class="intro-section text-center">
+            <img th:src="@{/img/CantaCuentos/Icono_niña.svg}" alt="Ilustración de introducción" class="intro-icon">
+            <div class="intro-text">
+                <h2><i class="fas fa-music"></i> Bienvenidos a CantaCuentos</h2>
+                <p>Descubre un mundo de canciones y cuentos diseñados para aprender jugando.</p>
+            </div>
+        </div>
 
-  <div class="main-content d-flex justify-content-center" style="margin-left: 260px;">
-    <div class="container text-center" style="width: 700px; height: 300px; margin-top: 2rem;">
-      <h1>¡Bienvenido al Rincón Divertido!</h1>
-      <p>Aquí encontrarás todos los recursos para tu hijo</p>
-      <span th:text="${queso}">Sergio</span>
-      <br><br>
-      <a th:href="@{/padre}" class="btn btn-primary">Volver al inicio</a>
+        <!-- Tarjetas -->
+        <div class="cards-container">
+            <div class="card">
+                <a th:href="@{/padre/cuentos}">
+                    <img th:src="@{/img/CantaCuentos/Cuento.png}" alt="Imagen de Cuento">
+                    <h3>Cuentos</h3>
+                    <p>Encuentra cuentos infantiles para estimular la imaginación.</p>
+                </a>
+            </div>
+
+            <div class="card">
+                <a th:href="@{/canciones}">
+                    <img th:src="@{/img/CantaCuentos/Canciones.png}" alt="Imagen de Canciones">
+                    <h3>Canciones</h3>
+                    <p>Canciones educativas y divertidas para el aprendizaje.</p>
+                </a>
+            </div>
+
+            <div class="card">
+                <a th:href="@{/adivinanzas}">
+                    <img th:src="@{/img/CantaCuentos/Adivinanzax.png}" alt="Imagen de Adivinanzas">
+                    <h3>Adivinanzas</h3>
+                    <p>Desafíos mentales para estimular la creatividad.</p>
+                </a>
+            </div>
+
+            <div class="card">
+                <a th:href="@{/trabalenguas}">
+                    <img th:src="@{/img/CantaCuentos/Trabalenguas.png}" alt="Imagen de Trabalenguas">
+                    <h3>Trabalenguas</h3>
+                    <p>Mejora la pronunciación jugando.</p>
+                </a>
+            </div>
+        </div>
+
+        <div class="text-center mt-4">
+            <a th:href="@{/padre}" class="btn btn-primary">Volver al inicio</a>
+        </div>
+
+
     </div>
-  </div>
 
-  <div th:replace="~{fragments/padreLayout :: padre-scripts}"></div>
 
+
+    <!-- Scripts -->
+    <script th:inline="javascript">
+        const menuBtn = document.querySelector('.menu-btn');
+        const navbar = document.querySelector('.navbar');
+        let menuOpen = false;
+
+        menuBtn.addEventListener('click', () => {
+            if (!menuOpen) {
+                menuBtn.classList.add('open');
+                navbar.classList.add('active');
+                menuOpen = true;
+            } else {
+                menuBtn.classList.remove('open');
+                navbar.classList.remove('active');
+                menuOpen = false;
+            }
+        });
+
+        // Cerrar menú al hacer clic en un enlace
+        const navLinks = document.querySelectorAll('.nav-list a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                menuBtn.classList.remove('open');
+                navbar.classList.remove('active');
+                menuOpen = false;
+            });
+        });
+    </script>
+
+    <div th:replace="~{fragments/padreLayout :: padre-scripts}"></div>
 </body>
 
 </html>

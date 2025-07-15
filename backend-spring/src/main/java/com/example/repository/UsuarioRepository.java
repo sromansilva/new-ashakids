@@ -11,5 +11,6 @@ import com.example.model.Usuario;
 public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     Optional<Usuario> findByCodigoAndContrasena(String codigo, String contrasena);
     Optional<Usuario> findByCodigo(String codigo);
+    Optional<Usuario> findByCorreoAndCodigo(String correo, String codigo);
     List<Usuario> findByRol(Usuario.Rol rol);
 }

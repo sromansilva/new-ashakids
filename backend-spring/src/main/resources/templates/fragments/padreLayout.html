@@ -11,6 +11,7 @@
         <link rel="stylesheet" th:href="@{/css/padre/padre-inicio.css}">
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+        
       </head>
   </div>
 
@@ -50,14 +51,10 @@
               <img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png" alt="Recompensas" width="20" class="me-2 align-middle">
               Recompensas
           </a>
-          <a class="nav-link" href="#" style="pointer-events: none;">
-              <img src="https://cdn-icons-png.flaticon.com/512/1077/1077012.png" alt="Perfil" width="20" class="me-2 align-middle">
-              Perfil
-          </a>
-          <a class="nav-link" th:href="@{/padre/configuracion}">
-              <img src="https://cdn-icons-png.flaticon.com/512/2099/2099058.png" alt="Configuración" width="20" class="me-2 align-middle">
-              Configuración
-          </a>
+        <a class="nav-link" th:href="@{/padre/configuracion}">
+            <img src="https://cdn-icons-png.flaticon.com/512/1077/1077012.png" alt="Perfil" width="20" class="me-2 align-middle">
+            Perfil
+        </a>
 
         <a class="nav-link text-danger" th:href="@{/auth/logout}">
           <i class="fas fa-sign-out-alt me-2"></i> Cerrar sesión

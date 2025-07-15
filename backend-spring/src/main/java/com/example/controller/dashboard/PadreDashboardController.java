@@ -81,7 +81,7 @@ public class PadreDashboardController {
 
         // Obtener citas reales de la base de datos
         List<Cita> citas = citaRepository.findByPadreId(u.getId_usuario());
-        
+
         // Ordenar citas por fecha y hora (más cercanas primero)
         citas.sort((a, b) -> {
             // Primero comparar por fecha
@@ -92,20 +92,24 @@ public class PadreDashboardController {
             // Si la fecha es igual, comparar por hora
             return a.getHora().compareTo(b.getHora());
         });
-        
+
         // Reorganizar las citas para que aparezcan en el grid en el orden correcto:
-        // [0] [1]  <- Primera fila
-        // [2] [3]  <- Segunda fila
+        // [0] [1] <- Primera fila
+        // [2] [3] <- Segunda fila
         // Donde [0] es la más próxima, [1] es la segunda más próxima, etc.
         List<Cita> citasReorganizadas = new ArrayList<>();
         for (int i = 0; i < citas.size(); i += 4) {
             // Agregar las citas en el orden del grid
-            if (i < citas.size()) citasReorganizadas.add(citas.get(i));     // Posición [0]
-            if (i + 1 < citas.size()) citasReorganizadas.add(citas.get(i + 1)); // Posición [1]
-            if (i + 2 < citas.size()) citasReorganizadas.add(citas.get(i + 2)); // Posición [2]
-            if (i + 3 < citas.size()) citasReorganizadas.add(citas.get(i + 3)); // Posición [3]
+            if (i < citas.size())
+                citasReorganizadas.add(citas.get(i)); // Posición [0]
+            if (i + 1 < citas.size())
+                citasReorganizadas.add(citas.get(i + 1)); // Posición [1]
+            if (i + 2 < citas.size())
+                citasReorganizadas.add(citas.get(i + 2)); // Posición [2]
+            if (i + 3 < citas.size())
+                citasReorganizadas.add(citas.get(i + 3)); // Posición [3]
         }
-        
+
         citas = citasReorganizadas;
 
         model.addAttribute("citas", citas);
@@ -124,6 +128,18 @@ public class PadreDashboardController {
         return "padre/RinconDivertido";
     }
 
+    @GetMapping("/cuentos")
+    public String vistaCuentos(HttpSession session, Model model) {
+        Usuario u = (Usuario) session.getAttribute("usuarioObj");
+
+        if (u == null || u.getRol() != Usuario.Rol.padre) {
+            return "redirect:/auth/login";
+        }
+
+        model.addAttribute("padre", u);
+        return "padre/cuentos"; // <== este nombre debe coincidir con el nombre del archivo sin .html
+    }
+
     // NUEVOS MÉTODOS PARA MANEJAR FOTOS DE NIÑOS
 
     @GetMapping("/configuracion")
@@ -136,7 +152,7 @@ public class PadreDashboardController {
 
         // Obtener todos los niños del padre
         List<Nino> ninos = ninoRepository.findByIdPadre(u.getId_usuario());
-        
+
         model.addAttribute("ninos", ninos);
         model.addAttribute("padre", u);
 
@@ -144,12 +160,12 @@ public class PadreDashboardController {
     }
 
     @PostMapping("/subir-foto-nino/{idNino}")
-    public String subirFotoNino(@PathVariable Integer idNino, 
-                               @RequestParam("foto") MultipartFile foto,
-                               HttpSession session) {
+    public String subirFotoNino(@PathVariable Integer idNino,
+            @RequestParam("foto") MultipartFile foto,
+            HttpSession session) {
         try {
             Usuario u = (Usuario) session.getAttribute("usuarioObj");
-            
+
             if (u == null || u.getRol() != Usuario.Rol.padre) {
                 return "redirect:/auth/login";
             }
@@ -186,13 +202,13 @@ public class PadreDashboardController {
     public ResponseEntity<byte[]> obtenerFotoNino(@PathVariable Integer idNino, HttpSession session) {
         try {
             Usuario u = (Usuario) session.getAttribute("usuarioObj");
-            
+
             if (u == null || u.getRol() != Usuario.Rol.padre) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
             }
 
             Nino nino = ninoRepository.findById(idNino).orElse(null);
-            
+
             if (nino == null || !nino.getIdPadre().equals(u.getId_usuario())) {
                 return ResponseEntity.notFound().build();
             }

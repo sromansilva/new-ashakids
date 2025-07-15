@@ -146,6 +146,25 @@ public class PadreDashboardController {
         return "padre/cuentos"; // <== este nombre debe coincidir con el nombre del archivo sin .html
     }
 
+@GetMapping("/cuentos-clasicos")
+public String verCuentosClasicos() {
+    return "padre/cuentosClasicos";
+}
+
+@GetMapping("/cuentos/inventados")
+public String vistaCuentosInventados(HttpSession session, Model model) {
+    Usuario u = (Usuario) session.getAttribute("usuarioObj");
+
+    if (u == null || u.getRol() != Usuario.Rol.padre) {
+        return "redirect:/auth/login";
+    }
+
+    model.addAttribute("padre", u);
+    return "padre/cuentosInventados"; // asegúrate de que este archivo exista
+}
+
+
+    
     // NUEVOS MÉTODOS PARA MANEJAR FOTOS DE NIÑOS
 
     @GetMapping("/configuracion")
@@ -232,9 +251,9 @@ public class PadreDashboardController {
 
     @PostMapping("/cambiar-contrasena")
     public String cambiarContrasena(HttpSession session,
-                                    @RequestParam("actual") String actual,
-                                    @RequestParam("nueva") String nueva,
-                                    @RequestParam("confirmar") String confirmar) {
+            @RequestParam("actual") String actual,
+            @RequestParam("nueva") String nueva,
+            @RequestParam("confirmar") String confirmar) {
         Usuario u = (Usuario) session.getAttribute("usuarioObj");
         if (u == null || u.getRol() != Usuario.Rol.padre) {
             System.out.println("Usuario no en sesión o no es padre");

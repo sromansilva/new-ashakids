@@ -14,10 +14,14 @@ const dbConfig = {
     host: 'localhost',
     user: 'root',
 <<<<<<< HEAD
+<<<<<<< HEAD
     password: 'Hola.1234',
 =======
     password: 'Mantequillademani1%',
 >>>>>>> fbd929775b0e1d52fb65a88f83da5d9d5a4f80c7
+=======
+    password: '1234',
+>>>>>>> 08ecbc87d7f2369d5882972cde364e82a107b6e9
     database: 'Ashakids'
 };
 

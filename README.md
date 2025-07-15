@@ -49,7 +49,7 @@ Antes de empezar, asegúrate de tener instalados:
 ### Clonar el repositorio
 
 ```bash
-git clone https://github.com/tu-usuario/new-ashakids.git
+git clone https://github.com/SergioSK21/new-ashakids.git
 cd new-ashakids
 ```
 
@@ -152,16 +152,6 @@ En la carpeta `docs/` encontrarás:
 * Diagramas de arquitectura (Mermaid o draw\.io).
 * Guía de contribución y estándares de código.
 * Plantillas para diseño de emails.
-
----
-
-## Cómo contribuir
-
-1. Haz un *fork* del repositorio.
-2. Crea una rama `feature/nombre-descriptivo`.
-3. Asegúrate de cumplir con los linters y tests de cada servicio.
-4. Abre un *pull request* describiendo tu cambio.
-
 ---
 
 ## Licencia

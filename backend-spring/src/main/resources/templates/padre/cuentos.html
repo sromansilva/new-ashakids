@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/padreLayout :: Head}">
-    <!-- <title>Cuentos Infantiles - ASHAKids</title>
-    <link rel="stylesheet" th:href="@{/css/padre/cuento.css}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> -->
-</head>
 
+<head th:replace="~{fragments/padreLayout :: Head}"></head>
+
+<head>
+    <title>Cuentos Infantiles - ASHAKids</title>
+    <link rel="stylesheet" th:href="@{/css/padre/cuento.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
 <body>
 
     <!-- Sidebar y navegación -->
@@ -27,7 +29,7 @@
 
         <!-- Tarjetas de cuentos -->
         <div class="card-container">
-            <a th:href="@{/cuentos/clasicos}">
+            <a th:href="@{/padre/cuentos-clasicos}">
                 <div class="card">
                     <img th:src="@{/img/Video-Cuentos/Cuentos.clasicos.svg}" alt="Cuentos clásicos">
                     <p>Cuentos clásicos</p>

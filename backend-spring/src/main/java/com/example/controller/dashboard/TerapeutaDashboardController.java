@@ -162,10 +162,6 @@ public class TerapeutaDashboardController {
     }
 
 
-    @GetMapping("/progreso")
-    public String progreso() {
-        return "terapeuta/progresoTerapeuta";
-    }
 
     @GetMapping("/perfilTerapeuta")
     public String vistaPerfilTerapeuta(HttpSession session, Model model) {

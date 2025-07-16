@@ -145,15 +145,4 @@ public class AdminDashboardController {
         return "admin/adminJuegos";
     }
 
-    @GetMapping("/configuracion")
-    public String configuracion(HttpSession session, Model model) {
-        Usuario u = (Usuario) session.getAttribute("usuarioObj");
-
-        if (u == null || u.getRol() != Usuario.Rol.admin) {
-            return "redirect:/auth/login";
-        }
-
-        model.addAttribute("admin", u);
-        return "admin/adminConfiguracion";
-    }
 }

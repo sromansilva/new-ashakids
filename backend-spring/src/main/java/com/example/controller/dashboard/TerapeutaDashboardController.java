@@ -4,7 +4,9 @@ import com.example.model.Cita;
 import com.example.model.Usuario;
 import com.example.repository.CitaRepository;
 import com.example.repository.CompraPaqueteRepository;
+import com.example.repository.MaterialTerapeutaRepository;
 import com.example.model.CompraPaquete;
+import com.example.model.MaterialTerapeuta;
 import com.example.repository.UsuarioRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,9 @@ public class TerapeutaDashboardController {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private MaterialTerapeutaRepository materialTerapeutaRepository; 
 
     // ========== VISTA PRINCIPAL ==========
     @GetMapping("")
@@ -144,9 +149,18 @@ public class TerapeutaDashboardController {
     }
 
     @GetMapping("/material")
-    public String material() {
+    public String material(HttpSession session, Model model) {
+        Usuario terapeuta = (Usuario) session.getAttribute("usuarioObj");
+        if (terapeuta == null || terapeuta.getRol() != Usuario.Rol.terapeuta) {
+            return "redirect:/auth/login";
+        }
+
+        List<MaterialTerapeuta> materiales = materialTerapeutaRepository.findByTerapeuta(terapeuta);
+        model.addAttribute("materiales", materiales);
+        model.addAttribute("terapeuta", terapeuta);
         return "terapeuta/materialTerapeuta";
     }
+
 
     @GetMapping("/progreso")
     public String progreso() {

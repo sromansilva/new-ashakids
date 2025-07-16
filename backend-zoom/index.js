@@ -13,7 +13,7 @@ app.use(cors());  // Habilitar CORS
 const dbConfig = {
     host: 'localhost',
     user: 'root',
-    password: 'Mantequillademani1%',
+    password: 'Hola.1234',
     database: 'Ashakids'
 };
 

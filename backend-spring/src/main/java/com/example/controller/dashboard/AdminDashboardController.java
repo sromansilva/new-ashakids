@@ -80,30 +80,6 @@ public class AdminDashboardController {
         return "admin/adminUsuarios";
     }
 
-    @GetMapping("/psicologos")
-    public String psicologos(HttpSession session, Model model) {
-        Usuario u = (Usuario) session.getAttribute("usuarioObj");
-
-        if (u == null || u.getRol() != Usuario.Rol.admin) {
-            return "redirect:/auth/login";
-        }
-
-        List<Usuario> terapeutas = usuarioRepository.findByRol(Usuario.Rol.terapeuta);
-        int totalPsicologos = terapeutas.size();
-        int psicologosDisponibles = (int) terapeutas.stream()
-            .filter(t -> t.getDisponible() != null && t.getDisponible())
-            .count();
-
-        model.addAttribute("admin", u);
-        model.addAttribute("psicologos", terapeutas);
-        model.addAttribute("totalPsicologos", totalPsicologos);
-        model.addAttribute("psicologosDisponibles", psicologosDisponibles);
-        model.addAttribute("psicologosEnSesion", 8); // este valor puedes calcularlo después
-        model.addAttribute("promedioRating", 4.8); // igual este
-
-        return "admin/adminPsicologos";
-    }
-
     @GetMapping("/reportes")
     public String reportes(HttpSession session, Model model) {
         Usuario u = (Usuario) session.getAttribute("usuarioObj");

@@ -376,4 +376,24 @@ public String vistaCuentosInventados(HttpSession session, Model model) {
         return "redirect:/padre/configuracion?success=contrasena_cambiada";
     }
 
+    @PostMapping("/agregar-nino")
+    public String agregarNino(@RequestParam("nombre") String nombre,
+                              @RequestParam("fechaNacimiento") String fechaNacimiento,
+                              HttpSession session) {
+        Usuario u = (Usuario) session.getAttribute("usuarioObj");
+        if (u == null || u.getRol() != Usuario.Rol.padre) {
+            return "redirect:/auth/login";
+        }
+        try {
+            com.example.model.Nino nino = new com.example.model.Nino();
+            nino.setNombre(nombre);
+            nino.setFechaNacimiento(java.time.LocalDate.parse(fechaNacimiento));
+            nino.setIdPadre(u.getId_usuario());
+            ninoRepository.save(nino);
+            return "redirect:/padre/perfilPadre?success=nino_agregado";
+        } catch (Exception e) {
+            return "redirect:/padre/perfilPadre?error=error_guardar";
+        }
+    }
+
 }

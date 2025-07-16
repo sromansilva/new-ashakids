@@ -179,6 +179,39 @@
     </div>
   </div>
 
+  <!-- Botón flotante para añadir niño -->
+  <button type="button" class="btn btn-primary btn-lg rounded-circle shadow position-fixed" style="bottom: 40px; right: 40px; z-index: 1050; width: 64px; height: 64px; display: flex; align-items: center; justify-content: center; font-size: 2rem;" data-bs-toggle="modal" data-bs-target="#modalAgregarNino" title="Añadir niño">
+    <i class="fas fa-plus"></i>
+  </button>
+
+  <!-- Modal para agregar niño -->
+  <div class="modal fade" id="modalAgregarNino" tabindex="-1" aria-labelledby="modalAgregarNinoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content rounded-4">
+        <form method="post" th:action="@{/padre/agregar-nino}" id="formAgregarNino">
+          <div class="modal-header" style="background: linear-gradient(90deg, #8e2de2 0%, #ff9100 100%); color: #fff; border-top-left-radius: 1.2em; border-top-right-radius: 1.2em;">
+            <h5 class="modal-title fw-bold" id="modalAgregarNinoLabel"><i class="fas fa-child me-2"></i>Agregar Niño</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          </div>
+          <div class="modal-body p-4">
+            <div class="mb-3">
+              <label for="nombreNino" class="form-label">Nombre del niño</label>
+              <input type="text" class="form-control rounded-pill fs-5" id="nombreNino" name="nombre" required maxlength="100" placeholder="Nombre completo">
+            </div>
+            <div class="mb-3">
+              <label for="fechaNacimientoNino" class="form-label">Fecha de nacimiento</label>
+              <input type="date" class="form-control rounded-pill fs-5" id="fechaNacimientoNino" name="fechaNacimiento" required max="{{today}}">
+            </div>
+          </div>
+          <div class="modal-footer border-0">
+            <button type="button" class="btn btn-secondary rounded-pill" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-success rounded-pill fw-bold"><i class="fas fa-save me-2"></i>Guardar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
   <style>
     /* Estilos para la página de configuración */
     body {
@@ -378,6 +411,13 @@
       }, 200);
     });
   </script>
+
+  <!-- Mensaje de éxito para niño agregado -->
+  <div th:if="${param.success == 'nino_agregado'}" class="alert alert-success alert-dismissible fade show custom-alert" role="alert" style="background: linear-gradient(90deg, #a8ff78 0%, #78ffd6 100%); color: #155724; border-radius: 1.2em; box-shadow: 0 2px 12px rgba(120,255,214,0.15); border: none;">
+    <i class="fas fa-check-circle me-2"></i>
+    <strong>¡Niño agregado exitosamente!</strong>
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  </div>
 
 </body>
 

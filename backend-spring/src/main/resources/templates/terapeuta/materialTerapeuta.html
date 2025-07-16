@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/terapeutaLayout :: Head}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+</head>
+
+<body>
+
+  <!-- SIDEBAR -->
+  <div th:replace="~{fragments/terapeutaLayout :: menuToggle}"></div>
+  <nav th:replace="~{fragments/terapeutaLayout :: sidebarTerapeuta}"></nav>
+  <div th:replace="~{fragments/terapeutaLayout :: overlay}"></div>
+
+  <main class="main-content p-4" style="margin-left: 250px;">
+    <div class="container">
+      <h2 class="mb-4">📚 Subir Material del Terapeuta</h2>
+
+      <!-- Formulario para subir PDF -->
+      <form th:action="@{/material/subir}" method="post" enctype="multipart/form-data"
+        class="shadow p-4 bg-white rounded mb-5">
+
+        <div class="mb-3">
+          <label for="titulo" class="form-label">Título</label>
+          <input type="text" class="form-control" name="titulo" id="titulo" required>
+        </div>
+
+        <div class="mb-3">
+          <label for="descripcion" class="form-label">Descripción</label>
+          <textarea class="form-control" name="descripcion" id="descripcion" rows="3" required></textarea>
+        </div>
+
+        <div class="mb-3">
+          <label for="archivo" class="form-label">Selecciona archivo PDF</label>
+          <input type="file" class="form-control" name="archivo" id="archivo" accept="application/pdf" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+          <i class="bi bi-upload"></i> Subir Material
+        </button>
+
+        <!-- Mensajes -->
+        <div th:if="${success}" class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+          <span th:text="${success}"></span>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+        </div>
+
+        <div th:if="${error}" class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+          <span th:text="${error}"></span>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+        </div>
+
+      </form>
+
+      <!-- Lista de materiales -->
+      <h4 class="mb-3">📄 Materiales Subidos</h4>
+
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+          <div class="col" th:each="material : ${materiales}">
+            <div class="card h-100 shadow-sm border-primary">
+              <div class="card-body">
+                <h5 class="card-title d-flex align-items-center">
+                  <i class="bi bi-file-earmark-pdf-fill text-danger me-2 fs-4"></i>
+                  <span th:text="${material.titulo}">Título</span>
+                </h5>
+                <p class="card-text" th:text="${material.descripcion}">Descripción breve</p>
+              </div>
+              <div class="card-footer d-flex justify-content-end gap-2">
+                <!-- Botón ver -->
+                <a class="btn btn-success btn-sm" title="Ver archivo"
+                  th:href="@{/material/ver/{nombre}(nombre=${material.nombreArchivo})}" target="_blank">
+                  👀
+                </a>
+                
+                <!-- Botón eliminar -->
+                <form th:action="@{/material/eliminar/{id}(id=${material.id})}" method="post"
+                      onsubmit="return confirm('¿Estás seguro de eliminar este material?')">
+                  <input type="hidden" name="_method" value="delete" />
+                  <button class="btn btn-danger btn-sm" title="Eliminar" type="submit">
+                    🗑️
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+    </div>
+  </main>
+
+  <script th:replace="~{fragments/terapeutaLayout :: terapeuta-scripts}"></script>
+</body>
+
+</html>

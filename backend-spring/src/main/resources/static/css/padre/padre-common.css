@@ -18,6 +18,8 @@ body {
   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
   z-index: 1000;
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Logo */
@@ -110,6 +112,61 @@ body {
 
 .overlay.hidden {
   display: none;
+}
+
+/* --- Sidebar: Sección de perfil del padre --- */
+.sidebar-profile {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  min-height: 140px;
+  height: 140px;
+  /* background: none; */
+  border-top: 1.5px solid #e0e0e0;
+  margin-top: auto;
+  padding-bottom: 18px;
+}
+.sidebar-profile .profile-img {
+  width: 64px;
+  height: 64px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(44,62,80,0.10);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.7em;
+}
+.sidebar-profile img {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2.5px solid #ffd600;
+}
+.sidebar-profile .profile-name {
+  font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
+  font-size: 1.13rem;
+  font-weight: 700;
+  color: #2d3a4b;
+  margin-bottom: 0.2em;
+  letter-spacing: 0.2px;
+  text-align: center;
+}
+.sidebar-profile .profile-rol {
+  font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(90deg, #43e97b 0%, #38f9d7 100%);
+  border-radius: 1.2em;
+  padding: 0.25em 1.1em;
+  margin-top: 0.2em;
+  margin-bottom: 0.1em;
+  display: inline-block;
+  box-shadow: 0 2px 8px rgba(56,249,215,0.10);
+  letter-spacing: 0.5px;
 }
 
 

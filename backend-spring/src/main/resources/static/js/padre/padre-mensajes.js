@@ -37,7 +37,9 @@ document.addEventListener('DOMContentLoaded', function () {
         terapeutasData.forEach(terapeuta => {
             const btn = document.createElement('button');
             btn.className = 'list-group-item list-group-item-action d-flex justify-content-between align-items-center terapeuta-item';
-            btn.innerHTML = `<span><i class='fas fa-user-md me-2'></i> ${terapeuta.nombre}</span>`;
+            // Mostrar foto o ícono
+            const fotoHtml = terapeuta.foto ? `<img src='${terapeuta.foto}' class='foto-lista' alt='Foto'>` : "<i class='fas fa-user-md me-2'></i>";
+            btn.innerHTML = `<span>${fotoHtml} ${terapeuta.nombre}</span>`;
             if (terapeuta.noLeidos > 0) {
                 btn.innerHTML += `<span class='badge bg-danger rounded-pill'>${terapeuta.noLeidos}</span>`;
             }
@@ -54,6 +56,11 @@ document.addEventListener('DOMContentLoaded', function () {
         terapeutaActual = terapeuta;
         idTerapeutaSeleccionado.value = terapeuta.idTerapeuta;
         nombreTerapeutaChat.textContent = terapeuta.nombre;
+        // Mostrar foto en el encabezado
+        const fotoElem = document.getElementById('fotoTerapeutaChat');
+        if (fotoElem) {
+            fotoElem.src = terapeuta.foto ? terapeuta.foto : 'https://cdn-icons-png.flaticon.com/512/1077/1077114.png';
+        }
         paginaActual = 0;
         cargarMensajes();
         marcarLeidos();

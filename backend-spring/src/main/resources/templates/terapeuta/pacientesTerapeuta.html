@@ -1,47 +1,76 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head th:replace="~{fragments/terapeutaLayout :: Head}"></head>
-
 <body>
-
-  <!--SIDEBAR-->
   <div th:replace="~{fragments/terapeutaLayout :: menuToggle}"></div>
-
   <nav th:replace="~{fragments/terapeutaLayout :: sidebarTerapeuta}"></nav>
-
   <div th:replace="~{fragments/terapeutaLayout :: overlay}"></div>
-
-  <main class="content-area">
-    <h2 class="paciente-title mb-4">🧍 Lista de Pacientes</h2>
-
-    <div class="paciente-card d-flex align-items-center">
-      <img th:src="@{/img/pacientes/avatar1.jpg}" alt="Paciente" class="paciente-avatar">
-
-      <div>
-        <h5 class="mb-1">Alan Aguilera</h5>
-        <p class="mb-0">Edad: 7 años - Última sesión: 05/06/2025</p>
-      </div>
+  <main class="content-area container py-4">
+    <h2 class="mb-4 text-center">🧑‍🎓 Solicitudes de Paquetes Pendientes</h2>
+    <div class="bg-white rounded shadow p-4">
+      <table class="table table-hover align-middle">
+        <thead class="table-light">
+          <tr>
+            <th>Padre/Madre</th>
+            <th>Correo</th>
+            <th>Paquete</th>
+            <th>Horas</th>
+            <th>Monto</th>
+            <th>Fecha de compra</th>
+            <th>Acción</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="compra : ${comprasPendientes}">
+            <td th:text="${compra.padre != null ? compra.padre.nombre : '-'}">-</td>
+            <td th:text="${compra.padre != null ? compra.padre.correo : '-'}">-</td>
+            <td th:text="${compra.paquete != null ? compra.paquete.nombre : '-'}">-</td>
+            <td th:text="${compra.paquete != null ? compra.paquete.horas : '-'}">-</td>
+            <td th:text="${compra.paquete != null ? 'S/.' + compra.paquete.precio : '-'}">-</td>
+            <td th:text="${#temporals.format(compra.fecha_compra, 'dd/MM/yyyy HH:mm')}">-</td>
+            <td>
+              <button class="btn btn-success btn-sm btn-confirmar-compra" th:data-id="${compra.id_compra}">
+                <i class="fas fa-check me-1"></i> Confirmar
+              </button>
+            </td>
+          </tr>
+          <tr th:if="${#lists.isEmpty(comprasPendientes)}">
+            <td colspan="7" class="text-center text-muted">No hay compras pendientes de confirmación.</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-
-    <div class="paciente-card d-flex align-items-center">
-      <img th:src="@{/img/avatar2.jpg}" alt="Paciente" class="paciente-avatar">
-      <div>
-        <h5 class="mb-1">María López</h5>
-        <p class="mb-0">Edad: 6 años - Última sesión: 03/06/2025</p>
-      </div>
-    </div>
-
-    <div class="paciente-card d-flex align-items-center">
-      <img th:src="@{/img/avatar2.jpg}" alt="Paciente" class="paciente-avatar">
-      <div>
-        <h5 class="mb-1">Pedro Gómez</h5>
-        <p class="mb-0">Edad: 8 años - Última sesión: 02/06/2025</p>
-      </div>
-    </div>
-
   </main>
-
-    <div th:replace="~{fragments/terapeutaLayout :: terapeuta-scripts}"></div>
+  <div th:replace="~{fragments/terapeutaLayout :: terapeuta-scripts}"></div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll('.btn-confirmar-compra').forEach(function(btn) {
+        btn.addEventListener('click', async function() {
+          const idCompra = this.getAttribute('data-id');
+          if (!confirm('¿Confirmar el pago de este paquete?')) return;
+          btn.disabled = true;
+          btn.textContent = 'Confirmando...';
+          try {
+            const resp = await fetch(`/api/paquetes/confirmar-pago?idCompra=${idCompra}`, { method: 'POST' });
+            if (resp.ok) {
+              btn.classList.remove('btn-success');
+              btn.classList.add('btn-secondary');
+              btn.textContent = 'Confirmado';
+              setTimeout(() => location.reload(), 1000);
+            } else {
+              const data = await resp.text();
+              alert('Error: ' + data);
+              btn.disabled = false;
+              btn.textContent = 'Confirmar';
+            }
+          } catch (e) {
+            alert('Error de red');
+            btn.disabled = false;
+            btn.textContent = 'Confirmar';
+          }
+        });
+      });
+    });
+  </script>
 </body>
 </html>

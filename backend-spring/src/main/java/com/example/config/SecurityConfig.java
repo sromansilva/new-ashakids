@@ -40,6 +40,7 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable()) // Solo desactivar CSRF en desarrollo
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(HttpMethod.POST, "/auth/restablecer-contrasena").permitAll()
+                .requestMatchers("/terapeuta/public/foto-terapeuta/**").permitAll()
                 .requestMatchers("/", "/public/**", "/css/**", "/js/**", "/img/**", 
                                 "/auth/**", "/nosotros", "/faq", "/guiapadres", 
                                 "/actividades", "/opiniones", "/servicios").permitAll()

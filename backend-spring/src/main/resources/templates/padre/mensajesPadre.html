@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/padreLayout :: Head}"></head>
+<head>
+    <link rel="stylesheet" th:href="@{/css/padre/padre-mensajes.css}">
+</head>
 <body>
-    <!--SIDEBAR-->
     <div th:replace="~{fragments/padreLayout :: menuToggle}"></div>
     <nav th:replace="~{fragments/padreLayout :: sidebar}"></nav>
     <div th:replace="~{fragments/padreLayout :: overlay}"></div>
@@ -29,7 +31,7 @@
                             <div class="col-md-9 p-0 d-flex flex-column" style="height: 70vh;">
                                 <div class="p-3 border-bottom bg-white d-flex align-items-center justify-content-between rounded-end-4">
                                     <div class="d-flex align-items-center">
-                                        <i class="fas fa-user-md fa-2x me-2 text-primary"></i>
+                                        <img id="fotoTerapeutaChat" src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" alt="Foto" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;">
                                         <span id="nombreTerapeutaChat" class="fw-bold fs-5">Selecciona un terapeuta</span>
                                     </div>
                                     <button class="btn btn-sm btn-outline-secondary" id="btnRefrescarChat" title="Refrescar"><i class="fas fa-sync-alt"></i></button>
@@ -49,6 +51,7 @@
             </div>
         </div>
     </main>
+    <link rel="stylesheet" th:href="@{/css/padre/padre-mensajes.css}">
     <script th:src="@{/js/padre/padre-mensajes.js}"></script>
     <div th:replace="~{fragments/padreLayout :: padre-scripts}"></div>
 </body>

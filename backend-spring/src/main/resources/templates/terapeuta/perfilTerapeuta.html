@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>AshaKids - Perfil Terapeuta</title>
+</head>
+<head th:replace="~{fragments/terapeutaLayout :: Head}"></head>
+<body style="background: linear-gradient(120deg, #e0e7ff 0%, #e0f7fa 100%); min-height: 100vh;">
+    <div th:replace="~{fragments/terapeutaLayout :: menuToggle}"></div>
+    <nav th:replace="~{fragments/terapeutaLayout :: sidebarTerapeuta}"></nav>
+    <div th:replace="~{fragments/terapeutaLayout :: overlay}"></div>
+    <div class="main-content">
+      <div class="container py-4">
+        <!-- Banner de perfil elegante y suave -->
+        <div class="profile-banner-elegant mb-5 p-4 shadow-sm rounded-4 position-relative text-center" style="background: linear-gradient(135deg, #e3f0fa 0%, #f5fafd 100%); min-height: 180px; border: 1px solid #e0e0e0;">
+          <div class="d-flex flex-column align-items-center justify-content-center h-100">
+            <div class="profile-img-wrapper mb-3" style="width: 110px; height: 110px; background: #f0f4fa; border-radius: 50%; box-shadow: 0 2px 12px rgba(44,62,80,0.08); display: flex; align-items: center; justify-content: center; position: relative;">
+              <img th:if="${terapeuta.tieneFoto()}" th:src="@{/terapeuta/foto-perfil-terapeuta}" alt="Perfil" class="rounded-circle" style="width: 80px; height: 80px; object-fit: cover;">
+              <img th:unless="${terapeuta.tieneFoto()}" src="https://cdn-icons-png.flaticon.com/512/1077/1077012.png" alt="Perfil" class="rounded-circle" style="width: 80px; height: 80px;">
+              <form th:action="@{/terapeuta/subir-foto-perfil-terapeuta}" method="post" enctype="multipart/form-data" style="position: absolute; bottom: 0; right: 0;">
+                <label for="foto-perfil" class="btn btn-sm btn-light border shadow-sm" style="border-radius: 50%; padding: 0.3em 0.5em; cursor: pointer;">
+                  <i class="fas fa-camera"></i>
+                </label>
+                <input id="foto-perfil" name="foto" type="file" accept="image/*" style="display: none;" onchange="this.form.submit()">
+              </form>
+            </div>
+            <h1 class="fw-bold mb-1" style="font-size: 2.1rem; letter-spacing: 0.5px; color: #2d3a4b;" th:text="${terapeuta.nombre}">Nombre</h1>
+            <div class="mb-1" style="color: #6c7a89; font-size: 1.1rem;" th:text="${terapeuta.correo}">Correo</div>
+            <span class="badge bg-secondary mt-2" style="font-size: 1rem; padding: 0.5em 1.1em; color: #fff; border-radius: 1.2em;">Terapeuta</span>
+          </div>
+        </div>
+        <!-- Mensajes de éxito/error para cambio de contraseña -->
+        <div id="alertas-contrasena">
+          <div th:if="${param.success == 'contrasena_cambiada'}" class="alert alert-success alert-dismissible fade show custom-alert" role="alert" style="background: linear-gradient(90deg, #a8ff78 0%, #78ffd6 100%); color: #155724; border-radius: 1.2em; box-shadow: 0 2px 12px rgba(120,255,214,0.15); border: none;">
+            <i class="fas fa-check-circle me-2"></i>
+            <strong>¡Contraseña cambiada exitosamente!</strong> Ahora puedes usar tu nueva contraseña para iniciar sesión.
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+          </div>
+          <div th:if="${param.error == 'actual_incorrecta'}" class="alert alert-danger alert-dismissible fade show custom-alert" role="alert" style="background: linear-gradient(90deg, #ffecd2 0%, #fcb69f 100%); color: #721c24; border-radius: 1.2em; box-shadow: 0 2px 12px rgba(252,182,159,0.15); border: none;">
+            <i class="fas fa-exclamation-triangle me-2"></i>
+            <strong>Error:</strong> La contraseña actual que ingresaste es incorrecta. Por favor, verifica e inténtalo de nuevo.
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+          </div>
+          <div th:if="${param.error == 'no_coinciden'}" class="alert alert-danger alert-dismissible fade show custom-alert" role="alert" style="background: linear-gradient(90deg, #f7971e 0%, #ffd200 100%); color: #7c4700; border-radius: 1.2em; box-shadow: 0 2px 12px rgba(255,210,0,0.10); border: none;">
+            <i class="fas fa-exclamation-triangle me-2"></i>
+            <strong>Error:</strong> Las nuevas contraseñas no coinciden. Asegúrate de escribir la misma contraseña en ambos campos.
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+          </div>
+        </div>
+        <!-- Sección de datos de cuenta y cambio de contraseña en dos columnas -->
+        <div class="row justify-content-center mb-5 g-4">
+          <div class="col-md-6">
+            <div class="card shadow-lg border-0 rounded-4 p-4 mb-4 h-100" style="background: #f3e8ff; color: #2d3a4b; box-shadow: 0 8px 32px rgba(142,45,226,0.10); min-height: 420px; border: 1.5px solid #b39ddb;">
+              <div class="card-body d-flex flex-column justify-content-center h-100">
+                <h3 class="fw-bold mb-3 d-flex align-items-center" style="color: #6c3fc5;"><i class="fas fa-user-circle me-2" style="font-size: 2rem; color: #9575cd;"></i>Datos de mi cuenta</h3>
+                <ul class="list-group list-group-flush mb-2">
+                  <li class="list-group-item bg-transparent border-0 ps-0" style="color: #2d3a4b;"><i class="fas fa-user me-2" style="color: #9575cd; font-size: 1.3rem;"></i><strong>Nombre:</strong> <span th:text="${terapeuta.nombre}">Nombre</span></li>
+                  <li class="list-group-item bg-transparent border-0 ps-0" style="color: #2d3a4b;"><i class="fas fa-envelope me-2" style="color: #039be5; font-size: 1.3rem;"></i><strong>Correo:</strong> <span th:text="${terapeuta.correo}">Correo</span></li>
+                  <li class="list-group-item bg-transparent border-0 ps-0" style="color: #2d3a4b;"><i class="fas fa-phone me-2" style="color: #43a047; font-size: 1.3rem;"></i><strong>Teléfono:</strong> <span th:text="${terapeuta.telefono}">Teléfono</span></li>
+                  <li class="list-group-item bg-transparent border-0 ps-0" style="color: #2d3a4b;"><i class="fas fa-id-badge me-2" style="color: #fbc02d; font-size: 1.3rem;"></i><strong>Código:</strong> <span th:text="${terapeuta.codigo}">Código</span></li>
+                  <li class="list-group-item bg-transparent border-0 ps-0" style="color: #2d3a4b;"><i class="fas fa-map-marker-alt me-2" style="color: #e57373; font-size: 1.3rem;"></i><strong>Dirección:</strong> <span th:text="${terapeuta.direccion}">Dirección</span></li>
+                  <li class="list-group-item bg-transparent border-0 ps-0" style="color: #2d3a4b;"><i class="fas fa-user-tag me-2" style="color: #64b5f6; font-size: 1.3rem;"></i><strong>Rol:</strong> <span th:text="${terapeuta.rol}">Rol</span></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card shadow-lg border-0 rounded-4 p-4 mb-4 h-100" style="background: #e0f2f1; color: #2d3a4b; box-shadow: 0 8px 32px rgba(2,151,144,0.10); min-height: 420px; border: 1.5px solid #80cbc4;">
+              <div class="card-body d-flex flex-column justify-content-center h-100">
+                <h4 class="fw-bold mb-3 d-flex align-items-center" style="color: #00897b;"><i class="fas fa-key me-2" style="font-size: 2rem; color: #26a69a;"></i>Cambiar Contraseña</h4>
+                <form id="form-cambiar-contrasena" method="post" th:action="@{/terapeuta/cambiar-contrasena-terapeuta}">
+                  <div class="mb-3">
+                    <label for="actual" class="form-label">Contraseña actual</label>
+                    <input type="password" class="form-control rounded-pill fs-5" id="actual" name="actual" required autocomplete="current-password" placeholder="Ingresa tu contraseña actual" style="background: rgba(255,255,255,0.15); color: #2d3a4b; border: 1.5px solid #b2dfdb;">
+                  </div>
+                  <div class="mb-3">
+                    <label for="nueva" class="form-label">Nueva contraseña</label>
+                    <input type="password" class="form-control rounded-pill fs-5" id="nueva" name="nueva" required autocomplete="new-password" placeholder="Nueva contraseña" style="background: rgba(255,255,255,0.15); color: #2d3a4b; border: 1.5px solid #b2dfdb;">
+                  </div>
+                  <div class="mb-3">
+                    <label for="confirmar" class="form-label">Confirmar nueva contraseña</label>
+                    <input type="password" class="form-control rounded-pill fs-5" id="confirmar" name="confirmar" required autocomplete="new-password" placeholder="Confirma la nueva contraseña" style="background: rgba(255,255,255,0.15); color: #2d3a4b; border: 1.5px solid #b2dfdb;">
+                  </div>
+                  <button type="submit" class="btn w-100 fw-bold rounded-pill fs-5" style="background: linear-gradient(90deg, #43e97b 0%, #38f9d7 100%); border: none; color: #00695c;"><i class="fas fa-save me-2"></i>Guardar nueva contraseña</button>
+                </form>
+                <div id="mensaje-cambio-contrasena" class="mt-3"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Mensajes de éxito/error para foto -->
+        <div th:if="${param.success}" class="alert alert-success alert-dismissible fade show" role="alert">
+          <i class="fas fa-check-circle me-2"></i>
+          <span th:if="${param.success == 'foto_guardada'}">¡Foto guardada exitosamente!</span>
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        <div th:if="${param.error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+          <i class="fas fa-exclamation-triangle me-2"></i>
+          <span th:if="${param.error == 'tipo_archivo_invalido'}">Solo se permiten archivos de imagen (JPG, PNG, GIF).</span>
+          <span th:if="${param.error == 'archivo_muy_grande'}">El archivo es muy grande. Máximo 5MB.</span>
+          <span th:if="${param.error == 'error_guardar'}">Error al guardar la foto. Inténtalo de nuevo.</span>
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+      </div>
+    </div>
+    <style>
+      body { background: #f5f6fa !important; }
+      .profile-banner-elegant { box-shadow: 0 4px 24px rgba(44,62,80,0.07); position: relative; }
+      .profile-img-wrapper { border: 4px solid #ffd600; box-shadow: 0 2px 12px rgba(255,214,0,0.10); }
+      .card { border-radius: 1.5rem !important; }
+      .btn { background: linear-gradient(90deg, #ff9100 0%, #8e2de2 100%) !important; border: none !important; color: #fff !important; }
+      .btn:hover { background: #8e2de2 !important; color: #fff !important; }
+      .form-control:focus { border-color: #ffd600; box-shadow: 0 0 0 0.2rem rgba(255,214,0,0.10); }
+      .list-group-item { font-size: 1.15rem; }
+      .text-primary { color: #1976d2 !important; }
+      .text-info { color: #0288d1 !important; }
+      .text-success { color: #43a047 !important; }
+      .text-warning { color: #fbc02d !important; }
+      .text-danger { color: #e53935 !important; }
+      .text-secondary { color: #6c757d !important; }
+      .config-header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 20px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3); }
+    </style>
+    <div th:replace="~{fragments/terapeutaLayout :: terapeuta-scripts}"></div>
+    <script>
+      // Validación de archivos
+      document.addEventListener('DOMContentLoaded', function() {
+        const fileInputs = document.querySelectorAll('input[type="file"]');
+        fileInputs.forEach(input => {
+          input.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+              // Validar tipo de archivo
+              if (!file.type.startsWith('image/')) {
+                alert('Solo se permiten archivos de imagen (JPG y JPEG).');
+                this.value = '';
+                return;
+              }
+              // Validar tamaño (5MB)
+              if (file.size > 5 * 1024 * 1024) {
+                alert('El archivo es muy grande. Máximo 5MB.');
+                this.value = '';
+                return;
+              }
+            }
+          });
+        });
+        // Validación de contraseñas en el formulario de cambio de contraseña
+        const formCambio = document.getElementById('form-cambiar-contrasena');
+        if (formCambio) {
+          formCambio.addEventListener('submit', function(e) {
+            const nueva = document.getElementById('nueva').value;
+            const confirmar = document.getElementById('confirmar').value;
+            if (nueva !== confirmar) {
+              e.preventDefault();
+              mostrarErrorContrasena('Las nuevas contraseñas no coinciden. Asegúrate de escribir la misma contraseña en ambos campos.');
+            }
+          });
+        }
+        function mostrarErrorContrasena(msg) {
+          let div = document.getElementById('mensaje-cambio-contrasena');
+          if (div) {
+            div.innerHTML = `<div class='alert alert-danger alert-dismissible fade show custom-alert' role='alert' style='background: linear-gradient(90deg, #f7971e 0%, #ffd200 100%); color: #7c4700; border-radius: 1.2em; box-shadow: 0 2px 12px rgba(255,210,0,0.10); border: none;'>
+              <i class='fas fa-exclamation-triangle me-2'></i> <strong>Error:</strong> ${msg}
+              <button type='button' class='btn-close' data-bs-dismiss='alert'></button>
+            </div>`;
+            // Scroll automático al mensaje
+            div.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        }
+        // Scroll automático a la alerta si existe tras recarga
+        setTimeout(function() {
+          var alerta = document.querySelector('.custom-alert');
+          if (alerta) {
+            alerta.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        }, 200);
+      });
+    </script>
+</body>
+</html> 

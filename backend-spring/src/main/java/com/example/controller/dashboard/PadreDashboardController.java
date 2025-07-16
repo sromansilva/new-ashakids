@@ -22,9 +22,11 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.model.Cita;
 import com.example.model.Nino;
 import com.example.model.Usuario;
+import com.example.model.CompraPaquete;
 import com.example.repository.CitaRepository;
 import com.example.repository.NinoRepository;
 import com.example.repository.UsuarioRepository;
+import com.example.repository.CompraPaqueteRepository;
 import com.example.utils.GenerarHash;
 
 import jakarta.servlet.http.HttpServletResponse;
@@ -42,6 +44,9 @@ public class PadreDashboardController {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private CompraPaqueteRepository compraPaqueteRepository;
 
     @GetMapping("")
     public String mostrarVistaPadre(HttpSession session, Model model, HttpServletResponse response) {
@@ -72,8 +77,17 @@ public class PadreDashboardController {
         return "padre/padreInicio";
     }
 
+    // Método auxiliar para agregar el padre al modelo
+    private void agregarPadreAlModelo(HttpSession session, Model model) {
+        Usuario u = (Usuario) session.getAttribute("usuarioObj");
+        if (u != null && u.getRol() == Usuario.Rol.padre) {
+            model.addAttribute("padre", u);
+        }
+    }
+
     @GetMapping("/psicologos")
-    public String vistaPsicologos(HttpSession session) {
+    public String vistaPsicologos(HttpSession session, Model model) {
+        agregarPadreAlModelo(session, model);
         return "padre/psicologos";
     }
 
@@ -125,12 +139,14 @@ public class PadreDashboardController {
     }
 
     @GetMapping("/recompensas")
-    public String vistaRecompensas(HttpSession session) {
+    public String vistaRecompensas(HttpSession session, Model model) {
+        agregarPadreAlModelo(session, model);
         return "padre/recompensas";
     }
 
     @GetMapping("/RinconDivertido")
-    public String vistaRinconDivertido(HttpSession session) {
+    public String vistaRinconDivertido(HttpSession session, Model model) {
+        agregarPadreAlModelo(session, model);
         return "padre/RinconDivertido";
     }
 
@@ -182,9 +198,22 @@ public String vistaCuentosInventados(HttpSession session, Model model) {
         return "padre/canciones";
     }
 
+    @GetMapping("/compras")
+    public String vistaCompras(HttpSession session, Model model) {
+        Usuario u = (Usuario) session.getAttribute("usuarioObj");
+        if (u == null || u.getRol() != Usuario.Rol.padre) {
+            return "redirect:/auth/login";
+        }
+        List<CompraPaquete> compras = compraPaqueteRepository.findByPadre(u);
+        model.addAttribute("compras", compras);
+        model.addAttribute("padre", u);
+        return "padre/compras";
+    }
+
 
     @GetMapping("/mensajes")
     public String mensajesPadre(Model model, HttpSession session) {
+        agregarPadreAlModelo(session, model);
         return "padre/mensajesPadre";
     }
 
@@ -192,8 +221,8 @@ public String vistaCuentosInventados(HttpSession session, Model model) {
     
     // NUEVOS MÉTODOS PARA MANEJAR FOTOS DE NIÑOS
 
-    @GetMapping("/configuracion")
-    public String vistaConfiguracion(HttpSession session, Model model) {
+    @GetMapping("/perfilPadre")
+    public String vistaPerfilPadre(HttpSession session, Model model) {
         Usuario u = (Usuario) session.getAttribute("usuarioObj");
         if (u == null || u.getRol() != Usuario.Rol.padre) {
             return "redirect:/auth/login";
@@ -202,7 +231,7 @@ public String vistaCuentosInventados(HttpSession session, Model model) {
 
         model.addAttribute("ninos", ninos);
         model.addAttribute("padre", u);
-        return "padre/configuracion";
+        return "padre/perfilPadre";
     }
 
     @PostMapping("/subir-foto-nino/{idNino}")
@@ -219,17 +248,17 @@ public String vistaCuentosInventados(HttpSession session, Model model) {
             // Verificar que el niño pertenece al padre
             Nino nino = ninoRepository.findById(idNino).orElse(null);
             if (nino == null || !nino.getIdPadre().equals(u.getId_usuario())) {
-                return "redirect:/padre/configuracion?error=niño_no_encontrado";
+                return "redirect:/padre/perfilPadre?error=niño_no_encontrado";
             }
 
             // Validar tipo de archivo
             if (!foto.getContentType().startsWith("image/")) {
-                return "redirect:/padre/configuracion?error=tipo_archivo_invalido";
+                return "redirect:/padre/perfilPadre?error=tipo_archivo_invalido";
             }
 
             // Validar tamaño (máximo 5MB)
             if (foto.getSize() > 5 * 1024 * 1024) {
-                return "redirect:/padre/configuracion?error=archivo_muy_grande";
+                return "redirect:/padre/perfilPadre?error=archivo_muy_grande";
             }
 
             // Guardar foto en la base de datos
@@ -237,10 +266,10 @@ public String vistaCuentosInventados(HttpSession session, Model model) {
             nino.setTipoFoto(foto.getContentType());
             ninoRepository.save(nino);
 
-            return "redirect:/padre/configuracion?success=foto_guardada";
+            return "redirect:/padre/perfilPadre?success=foto_guardada";
 
-        } catch (IOException e) {
-            return "redirect:/padre/configuracion?error=error_guardar";
+        } catch (Exception e) {
+            return "redirect:/padre/perfilPadre?error=error_guardar";
         }
     }
 
@@ -269,6 +298,48 @@ public String vistaCuentosInventados(HttpSession session, Model model) {
 
             return new ResponseEntity<>(nino.getFoto(), headers, HttpStatus.OK);
 
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @PostMapping("/subir-foto-perfil")
+    public String subirFotoPerfil(@RequestParam("foto") MultipartFile foto, HttpSession session) {
+        try {
+            Usuario u = (Usuario) session.getAttribute("usuarioObj");
+            if (u == null || u.getRol() != Usuario.Rol.padre) {
+                return "redirect:/auth/login";
+            }
+            if (!foto.getContentType().startsWith("image/")) {
+                return "redirect:/padre/perfilPadre?error=tipo_archivo_invalido";
+            }
+            if (foto.getSize() > 5 * 1024 * 1024) {
+                return "redirect:/padre/perfilPadre?error=archivo_muy_grande";
+            }
+            u.setFoto(foto.getBytes());
+            u.setTipoFoto(foto.getContentType());
+            usuarioRepository.save(u);
+            session.setAttribute("usuarioObj", u); // Actualizar en sesión
+            return "redirect:/padre/perfilPadre?success=foto_guardada";
+        } catch (Exception e) {
+            return "redirect:/padre/perfilPadre?error=error_guardar";
+        }
+    }
+
+    @GetMapping("/foto-perfil")
+    public ResponseEntity<byte[]> obtenerFotoPerfil(HttpSession session) {
+        try {
+            Usuario u = (Usuario) session.getAttribute("usuarioObj");
+            if (u == null || u.getRol() != Usuario.Rol.padre) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            }
+            if (!u.tieneFoto()) {
+                return ResponseEntity.notFound().build();
+            }
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.parseMediaType(u.getTipoFoto()));
+            headers.setContentLength(u.getFoto().length);
+            return new ResponseEntity<>(u.getFoto(), headers, HttpStatus.OK);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }

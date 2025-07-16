@@ -57,7 +57,7 @@ public class TerapeutaMensajesController {
             padreInfo.put("idPadre", padre.getId_usuario());
             padreInfo.put("nombre", padre.getNombre());
             padreInfo.put("correo", padre.getCorreo());
-            padreInfo.put("foto", null); // Por ahora null
+            padreInfo.put("foto", (padre.tieneFoto() ? "/padre/foto-perfil/" + padre.getId_usuario() : null));
             padreInfo.put("noLeidos", noLeidosPorPadre.getOrDefault(padre.getId_usuario(), 0));
             resultado.add(padreInfo);
         }

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Mis Compras - ASHAKids</title>
+    <head th:replace="~{fragments/padreLayout :: Head}"></head>
+</head>
+<body>
+    <div th:replace="~{fragments/padreLayout :: menuToggle}"></div>
+    <div th:replace="~{fragments/padreLayout :: sidebar}"></div>
+    <div th:replace="~{fragments/padreLayout :: overlay}"></div>
+    <div class="main-content container py-4">
+        <h2 class="mb-4 text-center">🧾 Mis Compras de Paquetes</h2>
+        <div class="bg-white rounded shadow p-4">
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Fecha de compra</th>
+                        <th>Terapeuta</th>
+                        <th>Paquete</th>
+                        <th>Horas</th>
+                        <th>Estado</th>
+                        <th>Monto</th>
+                        <th>Factura</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="compra : ${compras}">
+                        <td th:text="${#temporals.format(compra.fecha_compra, 'dd/MM/yyyy HH:mm')}">-</td>
+                        <td th:text="${compra.terapeuta != null ? compra.terapeuta.nombre : '-'}">-</td>
+                        <td th:text="${compra.paquete != null ? compra.paquete.nombre : '-'}">-</td>
+                        <td th:text="${compra.horas_restantes}">-</td>
+                        <td>
+                            <span th:if="${compra.estadoPago.name() == 'confirmado'}" class="badge bg-success">Confirmado</span>
+                            <span th:if="${compra.estadoPago.name() == 'pendiente'}" class="badge bg-warning text-dark">Pendiente</span>
+                        </td>
+                        <td th:text="${compra.paquete != null ? 'S/.' + compra.paquete.precio : '-'}">-</td>
+                        <td>
+                            <a th:href="@{'/reporte/factura?idCompra=' + ${compra.id_compra}}"
+                               class="btn btn-outline-primary btn-sm"
+                               th:attr="disabled=${compra.estadoPago.name() != 'confirmado'} ? 'disabled'">
+                                <i class="fas fa-file-pdf me-1"></i> Descargar
+                            </a>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(compras)}">
+                        <td colspan="7" class="text-center text-muted">No tienes compras registradas.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div th:replace="~{fragments/padreLayout :: padre-scripts}"></div>
+</body>
+</html> 

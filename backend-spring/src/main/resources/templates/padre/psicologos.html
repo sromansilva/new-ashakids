@@ -26,52 +26,52 @@
     <h2 class="text-center mb-4">👩‍⚕️ Nuestro equipo de especialistas</h2>
 
     <!-- Fila de especialistas -->
-    <div class="row g-4">
+    <div class="row g-4" id="psicologos-lista">
+      <!-- Aquí se cargarán los psicólogos dinámicamente con JS -->
+    </div>
 
-      <!-- Especialista 1 -->
-      <div class="col-md-4">
-        <div class="card shadow-sm h-100">
-          <img src="https://media.istockphoto.com/id/1459782858/es/foto/joven-estudiante-universitaria-adulta-habla-con-su-compa%C3%B1ero.jpg?s=612x612&w=0&k=20&c=a8up44HQhaYYP-Q1DARH7B4NiZzVS0GcCgklWr00w-w=" class="card-img-top" alt="Lic. María López">
-          <div class="card-body">
-            <h5 class="card-title">Lic. María López</h5>
-            <p class="card-text"><strong>Especialidad:</strong> Terapia de lenguaje</p>
-            <p class="card-text">Enfocada en la comunicación en niños neurodivergentes y retrasos del habla.</p>
-            <a href="#" class="btn btn-outline-primary w-100">Ver perfil</a>
+    <!-- Modal de perfil de psicólogo -->
+    <div class="modal fade" id="modalPerfilPsicologo" tabindex="-1" aria-labelledby="modalPerfilPsicologoLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header bg-primary text-white">
+            <h5 class="modal-title" id="modalPerfilPsicologoLabel">Perfil del Psicólogo</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-4 text-center">
+                <img id="psicologo-foto" src="" alt="Foto Psicólogo" class="img-fluid rounded-circle mb-3" style="width: 120px; height: 120px; object-fit: cover;">
+                <h5 id="psicologo-nombre" class="fw-bold mb-1"></h5>
+                <div id="psicologo-especialidad" class="mb-2 text-secondary"></div>
+                <div id="psicologo-correo" class="mb-2 small"></div>
+              </div>
+              <div class="col-md-8">
+                <div class="mb-3">
+                  <strong>Sobre el especialista:</strong>
+                  <p id="psicologo-descripcion" class="mb-2"></p>
+                </div>
+                <div class="mb-3">
+                  <strong>Selecciona un paquete de horas:</strong>
+                  <div id="paquetes-lista" class="d-flex gap-3 flex-wrap mb-2"></div>
+                  <div id="paquete-seleccionado-info" class="mb-2"></div>
+                  <button id="btn-comprar-paquete" class="btn btn-success mb-2" disabled>Comprar paquete</button>
+                  <div id="compra-estado" class="mt-2"></div>
+                </div>
+                <div id="horas-disponibles-info" class="alert alert-info d-none"></div>
+                <div id="agendar-sesion-info" class="mt-3 d-none">
+                  <button id="btn-agendar-sesion" class="btn btn-primary">Agendar sesión</button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-
-      <!-- Especialista 2 -->
-      <div class="col-md-4">
-        <div class="card shadow-sm h-100">
-          <img src="https://media.istockphoto.com/id/2082304548/es/foto/individual-counselling.jpg?s=612x612&w=0&k=20&c=d5jo0QIEdq28C1AOsrzaVKsJeROpL_NiQY0LJVog26Y=" class="card-img-top" alt="Dr. Pedro Gómez">
-          <div class="card-body">
-            <h5 class="card-title">Dr. Pedro Gómez</h5>
-            <p class="card-text"><strong>Especialidad:</strong> Psicología infantil</p>
-            <p class="card-text">Apoya el desarrollo emocional y la regulación del comportamiento.</p>
-            <a href="#" class="btn btn-outline-primary w-100">Ver perfil</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Especialista 3 -->
-      <div class="col-md-4">
-        <div class="card shadow-sm h-100">
-          <img src="https://media.istockphoto.com/id/1395128697/es/foto/sesi%C3%B3n-de-psic%C3%B3logo.jpg?s=612x612&w=0&k=20&c=Mzv5uWI8binHAufrXE_1jdmEw5xEkAGof8rxPnTgrjk=" class="card-img-top" alt="Terapista Adriana Ruiz">
-          <div class="card-body">
-            <h5 class="card-title">Dra. Adriana Ruiz</h5>
-            <p class="card-text"><strong>Especialidad:</strong> Terapia ocupacional</p>
-            <p class="card-text">Ayuda a los niños a desarrollar habilidades motrices y sensoriales.</p>
-            <a href="#" class="btn btn-outline-primary w-100">Ver perfil</a>
-          </div>
-        </div>
-      </div>
-
     </div>
   </div>
 
 
   <div th:replace="~{fragments/padreLayout :: padre-scripts}"></div>
-
+  <script th:src="@{/js/padre/psicologos.js}"></script>
 </body>
 </html>

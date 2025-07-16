@@ -48,6 +48,17 @@ public class Usuario {
     private Boolean disponible;        // Solo para terapeutas
     private String nivel_acceso;       // Solo para admins
 
+    @Lob
+    @Column(name = "foto")
+    private byte[] foto;
+
+    @Column(name = "tipo_foto")
+    private String tipoFoto = "image/jpeg";
+
+    public boolean tieneFoto() {
+        return this.foto != null && this.foto.length > 0;
+    }
+
     public enum Rol {
         padre, terapeuta, admin
     }

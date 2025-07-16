@@ -43,7 +43,7 @@
               Agenda
           </a>
         
-        <a class="nav-link" href="http://localhost:8080/generar-factura" target="_blank">
+        <a class="nav-link" th:href="@{/padre/compras}">
           <i class="fas fa-file-invoice me-2"></i> Generar Reporte
         </a>
 
@@ -51,7 +51,7 @@
               <img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png" alt="Recompensas" width="20" class="me-2 align-middle">
               Recompensas
           </a>
-        <a class="nav-link" th:href="@{/padre/configuracion}">
+        <a class="nav-link" th:href="@{/padre/perfilPadre}">
             <img src="https://cdn-icons-png.flaticon.com/512/1077/1077012.png" alt="Perfil" width="20" class="me-2 align-middle">
             Perfil
         </a>
@@ -60,6 +60,14 @@
           <i class="fas fa-sign-out-alt me-2"></i> Cerrar sesión
         </a>
       </nav>
+      <div class="sidebar-profile mt-auto">
+        <div class="profile-img">
+          <img th:if="${padre != null and padre.tieneFoto()}" th:src="@{/padre/foto-perfil}" alt="Perfil" class="rounded-circle">
+          <img th:unless="${padre != null and padre.tieneFoto()}" src="https://cdn-icons-png.flaticon.com/512/1077/1077012.png" alt="Perfil" class="rounded-circle">
+        </div>
+        <div class="profile-name" th:text="${padre != null ? padre.nombre : ''}">Nombre</div>
+        <div class="profile-rol">Padre</div>
+      </div>
   </div>
 
   <!--------------------------------->

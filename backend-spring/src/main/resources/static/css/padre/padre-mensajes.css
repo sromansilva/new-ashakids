@@ -1,3 +1,4 @@
+/* Estilos de mensajes para el área de padres, inspirado en terapeuta-mensajes.css */
 .mensaje {
   max-width: 70%;
   padding: 0.7em 1.1em;
@@ -27,15 +28,14 @@
   text-align: right;
   margin-top: 0.2em;
 }
-.padre-item.active, .padre-item:active {
+.terapeuta-item.active, .terapeuta-item:active {
   background: linear-gradient(90deg, #4f8cff 0%, #1e40af 100%) !important;
   color: #fff !important;
 }
-
-.foto-lista {
+.list-group-item .foto-lista {
   width: 32px;
   height: 32px;
   object-fit: cover;
   border-radius: 50%;
-  margin-right: 8px;
-}
+  margin-right: 0.7em;
+} 

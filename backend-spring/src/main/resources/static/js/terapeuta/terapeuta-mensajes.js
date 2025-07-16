@@ -37,7 +37,10 @@ document.addEventListener('DOMContentLoaded', function () {
         padresData.forEach(padre => {
             const btn = document.createElement('button');
             btn.className = 'list-group-item list-group-item-action d-flex justify-content-between align-items-center padre-item';
-            btn.innerHTML = `<span><i class='fas fa-user-circle me-2'></i> ${padre.nombre}</span>`;
+            // Mostrar foto pequeña usando el endpoint
+            const fotoUrl = `/terapeuta/foto-padre/${padre.idPadre}`;
+            const fotoHtml = `<img src='${fotoUrl}' class='foto-lista' alt='Foto' onerror=\"this.onerror=null;this.src='https://cdn-icons-png.flaticon.com/512/1077/1077012.png';\">`;
+            btn.innerHTML = `<span>${fotoHtml} ${padre.nombre}</span>`;
             if (padre.noLeidos > 0) {
                 btn.innerHTML += `<span class='badge bg-danger rounded-pill'>${padre.noLeidos}</span>`;
             }
@@ -54,6 +57,16 @@ document.addEventListener('DOMContentLoaded', function () {
         padreActual = padre;
         idPadreSeleccionado.value = padre.idPadre;
         nombrePadreChat.textContent = padre.nombre;
+        // Mostrar foto en el encabezado
+        const fotoElem = document.getElementById('fotoPadreChat');
+        if (fotoElem) {
+            // Usar el nuevo endpoint para la foto de perfil del padre
+            fotoElem.onerror = function() {
+                this.onerror = null;
+                this.src = 'https://cdn-icons-png.flaticon.com/512/1077/1077012.png';
+            };
+            fotoElem.src = '/terapeuta/foto-padre/' + padre.idPadre;
+        }
         paginaActual = 0;
         cargarMensajes();
         marcarLeidos();

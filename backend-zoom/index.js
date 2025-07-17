@@ -13,7 +13,7 @@ app.use(cors());  // Habilitar CORS
 const dbConfig = {
     host: 'localhost',
     user: 'root',
-    password: 'Mantequillademani1%',
+    password: '1234',
     database: 'Ashakids'
 };
 
@@ -43,7 +43,7 @@ app.get("/terapeutas", async (req, res) => {
     try {
         const db = await mysql.createPool(dbConfig);
         const [rows] = await db.query(
-            'SELECT id_usuario, nombre, especialidad FROM usuarios WHERE rol = "terapeuta" AND disponible = true'
+            'SELECT id_usuario, nombre, especialidad FROM usuarios WHERE rol = "terapeuta"'
         );
         res.json(rows);
     } catch (err) {

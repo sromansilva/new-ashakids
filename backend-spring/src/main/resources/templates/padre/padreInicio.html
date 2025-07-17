@@ -9,20 +9,39 @@
 
 
 <body>
-<!--sidebar jamon-->
+  <!--sidebar jamon-->
 
-    <div th:replace="~{fragments/padreLayout :: menuToggle}"></div>
+  <div th:replace="~{fragments/padreLayout :: menuToggle}"></div>
 
-    <div th:replace="~{fragments/padreLayout :: sidebar}"></div>
+  <div th:replace="~{fragments/padreLayout :: sidebar}"></div>
 
-    <div th:replace="~{fragments/padreLayout :: overlay}"></div>
+  <div th:replace="~{fragments/padreLayout :: overlay}"></div>
 
   <div class="main-content">
     <div class="container py-4">
-      <h2>Bienvenido, <span th:text="${usuario}">Usuario</span> 👋</h2>
+      <h2>¡Bienvenido, <span th:text="${usuario}">Usuario</span> 👋</h2>
 
-      <div class="info-box">
-        🎉 ¡Explora tu espacio terapéutico y descubre nuevas actividades para ti!
+      <div
+        class="p-5 mb-4 rounded-4 d-flex align-items-center justify-content-between position-relative overflow-hidden"
+        style="background: linear-gradient(90deg, #7b1fa2 0%, #1976d2 60%, #42a5f5 100%); color: white; min-height: 120px; max-width: 1800px; margin: 0 auto 2rem auto; box-shadow: 0 8px 32px rgba(123,31,162,0.12);">
+        <!-- Detalle decorativo SVG -->
+        <svg style="position:absolute;right:0;bottom:0;z-index:0;opacity:0.15;" width="300" height="180"
+          viewBox="0 0 300 180">
+          <ellipse cx="150" cy="90" rx="150" ry="90" fill="#fff" />
+        </svg>
+        <div class="flex-grow-1 position-relative" style="z-index:1;">
+          <h1 class="fw-bold display-4 mb-3 fs-1" style="letter-spacing:1px;">Organiza tus citas y recursos en Ashakids</h1>
+          <p class="fs-4 mb-4 text-white">Planifica tus sesiones, accede a tus pacientes y mantén todo bajo control desde tu panel
+            de
+            terapeuta.</p>
+          <a href="/terapeuta/agenda" class="btn fw-bold px-4 py-2 fs-5"
+            style="background:#ffb300;color:#fff;box-shadow:0 2px 8px #ffb30055;">Ver agenda</a>
+        </div>
+        <div class="d-none d-md-block ms-4 flex-shrink-0 position-relative" style="z-index:1;">
+          <img src="/img/conoceMas.png" alt="Banner decorativo"
+            style="max-width: 240px; max-height: 180px; border-radius: 2rem; box-shadow:0 4px 24px #7b1fa255;"
+            th:src="@{/img/conoceMas.png}">
+        </div>
       </div>
 
       <div class="row justify-content-center g-3 mb-4">
@@ -71,7 +90,8 @@
           </div>
         </div>
         <div class="text-center mt-4">
-          <a th:href="@{'http://localhost:3000/crear-reunion.html?idPadre=' + ${padre.id_usuario}}" class="btn btn-primary btn-lg btn-reservar">
+          <a th:href="@{'http://localhost:3000/crear-reunion.html?idPadre=' + ${padre.id_usuario}}"
+            class="btn btn-primary btn-lg btn-reservar">
             <i class="fas fa-calendar-plus me-2"></i>Agendar reunión Zoom
           </a>
         </div>
@@ -82,42 +102,51 @@
           <h3 class="fw-bold mb-4" style="color:#1976d2;">Citas activas</h3>
           <div class="row g-3">
             <div th:each="cita : ${citas}" class="col-12 col-md-6 col-lg-4">
-              <div class="card h-100 border-0 shadow-sm rounded-3" style="background: linear-gradient(135deg,#f8f9fa 0%,#e9ecef 100%); border-left: 4px solid #1976d2;">
+              <div class="card h-100 border-0 shadow-sm rounded-3"
+                style="background: linear-gradient(135deg,#f8f9fa 0%,#e9ecef 100%); border-left: 4px solid #1976d2;">
                 <div class="card-body p-3">
-                  <h6 class="fw-bold mb-2 text-primary" th:text="${cita.tema != null ? cita.tema : 'Cita de Terapia'}">Cita de Terapia</h6>
-                  <p class="mb-1 small"><strong>📅 Fecha:</strong> <span th:text="${cita.fecha != null ? #temporals.format(cita.fecha, 'EEEE, d MMMM yyyy') : 'Sin fecha'}">Fecha</span></p>
-                  <p class="mb-1 small"><strong>🕐 Hora:</strong> <span th:text="${cita.hora != null ? cita.hora : 'Sin hora'}">Hora</span></p>
-                  <p class="mb-1 small"><strong>👶 Niño:</strong> <span th:text="${cita.nino != null && cita.nino.nombre != null ? cita.nino.nombre : 'Sin asignar'}">Nombre Niño</span></p>
-                  <p class="mb-1 small"><strong>🧑‍⚕️ Terapeuta:</strong> <span th:text="${cita.terapeuta != null && cita.terapeuta.nombre != null ? cita.terapeuta.nombre : 'Sin asignar'}">Nombre Terapeuta</span></p>
-                  <p class="mb-1 small"><strong>🎯 Modalidad:</strong> 
+                  <h6 class="fw-bold mb-2 text-primary" th:text="${cita.tema != null ? cita.tema : 'Cita de Terapia'}">
+                    Cita de Terapia</h6>
+                  <p class="mb-1 small"><strong>📅 Fecha:</strong> <span
+                      th:text="${cita.fecha != null ? #temporals.format(cita.fecha, 'EEEE, d MMMM yyyy') : 'Sin fecha'}">Fecha</span>
+                  </p>
+                  <p class="mb-1 small"><strong>🕐 Hora:</strong> <span
+                      th:text="${cita.hora != null ? cita.hora : 'Sin hora'}">Hora</span></p>
+                  <p class="mb-1 small"><strong>👶 Niño:</strong> <span
+                      th:text="${cita.nino != null && cita.nino.nombre != null ? cita.nino.nombre : 'Sin asignar'}">Nombre
+                      Niño</span></p>
+                  <p class="mb-1 small"><strong>🧑‍⚕️ Terapeuta:</strong> <span
+                      th:text="${cita.terapeuta != null && cita.terapeuta.nombre != null ? cita.terapeuta.nombre : 'Sin asignar'}">Nombre
+                      Terapeuta</span></p>
+                  <p class="mb-1 small"><strong>🎯 Modalidad:</strong>
                     <span th:if="${cita.modalidad == 'Virtual'}" class="badge bg-info">Virtual</span>
                     <span th:if="${cita.modalidad == 'Presencial'}" class="badge bg-warning">Presencial</span>
                     <span th:if="${cita.modalidad == null}" class="text-muted">Sin especificar</span>
                   </p>
                   <div class="d-flex justify-content-between align-items-center mb-2">
-                    <span class="badge bg-primary" th:text="${cita.estado != null ? cita.estado : 'Sin estado'}">Estado</span>
+                    <span class="badge bg-primary"
+                      th:text="${cita.estado != null ? cita.estado : 'Sin estado'}">Estado</span>
                   </div>
                   <div class="d-flex gap-2 mt-3">
-                    <button th:if="${cita.modalidad == 'Virtual' && cita.enlace_o_direccion != null}" 
-                            class="btn btn-success btn-sm flex-fill" 
-                            style="background: linear-gradient(135deg,#4caf50 0%,#66bb6a 100%); border: none; color: white; font-size: 0.8rem;"
-                            th:data-zoom-link="${cita.enlace_o_direccion}"
-                            onclick="window.open(this.getAttribute('data-zoom-link'), '_blank')">
+                    <button th:if="${cita.modalidad == 'Virtual' && cita.enlace_o_direccion != null}"
+                      class="btn btn-success btn-sm flex-fill"
+                      style="background: linear-gradient(135deg,#4caf50 0%,#66bb6a 100%); border: none; color: white; font-size: 0.8rem;"
+                      th:data-zoom-link="${cita.enlace_o_direccion}"
+                      onclick="window.open(this.getAttribute('data-zoom-link'), '_blank')">
                       <i class="fas fa-video me-1"></i> Unirse al Zoom
                     </button>
-                    <div th:if="${cita.modalidad == 'Presencial'}" 
-                         class="btn btn-warning btn-sm flex-fill" 
-                         style="background: linear-gradient(135deg,#ff9800 0%,#ffb74d 100%); border: none; color: white; font-size: 0.8rem; cursor: default;">
+                    <div th:if="${cita.modalidad == 'Presencial'}" class="btn btn-warning btn-sm flex-fill"
+                      style="background: linear-gradient(135deg,#ff9800 0%,#ffb74d 100%); border: none; color: white; font-size: 0.8rem; cursor: default;">
                       <i class="fas fa-building me-1"></i> Cita en Sede
                     </div>
-                    <a th:if="${cita.modalidad == 'Presencial'}" 
-                       th:href="@{'https://www.google.com/maps/place/YUPIKIDS+-+CENTRO+DE+TERAPIA+INFANTIL/@-12.2121606,-76.9419293,21z/data=!4m6!3m5!1s0x9105b948dae5430b:0x4ea22f0707ab62e7!8m2!3d-12.2121035!4d-76.9415536!16s%2Fg%2F11swd3krh5?entry=ttu&g_ep=EgoyMDI1MDcwOS4wIKXMDSoASAFQAw%3D%3D'}"
-                       target="_blank" class="btn btn-outline-success btn-sm flex-fill">
+                    <a th:if="${cita.modalidad == 'Presencial'}"
+                      th:href="@{'https://www.google.com/maps/place/YUPIKIDS+-+CENTRO+DE+TERAPIA+INFANTIL/@-12.2121606,-76.9419293,21z/data=!4m6!3m5!1s0x9105b948dae5430b:0x4ea22f0707ab62e7!8m2!3d-12.2121035!4d-76.9415536!16s%2Fg%2F11swd3krh5?entry=ttu&g_ep=EgoyMDI1MDcwOS4wIKXMDSoASAFQAw%3D%3D'}"
+                      target="_blank" class="btn btn-outline-success btn-sm flex-fill">
                       <i class="fas fa-map me-1"></i> Google Maps
                     </a>
-                    <button class="btn btn-danger btn-sm flex-fill cancelar-cita-btn" 
-                            style="background: linear-gradient(135deg,#f44336 0%,#ef5350 100%); border: none; color: white; font-size: 0.8rem;"
-                            th:data-cita-id="${cita.id_cita}">
+                    <button class="btn btn-danger btn-sm flex-fill cancelar-cita-btn"
+                      style="background: linear-gradient(135deg,#f44336 0%,#ef5350 100%); border: none; color: white; font-size: 0.8rem;"
+                      th:data-cita-id="${cita.id_cita}">
                       <i class="fas fa-times me-1"></i> Cancelar
                     </button>
                   </div>
@@ -126,7 +155,8 @@
             </div>
           </div>
           <div class="text-center mt-4">
-            <a th:href="@{'http://localhost:3000/crear-reunion.html?idPadre=' + ${padre.id_usuario}}" class="btn btn-primary btn-lg btn-reservar">
+            <a th:href="@{'http://localhost:3000/crear-reunion.html?idPadre=' + ${padre.id_usuario}}"
+              class="btn btn-primary btn-lg btn-reservar">
               <i class="fas fa-calendar-plus me-2"></i>Agendar reunión Zoom
             </a>
           </div>

@@ -1,0 +1,544 @@
+@import url('https://fonts.googleapis.com/css2?family=Lilita+One&family=Spicy+Rice&display=swap');
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    list-style: none;
+}
+
+
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    font-family: "Lilita One", sans-serif;
+    background-color: #fff8ec;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+img {
+    max-width: 100%;
+}
+
+.container {
+    max-width: 100%; /* Make the container full-width */
+    margin: 0 auto;
+    padding: 0 50px;
+}
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+/* Menú llamativo */
+.menu {
+    background-color: rgba(255, 255, 255, 0.9); /* Ligera transparencia */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    padding: 15px 50px; /* Ajusta el padding para espaciar mejor el contenido */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+
+.logo img {
+    max-width: 150px;
+    object-fit:contain;
+}
+
+.menu .navbar ul li {
+    position: relative;
+    float: left;
+}
+
+.menu .navbar ul li a {
+    font-size: 34px; /* Ajusta el tamaño de la fuente si es muy grande */
+    color: #0f165ae8;
+    padding: 10px 20px; /* Reduce el espaciado para compactar el menú */
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.menu .navbar ul {
+    display: flex;
+    gap: 20px;
+}
+
+.menu .navbar ul li a:hover {
+    background-color: #ffc83c;
+    color: #fff;
+}
+
+#menu {
+    display: none;
+}
+
+.menu-icono {
+    width: 25px;
+    height: 25px;
+    display: block;
+}
+
+.menu label {
+    cursor: pointer;
+    display: none;
+}
+
+/* Estilos del botón hamburguesa */
+.menu-btn {
+    display: none;
+    cursor: pointer;
+    position: relative;
+    width: 30px;
+    height: 30px;
+    padding: 10px;
+    z-index: 100;
+}
+
+.menu-btn__burger {
+    width: 30px;
+    height: 3px;
+    background-color: #333;
+    transition: all 0.3s ease-in-out;
+    position: relative;
+}
+
+.menu-btn__burger::before,
+.menu-btn__burger::after {
+    content: '';
+    position: absolute;
+    width: 30px;
+    height: 3px;
+    background-color: #333;
+    transition: all 0.3s ease;
+}
+
+.menu-btn__burger::before {
+    transform: translateY(-10px);
+}
+
+.menu-btn__burger::after {
+    transform: translateY(10px);
+}
+
+/* Animación del botón hamburguesa */
+.menu-btn.open .menu-btn__burger {
+    transform: translateX(-50px);
+    background: transparent;
+}
+
+.menu-btn.open .menu-btn__burger::before {
+    transform: rotate(45deg) translate(35px, -35px);
+}
+
+.menu-btn.open .menu-btn__burger::after {
+    transform: rotate(-45deg) translate(35px, 35px);
+}
+
+.nav-list {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 2rem;
+}
+
+.nav-list a {
+    text-decoration: none;
+    color: #333;
+}
+@media screen and (max-width: 768px) {
+    .menu-btn {
+        display: block;
+        position: absolute;
+        right: 1rem;
+        top: 1rem;
+    }
+
+    .navbar {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 100%; /* Ocupa toda la pantalla */
+        height: 100vh;
+        background-color: white;
+        padding-top: 60px;
+        transition: 0.3s ease;
+    }
+
+    .navbar.active {
+        right: 0;
+    }
+
+    .navbar ul {
+        display: flex;
+        flex-direction: column; /* Organiza los elementos en columna */
+        width: 100%; /* Ocupa todo el ancho disponible */
+        padding: 5px; /* Agrega un poco de espacio entre los elementos */
+    }
+
+    .navbar ul li {
+        width: 100%; /* Cada elemento ocupa todo el ancho */
+        text-align: left; /* Alinea el texto a la izquierda */
+        margin-bottom: 10px; /* Agrega un poco de espacio entre los elementos */
+    }
+
+    .navbar ul li a {
+        display: block;
+        font-size: 1.2rem;
+        padding: 10px 0;
+        text-decoration: none; /* Elimina la decoración del texto */
+        color: #333; /* Establece el color del texto */
+    }
+
+    .navbar ul li a:hover {
+        background-color: #f0f0f0; /* Agrega un fondo al texto al pasar el mouse */
+    }
+
+    /* Animación del botón hamburguesa */
+    .menu-btn.open .menu-btn__burger {
+        transform: rotate(45deg);
+    }
+
+    .menu-btn.open .menu-btn__burger::before {
+        transform: rotate(90deg) translate(0, 0);
+    }
+
+    .menu-btn.open .menu-btn__burger::after {
+        transform: rotate(90deg) translate(0, 0);
+    }
+}   
+
+/* Contenedor y Sección de Introducción */
+.intro {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 50px;
+    border-radius: 10px;
+    margin-top: 250px;
+}
+
+.intro img {
+    width: 150px;
+    height: auto;
+    margin-right: 80px;
+    transform: translateX(40px); /* Mueve la imagen 10px a la derecha */
+
+}
+
+.texto-intro h1 {
+    font-size: 34px;
+    color: #8B4513;
+    margin: 0;
+    text-align: center;
+}
+
+.texto-intro p {
+    font-size: 22px;
+    color: #333;
+    text-align: center;
+}
+ 
+
+/*Contenido*/ 
+.contenedor {
+    background-color: #fddaf3;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 400px;
+    margin: 0 auto; /* Centra horizontalmente */
+    transform: translateX(30px); /* Ajusta hacia la derecha */
+}
+
+
+.pregunta {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.button {
+    background-color: #36c2a9;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: background-color 0.3s ease;
+}
+
+.button:hover {
+    background-color: #2aa38c;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.modal-content {
+    background-color: white;
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    width: 350px;
+    position: relative;
+}
+
+.close {
+    position: absolute;
+    top: -20px; 
+    right: -20px; 
+    font-size: 30px;
+    cursor: pointer;
+    color: #ff4d4d;
+    background-color: white; 
+    border-radius: 50%;
+    padding: 5px 10px;
+    transition: color 0.3s ease, background-color 0.3s ease;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.close:hover {
+    color: #ff1a1a;
+    background-color: #f5f5f5;
+}
+
+.boton-reiniciar {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 20px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.boton-reiniciar:hover {
+    background-color: #45a049;
+}
+
+
+.imagen-pregunta {
+    width: 100%;
+    max-height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.opcion {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+/* Si quieres que el color gris se mantenga cuando el usuario pasa el ratón por encima */
+.navbar ul li:nth-child(4) a:hover {
+    color: #555;  /* Gris más oscuro para el hover */
+}
+
+.imagen-opcion {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.opcion:hover {
+    background-color: #e0e0e0;
+}
+
+.resultado {
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+.navegacion {
+    margin-top: 20px;
+}
+
+.flecha {
+    font-size: 24px;
+    color: #36c2a9;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.flecha:hover {
+    color: #2aa38c;
+}
+
+/* Footer*/ 
+.footer {
+    padding: 50px 0;
+    background-color: #2A223A;
+    color: #ffffff;
+    font-size: 18px;
+    margin-top: 120px;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 0 50px;
+}
+
+.footer-section {
+    width: 30%;
+}
+
+.footer-section h5 {
+    font-size: 22px;
+    margin-bottom: 20px;
+    color: #FF5A2C;
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-section ul li {
+    margin-bottom: 10px;
+}
+
+.footer-section ul li a {
+    color: #ffffff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-section ul li a:hover {
+    color: #FF5A2C;
+}
+
+.footer-bottom {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 16px;
+    color: #E0E0E0;
+}
+
+.footer-bottom p {
+    margin: 0;
+}
+
+/* Estilos para los íconos de redes sociales */
+.social-icons {
+    display: flex;
+    gap: 20px;
+    list-style: none;
+    padding: 0;
+    justify-content: flex-start; /* Cambié a flex-start para alinearlos a la izquierda */
+    margin-top: 20px; /* Ajusta el margen superior para moverlos hacia abajo */
+    margin-left: 20px; /* Ajusta el margen izquierdo para moverlos a la izquierda */
+}
+
+.social-icons li a {
+    color: #ffffff;
+    font-size: 24px;
+    transition: color 0.3s ease;
+}
+
+.social-icons li a:hover {
+    color: #FF5A2C; /* Cambia de color al pasar el mouse */
+}
+
+/* Pantallas pequeñas (móviles) */
+@media (max-width: 768px) {
+    .menu {
+        flex-direction: column;
+        align-items: flex-start; /* Alinea el contenido a la izquierda */
+        padding: 10px 20px;
+    }
+
+    .menu .navbar ul {
+        flex-direction: column; /* Apila los elementos del menú */
+        gap: 10px;
+        width: 100%; /* Ocupa el ancho completo */
+    }
+
+    .menu .navbar ul li a {
+        font-size: 20px; /* Reduce el tamaño del texto */
+        text-align: left; /* Alinea los textos a la izquierda */
+        padding: 10px 15px;
+    }
+
+    .logo img {
+        max-width: 120px; /* Reduce el tamaño del logo */
+    }
+
+    /* Agregar un ícono de menú para móviles */
+    .menu-icono {
+        display: block; /* Muestra el ícono del menú */
+        cursor: pointer;
+    }
+
+    #menu {
+        display: block; /* Activa el checkbox para mostrar el menú desplegable */
+        position: absolute;
+        opacity: 0;
+    }
+
+    .menu .navbar ul {
+        display: none; /* Oculta inicialmente el menú */
+    }
+
+    #menu:checked + ul {
+        display: flex; /* Muestra el menú desplegable al hacer clic */
+        flex-direction: column;
+        gap: 10px;
+        background-color: rgba(255, 255, 255, 0.9);
+        width: 100%; /* Ocupa todo el ancho */
+        padding: 10px 0;
+        position: absolute;
+        top: 100%; /* Coloca debajo de la barra superior */
+        left: 0;
+        z-index: 999;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Añade sombra */
+    }
+}
+
+/* Pantallas medianas (tabletas) */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .menu .navbar ul {
+        gap: 15px; /* Reduce el espacio entre los elementos */
+    }
+
+    .menu .navbar ul li a {
+        font-size: 28px; /* Ajusta el tamaño de la fuente */
+    }
+
+    .logo img {
+        max-width: 140px; /* Ajusta el tamaño del logo */
+    }
+}

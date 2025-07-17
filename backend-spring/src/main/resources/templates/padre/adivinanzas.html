@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/padreLayout :: Head}"></head>
+
+<head>
+    <title>Adivinanzas - ASHAKids</title>
+    <link rel="stylesheet" th:href="@{/css/padre/adivinanzas.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>
+    <!-- Sidebar y navegación -->
+    <div th:replace="~{fragments/padreLayout :: menuToggle}"></div>
+    <div th:replace="~{fragments/padreLayout :: sidebar}"></div>
+    <div th:replace="~{fragments/padreLayout :: overlay}"></div>
+
+
+    <div class="main-content" style="margin-left: 260px; padding: 2rem;">
+        <!-- Intro -->
+        <div class="intro">
+            <img th:src="@{/img/Adivinanza/Icono.svg}" alt="Icono de adivinanzas">
+            <div class="texto-intro">
+                <h1>Adivinanzas cortas y fáciles para niños</h1>
+                <p>¡Adivina, adivinador!<br>
+                    Los acertijos o adivinanzas para niños son actividades ideales para ejercitar la mente de tus hijos
+                    o alumnos.
+                    Nuestras adivinanzas con respuesta incluyen diversos niveles de complejidad. Sin embargo, todas
+                    ellas son cortas,
+                    fáciles de leer y comprender. Así que, ya sea en casa o en el salón de clases, motiva a tus niños a
+                    divertirse mientras
+                    desarrollan sus habilidades de pensamiento y lógica.</p>
+            </div>
+        </div>
+
+        <!-- Contenido principal -->
+        <div class="contenedor">
+            <div class="video-container">
+                <video id="videoBienvenida" width="100%" controls>
+                    <source th:src="@{/img/Adivinanza/Adivinanzas.mp4}" type="video/mp4">
+                    Tu navegador no soporta la reproducción de video.
+                </video>
+            </div>
+            <button id="jugar-btn" class="btn btn-success mt-4">Explorar Adivinanza</button>
+
+        </div>
+
+        <!-- Modal -->
+        <div id="modal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="cerrarModal()">&times;</span>
+                <h3 id="adivinanzaTexto"></h3>
+                <img id="imagenPregunta" class="imagen-pregunta" src="" alt="Imagen de la pregunta">
+                <div id="opciones"></div>
+                <p id="resultado" class="resultado"></p>
+                <div class="navegacion">
+                    <i class="fas fa-arrow-right flecha" onclick="siguienteAdivinanza()"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Audios -->
+        <audio id="sonidoCorrecto" th:src="@{/img/Adivinanza/Correcto.mp3}"></audio>
+        <audio id="sonidoIncorrecto" th:src="@{/img/Adivinanza/Perdida.mp3}"></audio>
+    </div>
+    <!-- <div th:replace="~{fragments/padreLayout :: padre-scripts}"></div> -->
+    <script th:src="@{/js/padre/adivinanzas.js}"></script>
+</body>
+
+</html>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 
-  <head th:replace="~{fragments/shared :: Head}"></head>
+<head th:replace="~{fragments/shared :: Head}"></head>
 
 <body>
 
@@ -53,7 +53,8 @@
         <!-- Tarjeta 2 -->
         <div class="col-12 col-md-4">
           <div class="tarjeta-con-fondo bg-white p-4 rounded-4 shadow-lg h-100 transition-hover">
-            <img th:src="@{/img/Card2.svg}" alt="Materiales" class="img-fluid mb-3 rounded-3" style="max-height: 350px;">
+            <img th:src="@{/img/Card2.svg}" alt="Materiales" class="img-fluid mb-3 rounded-3"
+              style="max-height: 350px;">
             <h4>Materiales Didácticos</h4>
             <p>Recursos y seguimiento para que los padres puedan acompañar el proceso terapéutico.</p>
           </div>
@@ -98,12 +99,14 @@
     <div class="container text-center" style="margin-top: 350px;">
       <h4 style="font-size: 1.8rem; font-weight: 800; color: rgb(52, 25, 75); font-family: 'Poppins', sans-serif;">Únete
         a nuestra familia</h4>
-<form action="http://localhost/backend-mail/boletin.php" method="POST" class="d-flex justify-content-center gap-2 mt-3 flex-wrap">
-  <input type="email" name="correo_padre" class="form-control w-auto correo-input" placeholder="Escribe tu correo"
-    style="background-color: #987fc3; color: white; border-radius: 25px; padding: 10px 20px; border: none; min-width: 250px;" required>
-  <input type="submit" class="btn" value="Enviar"
-    style="background-color: #f74f27; color: white; font-weight: 600; border-radius: 25px; padding: 10px 30px;">
-</form>
+      <form action="http://localhost/new-ashakids/backend-mail/boletin.html" method="POST"
+        class="d-flex justify-content-center gap-2 mt-3 flex-wrap">
+        <input type="email" name="correo_padre" class="form-control w-auto correo-input" placeholder="Escribe tu correo"
+          style="background-color: #987fc3; color: white; border-radius: 25px; padding: 10px 20px; border: none; min-width: 250px;"
+          required>
+        <input type="submit" class="btn" value="Enviar"
+          style="background-color: #f74f27; color: white; font-weight: 600; border-radius: 25px; padding: 10px 30px;">
+      </form>
     </div>
   </section>
 

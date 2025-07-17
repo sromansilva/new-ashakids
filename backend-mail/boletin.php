@@ -35,7 +35,7 @@ try {
 
     // Contenido del correo
     $mail->isHTML(true);
-    $mail->Subject = 'Confirmacion de Cita - ASHAKids';
+    $mail->Subject = 'Boletin Informativo - ASHAKids';
 $mail->Body = "
     <div style='font-family: Arial, sans-serif; background-color: #fef9f3; padding: 30px; border-radius: 12px; color: #333;'>
         <h1 style='color: #ff9900; text-align: center;'>📰 Boletín ASHAKids</h1>

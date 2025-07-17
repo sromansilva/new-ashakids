@@ -121,13 +121,13 @@ public class PadreDashboardController {
         for (int i = 0; i < citas.size(); i += 4) {
             // Agregar las citas en el orden del grid
             if (i < citas.size())
-                citasReorganizadas.add(citas.get(i)); // Posición [0]
+                citasReorganizadas.add(citas.get(i));
             if (i + 1 < citas.size())
-                citasReorganizadas.add(citas.get(i + 1)); // Posición [1]
+                citasReorganizadas.add(citas.get(i + 1));
             if (i + 2 < citas.size())
-                citasReorganizadas.add(citas.get(i + 2)); // Posición [2]
+                citasReorganizadas.add(citas.get(i + 2));
             if (i + 3 < citas.size())
-                citasReorganizadas.add(citas.get(i + 3)); // Posición [3]
+                citasReorganizadas.add(citas.get(i + 3));
         }
 
         citas = citasReorganizadas;
@@ -159,32 +159,32 @@ public class PadreDashboardController {
         }
 
         model.addAttribute("padre", u);
-        return "padre/cuentos"; // <== este nombre debe coincidir con el nombre del archivo sin .html
+        return "padre/cuentos";
     }
 
-@GetMapping("/cuentos-clasicos")
-public String vistaCuentosClasicos(HttpSession session, Model model) {
-    Usuario u = (Usuario) session.getAttribute("usuarioObj");
+    @GetMapping("/cuentos-clasicos")
+    public String vistaCuentosClasicos(HttpSession session, Model model) {
+        Usuario u = (Usuario) session.getAttribute("usuarioObj");
 
-    if (u == null || u.getRol() != Usuario.Rol.padre) {
-        return "redirect:/auth/login";
+        if (u == null || u.getRol() != Usuario.Rol.padre) {
+            return "redirect:/auth/login";
+        }
+
+        model.addAttribute("padre", u);
+        return "padre/cuentosClasicos";
     }
 
-    model.addAttribute("padre", u);
-    return "padre/cuentosClasicos";
-}
+    @GetMapping("/cuentos-inventados")
+    public String vistaCuentosInventados(HttpSession session, Model model) {
+        Usuario u = (Usuario) session.getAttribute("usuarioObj");
 
-@GetMapping("/cuentos-inventados")
-public String vistaCuentosInventados(HttpSession session, Model model) {
-    Usuario u = (Usuario) session.getAttribute("usuarioObj");
+        if (u == null || u.getRol() != Usuario.Rol.padre) {
+            return "redirect:/auth/login";
+        }
 
-    if (u == null || u.getRol() != Usuario.Rol.padre) {
-        return "redirect:/auth/login";
+        model.addAttribute("padre", u);
+        return "padre/cuentosInventados";
     }
-
-    model.addAttribute("padre", u);
-    return "padre/cuentosInventados";
-}
 
     @GetMapping("/canciones")
     public String vistaCanciones(HttpSession session, Model model) {
@@ -198,6 +198,21 @@ public String vistaCuentosInventados(HttpSession session, Model model) {
         return "padre/canciones";
     }
 
+    @GetMapping("/adivinanzas")
+    public String vistaAdivinanzas(HttpSession session, Model model) {
+        Usuario u = (Usuario) session.getAttribute("usuarioObj");
+
+        if (u == null || u.getRol() != Usuario.Rol.padre) {
+            return "redirect:/auth/login";
+        }
+
+        model.addAttribute("padre", u);
+        return "padre/adivinanzas";
+    }
+
+
+
+
     @GetMapping("/compras")
     public String vistaCompras(HttpSession session, Model model) {
         Usuario u = (Usuario) session.getAttribute("usuarioObj");
@@ -210,15 +225,12 @@ public String vistaCuentosInventados(HttpSession session, Model model) {
         return "padre/compras";
     }
 
-
     @GetMapping("/mensajes")
     public String mensajesPadre(Model model, HttpSession session) {
         agregarPadreAlModelo(session, model);
         return "padre/mensajesPadre";
     }
 
-
-    
     // NUEVOS MÉTODOS PARA MANEJAR FOTOS DE NIÑOS
 
     @GetMapping("/perfilPadre")
@@ -378,8 +390,8 @@ public String vistaCuentosInventados(HttpSession session, Model model) {
 
     @PostMapping("/agregar-nino")
     public String agregarNino(@RequestParam("nombre") String nombre,
-                              @RequestParam("fechaNacimiento") String fechaNacimiento,
-                              HttpSession session) {
+            @RequestParam("fechaNacimiento") String fechaNacimiento,
+            HttpSession session) {
         Usuario u = (Usuario) session.getAttribute("usuarioObj");
         if (u == null || u.getRol() != Usuario.Rol.padre) {
             return "redirect:/auth/login";

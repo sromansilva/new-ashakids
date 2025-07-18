@@ -3,7 +3,6 @@ services:
     name: ashakids-spring
     runtime: docker
     rootDir: backend-spring
-    plan: free
 
   - type: web
     name: ashakids-zoom
@@ -11,12 +10,8 @@ services:
     buildCommand: npm install
     startCommand: node index.js
     rootDir: backend-zoom
-    plan: free
 
   - type: web
     name: ashakids-mail
-    runtime: static
-    buildCommand: ""
-    startCommand: php -S 0.0.0.0:$PORT -t .
+    runtime: docker
     rootDir: backend-mail
-    plan: free

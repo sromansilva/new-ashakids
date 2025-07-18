@@ -1,0 +1,16 @@
+FROM php:8.2-apache
+
+# Instalar extensiones necesarias para PHPMailer
+RUN docker-php-ext-install mysqli
+
+# Habilitar mod_rewrite (por si lo necesitas)
+RUN a2enmod rewrite
+
+# Copiar archivos al servidor Apache
+COPY . /var/www/html/
+
+# Dar permisos
+RUN chown -R www-data:www-data /var/www/html
+
+# Exponer el puerto
+EXPOSE 80

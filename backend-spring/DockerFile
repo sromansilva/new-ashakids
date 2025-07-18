@@ -1,0 +1,14 @@
+# Imagen base con Java 17 (ajusta si usas otra versión)
+FROM eclipse-temurin:24
+
+# Argumento para copiar el JAR generado
+ARG JAR_FILE=target/*.jar
+
+# Copiar el JAR en la imagen
+COPY ${JAR_FILE} app.jar
+
+# Exponer el puerto 8080 (Render usará PORT env variable de todas formas)
+EXPOSE 8080
+
+# Comando de inicio
+ENTRYPOINT ["java","-jar","/app.jar"]

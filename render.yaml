@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: ashakids-spring
+    env: java
+    buildCommand: ./mvnw clean package
+    startCommand: java -jar target/*.jar
+    rootDir: backend-spring
+    plan: free
+
+  - type: web
+    name: ashakids-zoom
+    env: node
+    buildCommand: npm install
+    startCommand: node index.js
+    rootDir: backend-zoom
+    plan: free
+
+  - type: web
+    name: ashakids-mail
+    env: php
+    rootDir: backend-mail
+    plan: free

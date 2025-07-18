@@ -2,7 +2,6 @@ const menuBtn = document.querySelector('.menu-btn');
 const navbar = document.querySelector('.navbar');
 let menuOpen = false;
 
-document.getElementById('jugar-btn').addEventListener('click', mostrarOpciones);
 
 
 menuBtn.addEventListener('click', () => {

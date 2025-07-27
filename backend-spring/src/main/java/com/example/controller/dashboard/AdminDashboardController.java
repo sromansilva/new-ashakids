@@ -11,7 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.ArrayList;
+// import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -32,7 +32,7 @@ public class AdminDashboardController {
         // Obtener estadísticas reales
         List<Usuario> todosUsuarios = usuarioRepository.findAll();
         List<Usuario> terapeutas = usuarioRepository.findByRol(Usuario.Rol.terapeuta);
-        List<Usuario> padres = usuarioRepository.findByRol(Usuario.Rol.padre);
+        // List<Usuario> padres = usuarioRepository.findByRol(Usuario.Rol.padre);
 
         int usuariosTotal = todosUsuarios.size();
         int psicologosActivos = (int) terapeutas.stream()

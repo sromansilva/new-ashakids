@@ -6,7 +6,7 @@ import com.example.model.SesionConsumida;
 import com.example.model.Usuario;
 import com.example.model.Cita;
 import com.example.repository.CompraPaqueteRepository;
-import com.example.repository.PaqueteRepository;
+// import com.example.repository.PaqueteRepository;
 import com.example.repository.SesionConsumidaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,8 +18,8 @@ import java.util.Optional;
 public class CompraPaqueteService {
     @Autowired
     private CompraPaqueteRepository compraPaqueteRepository;
-    @Autowired
-    private PaqueteRepository paqueteRepository;
+    // @Autowired
+    // private PaqueteRepository paqueteRepository;
     @Autowired
     private SesionConsumidaRepository sesionConsumidaRepository;
 

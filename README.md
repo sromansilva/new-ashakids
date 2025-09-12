@@ -53,6 +53,7 @@ Antes de empezar, asegúrate de tener instalados:
 ```bash
 git clone https://github.com/SergioSK21/new-ashakids.git
 cd new-ashakids
+```
 
 --- 
 
@@ -69,6 +70,8 @@ cp backend-mail/.env.example backend-mail/.env
 
 # Para Node/Zoom
 cp backend-zoom/.env.example backend-zoom/.env
+
+```
 ---
 
 ## 🚀 Levantar servicios
@@ -92,7 +95,7 @@ npm start
 ### 👉 Cada servicio escucha en el puerto configurado en su archivo .env.
 
 ---
-####📂 Estructura del proyecto
+#### 📂 Estructura del proyecto
 new-ashakids/
 ├─ backend-spring/       # Código Java/Spring Boot
 ├─ backend-mail/         # Scripts PHP + PHPMailer
@@ -103,7 +106,7 @@ new-ashakids/
 └─ README.md             # Este archivo
 
 ---
-##🔗 Endpoints principales
+## 🔗 Endpoints principales
 🌱 API Spring Boot
 
 📂 Carpeta: backend-spring/src/main/java/.../controller/
@@ -128,7 +131,7 @@ Parámetros esperados vía POST: email, template, datos
 
 ---
 
-##✅ Pruebas
+## ✅ Pruebas
 
 🧪 Pruebas unitarias con JUnit en backend-spring/src/test/
 
@@ -146,7 +149,7 @@ En la carpeta docs/ encontrarás:
 
 ---
 
-##🤝 Cómo contribuir
+## 🤝 Cómo contribuir
 
 Haz un fork del repositorio
 
@@ -169,7 +172,7 @@ Crea un Pull Request
 
 ---
 
-##📜 Licencia
+## 📜 Licencia
 
 Este proyecto está bajo licencia MIT.
 Consulta el archivo LICENSE
@@ -177,7 +180,7 @@ Consulta el archivo LICENSE
 
 ---
 
-##📧 Contacto
+## 📧 Contacto
 
 Proyecto: ASHAKids
 

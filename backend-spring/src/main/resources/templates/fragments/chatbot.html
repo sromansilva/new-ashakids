@@ -1,0 +1,50 @@
+<!--
+  ============================================
+  CHATBOT WIDGET FRAGMENT - ASHAKids
+  Fragmento para incluir el chatbot en cualquier página
+  ============================================
+  
+  INSTRUCCIONES DE USO:
+  
+  1. En la sección <head> del layout, agrega:
+     <link rel="stylesheet" th:href="@{/css/chatbot.css}">
+  
+  2. Antes del cierre de </body>, agrega:
+     <script th:src="@{/js/chatbot.js}"></script>
+  
+  3. En el <body>, agrega el atributo data-role según el usuario:
+     - Para PADRE: <body data-role="PADRE">
+     - Para TERAPEUTA: <body data-role="TERAPEUTA">
+  
+  EJEMPLO COMPLETO:
+  
+  <html>
+    <head>
+      ...
+      <link rel="stylesheet" th:href="@{/css/chatbot.css}">
+    </head>
+    <body data-role="PADRE">
+      ...
+      <script th:src="@{/js/chatbot.js}"></script>
+    </body>
+  </html>
+  
+  NOTAS:
+  - El chatbot detecta automáticamente el rol desde data-role
+  - Si no se encuentra data-role, intenta detectarlo desde la URL
+  - El número de WhatsApp se configura en chatbot.js (CONFIG.whatsappNumber)
+-->
+
+<!-- 
+  Este fragmento no contiene HTML directamente porque el chatbot se genera
+  dinámicamente con JavaScript. Solo incluye los archivos CSS y JS necesarios.
+  
+  Para usarlo en un layout Thymeleaf:
+-->
+
+<!-- CSS del Chatbot -->
+<link rel="stylesheet" th:href="@{/css/chatbot.css}" th:fragment="chatbot-css">
+
+<!-- JavaScript del Chatbot -->
+<script th:src="@{/js/chatbot.js}" th:fragment="chatbot-js"></script>
+
